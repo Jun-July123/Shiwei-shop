@@ -1,32 +1,44 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
 
-// 定义 Store
+// 1-1.1 stores/modules/member.ts定义会员仓库
 export const useMemberStore = defineStore(
   'member',
   () => {
-    // 会员信息
+    // 1-1.1.1 会员信息
     const profile = ref<any>()
 
-    // 保存会员信息，登录时使用
+    // 1-1.1.2 保存会员信息，登录时使用
     const setProfile = (val: any) => {
       profile.value = val
     }
 
-    // 清理会员信息，退出时使用
+    // 1-1.1.3 清理会员信息，退出时使用
     const clearProfile = () => {
       profile.value = undefined
     }
 
-    // 记得 return
+    // 1-1.1.4 return向外暴露会员信息
     return {
       profile,
       setProfile,
       clearProfile,
     }
   },
-  // TODO: 持久化
+  // 1-1.2 persist开启持久化存储小程序数据
   {
-    persist: true,
+    // 网页数据持久化存储
+    // persist: true,
+    // 小程序数据持久化存储
+    persist: {
+      storage: {
+        getItem(key) {
+          return uni.getStorageSync(key)
+        },
+        setItem(key, value) {
+          return uni.setStorageSync(key, value)
+        },
+      },
+    },
   },
 )

@@ -1,4 +1,14 @@
-{
+{ 
+  // 组件自动导入
+  "easycom": {
+    // 自动扫描组件目录
+		"autoscan": true,
+    // 正则式自定义规则
+		"custom": {
+			// 以uni-开头的组件自动导入，把uni-x.vue替换为x.vue
+			"^uni-(.*)": "@dcloudio/uni-ui/lib/uni-$1/uni-$1.vue"
+		}
+	},
   "pages": [
     //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
     {

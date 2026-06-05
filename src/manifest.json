@@ -1,6 +1,6 @@
 {
   "name": "小兔鲜儿",
-  "appid": "",
+  "appid": " ",//DCloud云端分配（安卓、ios）
   "description": "",
   "versionName": "1.0.0",
   "versionCode": 1,
@@ -50,7 +50,7 @@
   "quickapp": {},
   /* 小程序特有相关 */
   "mp-weixin": {
-    "appid": "",
+    "appid": "wxc81c3df73dcd91bd",
     "setting": {
       "urlCheck": false
     },
