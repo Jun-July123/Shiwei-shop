@@ -7,18 +7,16 @@ export const useMemberStore = defineStore(
   () => {
     // 1-1.1.1 会员信息
     const profile = ref<any>()
-
-    // 1-1.1.2 保存会员信息，登录时使用
+    // 1-1.1.2 保存会员信息，会员信息重新赋值
     const setProfile = (val: any) => {
       profile.value = val
     }
-
-    // 1-1.1.3 清理会员信息，退出时使用
+    // 1-1.1.3 清理会员信息，会员信息清空
     const clearProfile = () => {
       profile.value = undefined
     }
 
-    // 1-1.1.4 return向外暴露会员信息
+    // 1-1.1.4 return向外暴露会员信息及操作方法
     return {
       profile,
       setProfile,
@@ -27,7 +25,7 @@ export const useMemberStore = defineStore(
   },
   // 1-1.2 persist开启持久化存储小程序数据
   {
-    // 网页数据持久化存储
+    // 网页端数据持久化存储
     // persist: true,
     // 小程序数据持久化存储
     persist: {
