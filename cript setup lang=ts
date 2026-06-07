@@ -1,0 +1,36 @@
+[33m70a7a42[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmaster[m[33m)[m 16-轮播图——获取渲染轮播图并定义其类型
+[33m78c908d[m 轮播图—指示点随着图片改变而变化入
+[33m0c67a79[m 轮播图—通用组件自动引入
+[33me33cdb5[m 自定义导航栏
+[33m83aed24[m 请求函数的封装（成功/失败）
+[33ma287e54[m 请求和上传文件拦截器
+[33m5b4da35[m[33m ([m[1;31morigin/master[m[33m)[m 小程序Pinia持久化
+[33m9e79773[m chore: update deps
+[33me2b8088[m docs: update online notes URL to AtomGit
+[33ma233acf[m chore: upgrade uni-helper types and tsconfig to latest versions
+[33ma8b045f[m chore: update VSCode settings and add extensions
+[33mb23c020[m chore: remove unuse plugin from VSCode extensions
+[33mfc6303d[m chore: update deps
+[33m767f427[m chore: add README
+[33m0d33d12[m chore: update deps
+[33ma206109[m chore: add login page
+[33m8cbd72c[m chore: update deps
+[33me928d08[m chore: update tsconfig.json
+[33md92ec65[m chore: update deps
+[33m3f48813[m chore: add @vue/runtime-core deps
+[33mde1594e[m chore: update nvm alpha
+[33mb588e7a[m chore: 更新小程序全局变量
+[33mc8871c7[m chore: 补充 pinia 持久化存储
+[33m822b153[m chore: update pre-commit
+[33mf6c451a[m chore: 增加 editorconfig 配置和插件推荐
+[33m7dcedab[m chore: 压缩65%图片体积(减少109k)
+[33me808e8a[m chore: update deps
+[33m0a07450[m chore: update deps
+[33m3840434[m chore: 更新 uni-app 依赖包
+[33m693e2d8[m chore: 完善项目配置
+[33mbf691ce[m feat: 增加 pinia 基本结构
+[33m172e288[m chore: 更新 uni-app 依赖包
+[33me2c6fe4[m chore: 更新 volar 配置
+[33m0d69f62[m feat: 增加vue基本结构
+[33m3ea5a64[m feat: 增加项目目录
+[33m9e6d43a[m init

@@ -9,7 +9,6 @@ import { promise } from '@/utils/http'
 // 15-2.2 确保获取到的banner数据类型为BannerItem类型
 // 15-2.2.1 home.ts导入BannerItem类型
 import type { BannerItem } from '@/types/home'
-
 // 15-1.3 定义获取轮播图接口的函数getHomeBannerAPI，
 // 传递distributionSite参数，默认值为1
 export const getHomeBannerAPI = (distributionSite = 1) => {
@@ -18,5 +17,13 @@ export const getHomeBannerAPI = (distributionSite = 1) => {
     method: 'GET',
     url: '/home/banner',
     data: { distributionSite },
+  })
+}
+
+// 16-2.1 home.ts定义获取前台分类接口的函数getHomeCategoryAPI
+export const getHomeCategoryAPI = () => {
+  return promise({
+    method: 'GET',
+    url: '/home/category/mutli',
   })
 }
