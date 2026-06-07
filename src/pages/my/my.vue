@@ -17,15 +17,16 @@
 
 <script setup lang="ts">
 import { useMemberStore } from '@/stores'
-import { baseURL } from '@/utils/http'
+import { baseURL, promise } from '@/utils/http'
 const memberStore = useMemberStore()
 
 // 1.3 getData，发送GET请求，获取banner数据
 const getData = async () => {
-  uni.request({
+  const res = await promise({
     url: '/home/banner',
     method: 'GET',
   })
+  console.log(res)
 }
 </script>
 
