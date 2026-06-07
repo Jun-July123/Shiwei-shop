@@ -9,7 +9,8 @@ import { promise } from '@/utils/http'
 // 15-2.2 确保获取到的banner数据类型为BannerItem类型
 // 15-2.2.1 home.ts导入BannerItem类型
 // 17-1.2 home.ts导入CategoryItem前台分类数据类型
-import type { BannerItem, CategoryItem } from '@/types/home'
+// 18-2.2 home.ts导入HotItem热门推荐数据类型
+import type { BannerItem, CategoryItem, HotItem } from '@/types/home'
 // 15-1.3 定义获取轮播图接口的函数getHomeBannerAPI，
 // 传递distributionSite参数，默认值为1
 export const getHomeBannerAPI = (distributionSite = 1) => {
@@ -32,7 +33,9 @@ export const getHomeCategoryAPI = () => {
 
 // 18-1.3 home.ts定义获取热门推荐接口getHomeHotAPI
 export const getHomeHotAPI = () => {
-  return promise({
+  // 18-2.2 home.ts导入HotItem类型，
+  // 定义promise请求的类型为HotItem数组
+  return promise<HotItem[]>({
     method: 'GET',
     url: '/home/hot/mutli',
   })

@@ -12,7 +12,8 @@
   <CategoryPannel :list="categoryList" />
 
   <!-- 18-1.2 index.vue导入使用热门推荐组件 -->
-  <HotPannel />
+  <!-- 18-2.5 热门推荐组件标签，添加list属性，传递热门推荐数据hotList -->
+  <HotPannel :list="hotList" />
 
   <view class="index">index</view>
 </template>
@@ -32,9 +33,10 @@ import { ref } from 'vue'
 // 18-1.4 index.vue引入热门推荐接口getHomeHotAPI
 import { getHomeHotAPI, getHomeBannerAPI, getHomeCategoryAPI } from '@/services/home'
 
-// 15-2.2.3 index.vue引入BannerItem类型
+// 18-2.3 index.vue引入热门推荐数据类型HotItem数组
 // 17-1.4 index.vue引入前台分类数据类型
-import type { BannerItem, CategoryItem } from '@/types/home'
+// 15-2.2.3 index.vue引入BannerItem类型
+import type { BannerItem, CategoryItem, HotItem } from '@/types/home'
 
 // 15-2.2.4 定义接收到的bannerList数据类型为BannerItem数组
 const bannerList = ref<BannerItem[]>([])
@@ -54,10 +56,13 @@ const getHomeCategoryData = async () => {
   categoryList.value = res.result
 }
 
+// 18-2.3 导入HotItem类型，定义热门推荐数据列表hotList类型为HotItem数组
+const hotList = ref<HotItem[]>([])
 const getHomeHotData = async () => {
   // 18-1.4 引入调用getHomeHotAPI获取热门推荐数据
   const res = await getHomeHotAPI()
-  console.log(res)
+  // 18-2.4 获取到的热门推荐数据，赋值hotList数据
+  hotList.value = res.result
 }
 
 // 18-1.5 onLoad页面一打开就调用getHomeHotData获取热门推荐数据

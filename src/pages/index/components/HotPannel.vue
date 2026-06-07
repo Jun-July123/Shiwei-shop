@@ -1,26 +1,29 @@
 <!-- 18-1.1 创建热门推荐组件src/pages/index/components/HotPannel.vue -->
 <script setup lang="ts">
-//
+// 18-2.6 定义props接收父组件传递的热门推荐数据list（类型为HotItem数组）
+import type { HotItem } from '@/types/home'
+const props = defineProps<{
+  list: HotItem[]
+}>()
 </script>
 
 <template>
   <!-- 推荐专区 -->
   <view class="panel hot">
-    <view class="item" v-for="item in 4" :key="item">
+    <!-- 18-2.7 v-for遍历渲染热门推荐数据 -->
+    <view class="item" v-for="item in list" :key="item.id">
       <view class="title">
-        <text class="title-text">特惠推荐</text>
-        <text class="title-desc">精选全攻略</text>
+        <text class="title-text">{{ item.title }}</text>
+        <text class="title-desc">{{ item.alt }}</text>
       </view>
       <navigator hover-class="none" url="/pages/hot/hot" class="cards">
+        <!-- 18-2.8 v-for遍历渲染热门推荐图片 -->
         <image
+          v-for="src in item.pictures"
+          :key="src"
+          :src="src"
           class="image"
           mode="aspectFit"
-          src="https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/uploads/goods_small_1.jpg"
-        ></image>
-        <image
-          class="image"
-          mode="aspectFit"
-          src="https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/uploads/goods_small_2.jpg"
         ></image>
       </navigator>
     </view>

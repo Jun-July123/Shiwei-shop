@@ -18,3 +18,13 @@ export type CategoryItem = {
   /** 图片链接 */
   icon: string
 }
+
+// 18-2.1 home.d.ts定义热门推荐数据类型
+export type HotItem = {
+  alt: string /** 说明 */
+  id: string /** id */
+  pictures: string[] /** 图片集合[ 图片路径 ] */
+  target: string /** 跳转地址 */
+  title: string /** 标题 */
+  type: string /** 推荐类型 */
+}
