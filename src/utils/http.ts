@@ -13,7 +13,7 @@ const httpInterceptor = {
     }
     // 1.4.2 设置请求超时时间（默认60s）
     options.timeout = 10000
-    console.log(options)
+    // console.log(options)
 
     // 1.4.3 请求头设置
     options.header = {
@@ -34,7 +34,7 @@ uni.addInterceptor('uploadFile', httpInterceptor)
 interface Data<T> {
   code: number
   msg: string
-  data: T
+  result: T
 }
 
 const promise = <T>(options: UniApp.RequestOptions) => {

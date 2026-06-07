@@ -12,6 +12,7 @@ module.exports = {
   // 小程序全局变量
   globals: {
     uni: true,
+    onLoad: true,
     wx: true,
     WechatMiniprogram: true,
     getCurrentPages: true,
