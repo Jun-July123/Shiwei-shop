@@ -1,6 +1,6 @@
 // 1.1 创建utils/http.ts，配置请求相关信息
 // 1.2 配置baseURL请求基地址
-const baseURL = 'https://pcapoi-xiaotuxian-front-devtest.itheima.net'
+const baseURL = 'https://pcapi-xiaotuxian-front-devtest.itheima.net'
 import { useMemberStore } from '@/stores/modules/member'
 const memberStore = useMemberStore()
 // 1.3 请求拦截器httpInterceptor
@@ -84,3 +84,5 @@ const promise = <T>(options: UniApp.RequestOptions) => {
     })
   })
 }
+
+export { promise, baseURL }

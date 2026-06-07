@@ -1,4 +1,5 @@
 <template>
+  <!-- @ts-nocheck -->
   <view class="my">
     <view>会员信息：{{ memberStore.profile }}</view>
     <button
@@ -10,8 +11,7 @@
       保存用户信息
     </button>
     <button @tap="memberStore.clearProfile()" size="mini" plain type="warn">清理用户信息</button>
-    <!-- 1.2 测试请求，点击按钮，触发getData事件 -->
-    <button @tap="getData" size="mini" plain type="danger">测试请求</button>
+    <button @tap="getData" size="mini" plain type="primary">测试请求</button>
   </view>
 </template>
 
@@ -20,7 +20,6 @@ import { useMemberStore } from '@/stores'
 import { baseURL, promise } from '@/utils/http'
 const memberStore = useMemberStore()
 
-// 1.3 getData，发送GET请求，获取banner数据
 const getData = async () => {
   const res = await promise({
     url: '/home/banner',
