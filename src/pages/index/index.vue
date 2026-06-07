@@ -10,23 +10,31 @@
   <!-- 16-1.2 index.vue导入使用前台分类组件 -->
   <!-- 17-2.1 前台分类组件标签，添加list属性，传递分类数据categoryList -->
   <CategoryPannel :list="categoryList" />
+
+  <!-- 18-1.2 index.vue导入使用热门推荐组件 -->
+  <HotPannel />
+
   <view class="index">index</view>
 </template>
 
 <script setup lang="ts">
+// 12-1.2 index.vue引入自定义导航栏组件
+import CustomNavbar from './components/CustomNavbar.vue'
 // 16-1.2 index.vue引入前台类目组件
 import CategoryPannel from './components/CategoryPannel.vue'
+// 18-1.2 index.vue引入热门推荐组件HotPannel
+import HotPannel from './components/HotPannel.vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
 
-// 12-1.2 index.vue引入自定义导航栏组件
-import CustomNavbar from './components/CustomNavbar.vue'
+// 15-1.4 index.vue引入首页banner接口
+// 16-2.2 index.vue引入前台分类接口getHomeCategoryAPI
+// 18-1.4 index.vue引入热门推荐接口getHomeHotAPI
+import { getHomeHotAPI, getHomeBannerAPI, getHomeCategoryAPI } from '@/services/home'
+
 // 15-2.2.3 index.vue引入BannerItem类型
 // 17-1.4 index.vue引入前台分类数据类型
 import type { BannerItem, CategoryItem } from '@/types/home'
-// 15-1.4 index.vue引入首页banner接口
-// 16-2.2 index.vue引入前台分类接口getHomeCategoryAPI
-import { getHomeBannerAPI, getHomeCategoryAPI } from '@/services/home'
 
 // 15-2.2.4 定义接收到的bannerList数据类型为BannerItem数组
 const bannerList = ref<BannerItem[]>([])
@@ -46,9 +54,17 @@ const getHomeCategoryData = async () => {
   categoryList.value = res.result
 }
 
-// 15-1.6 onLoad页面一打开就调用getHomeBannerData获取首页轮播图数据
+const getHomeHotData = async () => {
+  // 18-1.4 引入调用getHomeHotAPI获取热门推荐数据
+  const res = await getHomeHotAPI()
+  console.log(res)
+}
+
+// 18-1.5 onLoad页面一打开就调用getHomeHotData获取热门推荐数据
 // 16-2.4 onLoad页面一打开就调用getHomeCategoryData获取前台分类数据
+// 15-1.6 onLoad页面一打开就调用getHomeBannerData获取首页轮播图数据
 onLoad(() => {
+  getHomeHotData()
   getHomeBannerData()
   getHomeCategoryData()
 })

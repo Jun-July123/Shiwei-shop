@@ -29,3 +29,11 @@ export const getHomeCategoryAPI = () => {
     url: '/home/category/mutli',
   })
 }
+
+// 18-1.3 home.ts定义获取热门推荐接口getHomeHotAPI
+export const getHomeHotAPI = () => {
+  return promise({
+    method: 'GET',
+    url: '/home/hot/mutli',
+  })
+}
