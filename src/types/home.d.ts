@@ -9,3 +9,12 @@ export type BannerItem = {
   /** 跳转类型 */
   type: number
 }
+
+// 17-1.1 home.d.ts定义前台分类数据类型
+export type CategoryItem = {
+  /** id */
+  id: string
+  name: string
+  /** 图片链接 */
+  icon: string
+}
