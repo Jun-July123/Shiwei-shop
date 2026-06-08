@@ -16,26 +16,29 @@
     scroll-y
     class="scroll-view"
   >
-    <!--  13-1.3 使用XtxSwiper轮播图组件 -->
-    <!-- Xtx开头的组件会自动引入，不再需要手动引入 -->
-    <!-- 15-2.4 定义轮播图list属性,，传递bannerList数据给XtxSwiper组件 -->
-    <XtxSwiper :list="bannerList" />
+    <!-- 24-1.6 index.vue引入使用骨架屏组件 -->
+    <!-- 24-1.7 v-if及isLoading判断是否显示骨架屏或内容 -->
+    <PageSkeleton v-if="isLoading" />
+    <template v-else>
+      <!--  13-1.3 使用XtxSwiper轮播图组件 -->
+      <!-- Xtx开头的组件会自动引入，不再需要手动引入 -->
+      <!-- 15-2.4 定义轮播图list属性,，传递bannerList数据给XtxSwiper组件 -->
+      <XtxSwiper :list="bannerList" />
 
-    <!-- 16-1.2 index.vue导入使用前台分类组件 -->
-    <!-- 17-2.1 前台分类组件标签，添加list属性，传递分类数据categoryList -->
-    <CategoryPannel :list="categoryList" />
+      <!-- 16-1.2 index.vue导入使用前台分类组件 -->
+      <!-- 17-2.1 前台分类组件标签，添加list属性，传递分类数据categoryList -->
+      <CategoryPannel :list="categoryList" />
 
-    <!-- 18-1.2 index.vue导入使用热门推荐组件 -->
-    <!-- 18-2.5 热门推荐组件标签，添加list属性，传递热门推荐数据hotList -->
-    <HotPannel :list="hotList" />
+      <!-- 18-1.2 index.vue导入使用热门推荐组件 -->
+      <!-- 18-2.5 热门推荐组件标签，添加list属性，传递热门推荐数据hotList -->
+      <HotPannel :list="hotList" />
 
-    <!-- 19-1.2 index.vue导入使用猜你喜欢组件 -->
-    <!-- Xtx开头组件自动导入注册(在pages.json配置了) -->
-    <!-- 21-1.1 猜你喜欢组件标签绑定ref -->
-    <XtxGuess ref="guessRef" />
+      <!-- 19-1.2 index.vue导入使用猜你喜欢组件 -->
+      <!-- Xtx开头组件自动导入注册(在pages.json配置了) -->
+      <!-- 21-1.1 猜你喜欢组件标签绑定ref -->
+      <XtxGuess ref="guessRef" />
+    </template>
   </scroll-view>
-
-  <view class="index">index</view>
 </template>
 
 <script setup lang="ts">
@@ -59,6 +62,8 @@ import { getHomeHotAPI, getHomeBannerAPI, getHomeCategoryAPI } from '@/services/
 // 15-2.2.3 index.vue引入BannerItem类型
 import type { BannerItem, CategoryItem, HotItem } from '@/types/home'
 
+// 24-1.5 index.vue引入骨架屏组件PageSkeleton.vue
+import PageSkeleton from './components/PageSkeleton.vue'
 // 15-2.2.4 定义接收到的bannerList数据类型为BannerItem数组
 const bannerList = ref<BannerItem[]>([])
 // 15-1.5 getHomeBannerData获取首页banner数据
@@ -86,13 +91,19 @@ const getHomeHotData = async () => {
   hotList.value = res.result
 }
 
+// 24-1.7.1 定义isLoading标记页面数据是否在加载中，默认false
+const isLoading = ref(false)
+
 // 18-1.5 onLoad页面一打开就调用getHomeHotData获取热门推荐数据
 // 16-2.4 onLoad页面一打开就调用getHomeCategoryData获取前台分类数据
 // 15-1.6 onLoad页面一打开就调用getHomeBannerData获取首页轮播图数据
-onLoad(() => {
-  getHomeHotData()
-  getHomeBannerData()
-  getHomeCategoryData()
+onLoad(async () => {
+  // 24-1.7.2 页面内容加载前，加载中，显示骨架屏
+  isLoading.value = true
+  // 24-1.7.3 Promise.all（）页面同步加载内容
+  await Promise.all([getHomeHotData(), getHomeBannerData(), getHomeCategoryData()])
+  // 24-1.7.4 页面内容加载完成后，关闭加载中，显示页面内容
+  isLoading.value = false
 })
 
 // 21-1.3 获取猜你喜欢组件实例,类型为XtxGuessInstance
