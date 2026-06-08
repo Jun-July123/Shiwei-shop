@@ -20,6 +20,11 @@ const getHomeGoodsGuessLikeData = async () => {
 onMounted(() => {
   getHomeGoodsGuessLikeData()
 })
+
+// 21-1.5 XtxGuess.vue暴露方法defineExpose，暴露猜你喜欢数据
+defineExpose({
+  getMore: getHomeGoodsGuessLikeData,
+})
 </script>
 
 <template>

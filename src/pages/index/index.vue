@@ -4,7 +4,8 @@
 
   <!-- 19-1.4 添加scroll-view组件，定义页面滚动范围 -->
   <!-- 包裹需滚动的内容组件，自定义导航栏不滚动，固定在顶部 -->
-  <scroll-view scroll-y class="scroll-view">
+  <!-- 21-1.4 滚动组件标签，注册滚动事件scrolltolower -->
+  <scroll-view @scrolltolower="onScrollToLower" scroll-y class="scroll-view">
     <!--  13-1.3 使用XtxSwiper轮播图组件 -->
     <!-- Xtx开头的组件会自动引入，不再需要手动引入 -->
     <!-- 15-2.4 定义轮播图list属性,，传递bannerList数据给XtxSwiper组件 -->
@@ -20,7 +21,8 @@
 
     <!-- 19-1.2 index.vue导入使用猜你喜欢组件 -->
     <!-- Xtx开头组件自动导入注册(在pages.json配置了) -->
-    <XtxGuess />
+    <!-- 21-1.1 猜你喜欢组件标签绑定ref -->
+    <XtxGuess ref="guessRef" />
   </scroll-view>
 
   <view class="index">index</view>
@@ -35,16 +37,12 @@ import CategoryPannel from './components/CategoryPannel.vue'
 import HotPannel from './components/HotPannel.vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
+import type { XtxGuessInstance } from '@/types/component.d'
 
 // 15-1.4 index.vue引入首页banner接口
 // 16-2.2 index.vue引入前台分类接口getHomeCategoryAPI
 // 18-1.4 index.vue引入热门推荐接口getHomeHotAPI
-import {
-  getHomeGoodsGuessLikeAPI,
-  getHomeHotAPI,
-  getHomeBannerAPI,
-  getHomeCategoryAPI,
-} from '@/services/home'
+import { getHomeHotAPI, getHomeBannerAPI, getHomeCategoryAPI } from '@/services/home'
 
 // 18-2.3 index.vue引入热门推荐数据类型HotItem数组
 // 17-1.4 index.vue引入前台分类数据类型
@@ -86,6 +84,13 @@ onLoad(() => {
   getHomeBannerData()
   getHomeCategoryData()
 })
+
+// 21-1.3 获取猜你喜欢组件实例,类型为XtxGuessInstance
+const guessRef = ref<XtxGuessInstance>()
+// 21-1.6 滚动事件处理函数,调用XtxGuess暴露的getMore方法，获取更多数据
+const onScrollToLower = () => {
+  guessRef.value?.getMore()
+}
 </script>
 
 <style lang="scss">
