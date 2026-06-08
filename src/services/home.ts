@@ -1,6 +1,7 @@
 // 15-1.1 创建src/services/home.ts文件，设置首页banner接口
 // 15-1.2 导入http模块的promise函数，用于发送请求
 import { promise } from '@/utils/http'
+import type { PageParams } from '@/types/global'
 
 /**
  * @param distributionSite 广告区域展示位置
@@ -44,12 +45,14 @@ export const getHomeHotAPI = () => {
 }
 
 // 20-1.1 home.ts定义猜你喜欢接口getHomeGoodsGuessLikeAPI
-export const getHomeGoodsGuessLikeAPI = () => {
+// 21-2.2 定义接口分页请求data参数，传递分页数据（类型为PageParams）
+export const getHomeGoodsGuessLikeAPI = (data?: PageParams) => {
   // 20-2.3 定义promise请求的类型为PageResult<GuessItem>类型
   // GuessItem猜你喜欢商品类型，将其传入分页数据类型中
   // 即PageResult中items:T[]，此时T为<GuessItem>
   return promise<PageResult<GuessItem>>({
     method: 'GET',
     url: '/home/goods/guessLike',
+    data,
   })
 }

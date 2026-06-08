@@ -2,18 +2,46 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import type { GuessItem } from '@/types/home'
-
+import type { PageParams } from '@/types/global'
 import { getHomeGoodsGuessLikeAPI } from '@/services/home'
 
+// 21-2.3  XtxGuess.vue定义分页参数pageParams,
+// 类型为Required<PageParams>，确保page和pageSize必填
+const pageParams: Required<PageParams> = {
+  page: 30,
+  pageSize: 10,
+}
+// 21-3.1 定义接口获取结束标志finish，初始值为false
+const finish = ref(false)
 // 20-2.4 导入类型PageResult<GuessItem>
 // 定义猜你喜欢数据列表guessList类型为GuessItem[]
 // 猜你喜欢数据item类型为GuessItem
 const guessList = ref<GuessItem[]>([])
 // 20-1.2 XtxGuess.vue通用组件引入调用猜你喜欢接口，获取猜你喜欢数据
 const getHomeGoodsGuessLikeData = async () => {
-  const res = await getHomeGoodsGuessLikeAPI()
+  // 21-3.4 调用接口获取数据前，判断finish是否为true
+  // 如果为true，提示用户没有更多数据了
+  if (finish.value) {
+    return uni.showToast({
+      title: '我也是有底线的哦~',
+      icon: 'none',
+    })
+  }
+  // 21-2.4 猜你喜欢接口，传递分页参数pageParams
+  const res = await getHomeGoodsGuessLikeAPI(pageParams)
   // 20-2.5 获取到的猜你喜欢数据res.result.items，赋值给guessList
-  guessList.value = res.result.items
+  // guessList.value = res.result.items
+  // 21-2.5 数组追加，将获取到的猜你喜欢数据res.result.items，追加到guessList.value中
+  guessList.value.push(...res.result.items)
+  // 21-2.6 页码累加，每次调用接口，pageParams.page增加1
+  // 21-3.2 分页条件判断，当前页数小于总页数，执行下一页数据获取
+  if (pageParams.page < res.result.pages) {
+    pageParams.page++
+  }
+  // 21-3.3 否则，将finish赋值为true，表示结束获取数据
+  else {
+    finish.value = true
+  }
 }
 
 // 20-1.3 组件挂载完毕，获取猜你喜欢数据
@@ -48,7 +76,8 @@ defineExpose({
       </view>
     </navigator>
   </view>
-  <view class="loading-text"> 正在加载... </view>
+  <!-- 21-3.5 根据finish值，判断是否显示加载提示文字 -->
+  <view class="loading-text"> {{ finish ? '没有更多数据啦~' : '正在加载...' }} </view>
 </template>
 
 <style lang="scss">

@@ -8,3 +8,11 @@ export type PageResult<T> = {
   pages: number /** 总页数 */
   pageSize: number /** 每页条数 */
 }
+
+// 21-2.1 global.d.ts定义导出分页参数类型
+export type PageParams = {
+  /** 页码：默认值为 1 */
+  page?: number
+  /** 页大小：默认值为 10 */
+  pageSize?: number
+}
