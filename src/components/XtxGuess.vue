@@ -8,7 +8,7 @@ import { getHomeGoodsGuessLikeAPI } from '@/services/home'
 // 21-2.3  XtxGuess.vue定义分页参数pageParams,
 // 类型为Required<PageParams>，确保page和pageSize必填
 const pageParams: Required<PageParams> = {
-  page: 30,
+  page: 1,
   pageSize: 10,
 }
 // 21-3.1 定义接口获取结束标志finish，初始值为false
@@ -44,14 +44,23 @@ const getHomeGoodsGuessLikeData = async () => {
   }
 }
 
+// 23-1.1 封装重置猜你喜欢数据
+const resetData = () => {
+  pageParams.page = 1
+  guessList.value = []
+  finish.value = false
+}
+
 // 20-1.3 组件挂载完毕，获取猜你喜欢数据
 onMounted(() => {
   getHomeGoodsGuessLikeData()
 })
 
 // 21-1.5 XtxGuess.vue暴露方法defineExpose，暴露猜你喜欢数据
+// 23-1.2 向父组件暴露重置猜你喜欢数据resetData
 defineExpose({
   getMore: getHomeGoodsGuessLikeData,
+  resetData,
 })
 </script>
 

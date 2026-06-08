@@ -103,13 +103,20 @@ const onScrollToLower = () => {
 }
 // 22-1.5 定义isTriggered初始值为false，关闭刷新动画
 const isTriggered = ref(false)
-// 22-1.3 处理下拉刷新事件，重新获取轮播图、前台分类、热门推荐数据、猜你喜欢数据
+// 22-1.3 处理下拉刷新事件，重新获取轮播图、前台分类、热门推荐数据
 const onRefreshrefresh = async () => {
   // 22-1.6 下拉刷新事件，开启刷新动画
   isTriggered.value = true
   // 加载数据
+  // getHomeBannerData()
+  // getHomeCategoryData()
+  // getHomeHotData()
+  // 23-1.3 下拉刷新，调用resetData方法,重置猜你喜欢数据
+  guessRef.value?.resetData()
   // 22-1.8 Promise.all并行请求，等待所有请求完成
   await Promise.all([getHomeBannerData(), getHomeCategoryData(), getHomeHotData()])
+  // 23-1.4 下拉刷新，调用getMore方法，获取猜你喜欢数据
+  guessRef.value?.getMore()
   // 22-1.7 请求完成，加载数据之后，关闭刷新动画
   isTriggered.value = false
 }
