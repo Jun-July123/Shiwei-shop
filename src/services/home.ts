@@ -10,7 +10,9 @@ import { promise } from '@/utils/http'
 // 15-2.2.1 home.ts导入BannerItem类型
 // 17-1.2 home.ts导入CategoryItem前台分类数据类型
 // 18-2.2 home.ts导入HotItem热门推荐数据类型
-import type { BannerItem, CategoryItem, HotItem } from '@/types/home'
+import type { BannerItem, CategoryItem, HotItem, GuessItem } from '@/types/home'
+import type { PageResult } from '@/types/global'
+
 // 15-1.3 定义获取轮播图接口的函数getHomeBannerAPI，
 // 传递distributionSite参数，默认值为1
 export const getHomeBannerAPI = (distributionSite = 1) => {
@@ -38,5 +40,16 @@ export const getHomeHotAPI = () => {
   return promise<HotItem[]>({
     method: 'GET',
     url: '/home/hot/mutli',
+  })
+}
+
+// 20-1.1 home.ts定义猜你喜欢接口getHomeGoodsGuessLikeAPI
+export const getHomeGoodsGuessLikeAPI = () => {
+  // 20-2.3 定义promise请求的类型为PageResult<GuessItem>类型
+  // GuessItem猜你喜欢商品类型，将其传入分页数据类型中
+  // 即PageResult中items:T[]，此时T为<GuessItem>
+  return promise<PageResult<GuessItem>>({
+    method: 'GET',
+    url: '/home/goods/guessLike',
   })
 }

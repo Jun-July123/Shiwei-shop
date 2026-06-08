@@ -1,6 +1,25 @@
 <!-- 19-1.1 创建猜你喜欢组件src/components/XtxGuess.vue -->
 <script setup lang="ts">
-//
+import { onMounted, ref } from 'vue'
+import type { GuessItem } from '@/types/home'
+
+import { getHomeGoodsGuessLikeAPI } from '@/services/home'
+
+// 20-2.4 导入类型PageResult<GuessItem>
+// 定义猜你喜欢数据列表guessList类型为GuessItem[]
+// 猜你喜欢数据item类型为GuessItem
+const guessList = ref<GuessItem[]>([])
+// 20-1.2 XtxGuess.vue通用组件引入调用猜你喜欢接口，获取猜你喜欢数据
+const getHomeGoodsGuessLikeData = async () => {
+  const res = await getHomeGoodsGuessLikeAPI()
+  // 20-2.5 获取到的猜你喜欢数据res.result.items，赋值给guessList
+  guessList.value = res.result.items
+}
+
+// 20-1.3 组件挂载完毕，获取猜你喜欢数据
+onMounted(() => {
+  getHomeGoodsGuessLikeData()
+})
 </script>
 
 <template>
@@ -8,22 +27,19 @@
   <view class="caption">
     <text class="text">猜你喜欢</text>
   </view>
+  <!-- 20-2.6 v-for遍历渲染猜你喜欢数据列表 -->
   <view class="guess">
     <navigator
       class="guess-item"
-      v-for="item in 10"
-      :key="item"
-      :url="`/pages/goods/goods?id=4007498`"
+      v-for="item in guessList"
+      :key="item.id"
+      :url="`/pages/goods/goods?id=${item.id}`"
     >
-      <image
-        class="image"
-        mode="aspectFill"
-        src="https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/uploads/goods_big_1.jpg"
-      ></image>
-      <view class="name"> 德国THORE男表 超薄手表男士休闲简约夜光石英防水直径40毫米 </view>
+      <image class="image" mode="aspectFill" :src="item.picture"></image>
+      <view class="name"> {{ item.name }} </view>
       <view class="price">
         <text class="small">¥</text>
-        <text>899.00</text>
+        <text>{{ item.price }}</text>
       </view>
     </navigator>
   </view>

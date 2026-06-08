@@ -28,3 +28,14 @@ export type HotItem = {
   title: string /** 标题 */
   type: string /** 推荐类型 */
 }
+
+// 20-2.2 home.d.ts定义猜你喜欢数据类型
+export type GuessItem = {
+  desc: string /** 商品描述 */
+  discount: number /** 商品折扣 */
+  id: string /** id */
+  name: string /** 商品名称 */
+  orderNum: number /** 商品已下单数量 */
+  picture: string /** 商品图片 */
+  price: number /** 商品价格 */
+}

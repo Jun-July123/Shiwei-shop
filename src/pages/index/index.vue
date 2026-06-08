@@ -39,7 +39,12 @@ import { ref } from 'vue'
 // 15-1.4 index.vue引入首页banner接口
 // 16-2.2 index.vue引入前台分类接口getHomeCategoryAPI
 // 18-1.4 index.vue引入热门推荐接口getHomeHotAPI
-import { getHomeHotAPI, getHomeBannerAPI, getHomeCategoryAPI } from '@/services/home'
+import {
+  getHomeGoodsGuessLikeAPI,
+  getHomeHotAPI,
+  getHomeBannerAPI,
+  getHomeCategoryAPI,
+} from '@/services/home'
 
 // 18-2.3 index.vue引入热门推荐数据类型HotItem数组
 // 17-1.4 index.vue引入前台分类数据类型
