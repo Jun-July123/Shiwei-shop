@@ -5,7 +5,17 @@
   <!-- 19-1.4 添加scroll-view组件，定义页面滚动范围 -->
   <!-- 包裹需滚动的内容组件，自定义导航栏不滚动，固定在顶部 -->
   <!-- 21-1.4 滚动组件标签，注册滚动事件scrolltolower -->
-  <scroll-view @scrolltolower="onScrollToLower" scroll-y class="scroll-view">
+  <!-- 22-1.1 滚动组件定义refresh-enable，开启下拉刷新 -->
+  <!-- 22-1.2 注册监听下拉刷新事件refresherrefresh -->
+  <!-- 22-1.4 添加refresher-triggered，表示触发下拉刷新，开启刷新动画 -->
+  <scroll-view
+    refresher-enabled
+    @refresherrefresh="onRefreshrefresh"
+    :refresher-triggered="isTriggered"
+    @scrolltolower="onScrollToLower"
+    scroll-y
+    class="scroll-view"
+  >
     <!--  13-1.3 使用XtxSwiper轮播图组件 -->
     <!-- Xtx开头的组件会自动引入，不再需要手动引入 -->
     <!-- 15-2.4 定义轮播图list属性,，传递bannerList数据给XtxSwiper组件 -->
@@ -90,6 +100,18 @@ const guessRef = ref<XtxGuessInstance>()
 // 21-1.6 滚动事件处理函数,调用XtxGuess暴露的getMore方法，获取更多数据
 const onScrollToLower = () => {
   guessRef.value?.getMore()
+}
+// 22-1.5 定义isTriggered初始值为false，关闭刷新动画
+const isTriggered = ref(false)
+// 22-1.3 处理下拉刷新事件，重新获取轮播图、前台分类、热门推荐数据、猜你喜欢数据
+const onRefreshrefresh = async () => {
+  // 22-1.6 下拉刷新事件，开启刷新动画
+  isTriggered.value = true
+  // 加载数据
+  // 22-1.8 Promise.all并行请求，等待所有请求完成
+  await Promise.all([getHomeBannerData(), getHomeCategoryData(), getHomeHotData()])
+  // 22-1.7 请求完成，加载数据之后，关闭刷新动画
+  isTriggered.value = false
 }
 </script>
 
