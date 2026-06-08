@@ -2,18 +2,26 @@
   <!-- 12-1.3 使用自定义导航栏组件！ -->
   <CustomNavbar />
 
-  <!--  13-1.3 使用XtxSwiper轮播图组件 -->
-  <!-- Xtx开头的组件会自动引入，不再需要手动引入 -->
-  <!-- 15-2.4 定义轮播图list属性,，传递bannerList数据给XtxSwiper组件 -->
-  <XtxSwiper :list="bannerList" />
+  <!-- 19-1.4 添加scroll-view组件，定义页面滚动范围 -->
+  <!-- 包裹需滚动的内容组件，自定义导航栏不滚动，固定在顶部 -->
+  <scroll-view scroll-y class="scroll-view">
+    <!--  13-1.3 使用XtxSwiper轮播图组件 -->
+    <!-- Xtx开头的组件会自动引入，不再需要手动引入 -->
+    <!-- 15-2.4 定义轮播图list属性,，传递bannerList数据给XtxSwiper组件 -->
+    <XtxSwiper :list="bannerList" />
 
-  <!-- 16-1.2 index.vue导入使用前台分类组件 -->
-  <!-- 17-2.1 前台分类组件标签，添加list属性，传递分类数据categoryList -->
-  <CategoryPannel :list="categoryList" />
+    <!-- 16-1.2 index.vue导入使用前台分类组件 -->
+    <!-- 17-2.1 前台分类组件标签，添加list属性，传递分类数据categoryList -->
+    <CategoryPannel :list="categoryList" />
 
-  <!-- 18-1.2 index.vue导入使用热门推荐组件 -->
-  <!-- 18-2.5 热门推荐组件标签，添加list属性，传递热门推荐数据hotList -->
-  <HotPannel :list="hotList" />
+    <!-- 18-1.2 index.vue导入使用热门推荐组件 -->
+    <!-- 18-2.5 热门推荐组件标签，添加list属性，传递热门推荐数据hotList -->
+    <HotPannel :list="hotList" />
+
+    <!-- 19-1.2 index.vue导入使用猜你喜欢组件 -->
+    <!-- Xtx开头组件自动导入注册(在pages.json配置了) -->
+    <XtxGuess />
+  </scroll-view>
 
   <view class="index">index</view>
 </template>
@@ -79,5 +87,16 @@ onLoad(() => {
 /* 16-1.3 设置小程序页面page背景颜色 */
 page {
   background-color: #f7f7f7;
+  // 19-1.5 设置页面滚动高度
+  // 19-1.5.1 页面内容（page不包含顶部底部导航栏高度）
+  // 占满高度100%，flex布局，垂直排列
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+// 19-1.5.2 scroll-view设置flex:1，占满page内容高度
+// 页面滚动范围即为page内容高度
+.scroll-view {
+  flex: 1;
 }
 </style>
