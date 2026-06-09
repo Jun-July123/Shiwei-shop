@@ -50,6 +50,26 @@ const getHotRecommendData = async () => {
 onLoad(() => {
   getHotRecommendData()
 })
+
+// 27-1.2 商品列表向下滚动事件，加载更多商品
+const onScrollToLower = async () => {
+  // 27-1.2.1 获取当前选项的商品列表
+  const currSubTypes = subTypes.value[activeIndex.value]
+  // 27-1.2.2 当前页码累加
+  currSubTypes.goodsItems.page++
+  // 27-1.2.3 调用热门推荐接口，获取分页商品数据
+  // 传递当前选项的商品列表id、当前页码、每页商品数量
+  const res = await getHotRecommendAPI(currentMap!.url, {
+    subType: currSubTypes.id,
+    page: currSubTypes.goodsItems.page,
+    pageSize: currSubTypes.goodsItems.pageSize,
+  })
+
+  // 27-1.3 获取新的列表选项
+  const newSubTypes = res.result.subTypes[activeIndex.value]
+  // 27-1.4 将新的商品列表合并到当前选项商品列表中
+  currSubTypes.goodsItems.items.push(...newSubTypes.goodsItems.items)
+}
 </script>
 
 <template>
@@ -75,7 +95,9 @@ onLoad(() => {
     </view>
     <!-- 26-2.4 v-for动态渲染推荐商品 -->
     <!-- 26-2.5 v-show根据activeIndex控制对应推荐列表显示隐藏，实现列表切换 -->
+    <!-- 27-1.1 监听商品列表向下滚动事件 -->
     <scroll-view
+      @scrolltolower="onScrollToLower"
       v-for="(item, index) in subTypes"
       :key="item.id"
       v-show="activeIndex === index"
