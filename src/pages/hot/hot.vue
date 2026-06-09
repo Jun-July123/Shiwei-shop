@@ -32,14 +32,19 @@ uni.setNavigationBarTitle({
 const bannerPicture = ref('')
 // 26-2.2 推荐选项渲染
 // 26-2.2.1 定义推荐选项subTypes，类型为SubTypeItem[]
-const subTypes = ref<SubTypeItem[]>([])
+const subTypes = ref<(SubTypeItem & { finish?: boolean })[]>([])
 // 26-2.3 推荐选项Tab切换及商品渲染
 // 26-3.1.1 定义推荐选项高亮下标,默认为0
 const activeIndex = ref(0)
 
 // 25-2.4 hot引入调用热门推荐接口，传递当前点击的推荐选项url，获取对应推荐数据
 const getHotRecommendData = async () => {
-  const res = await getHotRecommendAPI(currentMap!.url)
+  const res = await getHotRecommendAPI(currentMap!.url, {
+    // 27-2.4 环境变量，开发环境，修改初始页面方便测试分页结束
+    // 开发环境默认页面初始值为33，生产环境默认页面初始值为1
+    page: import.meta.env.DEV ? 1 : 33,
+    pageSize: 10,
+  })
   // 26-2.1.2 获取推荐封面图并赋值
   bannerPicture.value = res.result.bannerPicture
   // 26-2.2.2 获取推荐选项并赋值
@@ -55,8 +60,21 @@ onLoad(() => {
 const onScrollToLower = async () => {
   // 27-1.2.1 获取当前选项的商品列表
   const currSubTypes = subTypes.value[activeIndex.value]
-  // 27-1.2.2 当前页码累加
-  currSubTypes.goodsItems.page++
+
+  // 27-2.1 分页条件判断，当前页码小于总页数，页码累加
+  if (currSubTypes.goodsItems.page < currSubTypes.goodsItems.pages) {
+    // 27-1.2.2 当前页码累加
+    currSubTypes.goodsItems.page++
+  }
+  // 27-2.2 否则标记分页结束，提示用户没有更多商品
+  else {
+    currSubTypes.finish = true
+    return uni.showToast({
+      title: '没有更多商品啦~',
+      icon: 'none',
+    })
+  }
+
   // 27-1.2.3 调用热门推荐接口，获取分页商品数据
   // 传递当前选项的商品列表id、当前页码、每页商品数量
   const res = await getHotRecommendAPI(currentMap!.url, {
@@ -120,7 +138,8 @@ const onScrollToLower = async () => {
           </view>
         </navigator>
       </view>
-      <view class="loading-text">正在加载...</view>
+      <!-- 27-2.3 根据分页状态finish判断分页加载提示 -->
+      <view class="loading-text">{{ item.finish ? '我也是有界限的哦~' : '正在加载...' }}</view>
     </scroll-view>
   </view>
 </template>

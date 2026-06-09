@@ -1,17 +1,13 @@
-<!-- 12-1.1 创建src/pages/index/components/CustomNavbar.vue -->
 <script setup lang="ts">
-// 12-1.5 获取屏幕边界到安全区域的距离
+// 获取屏幕安全区域，适配异形屏手机
 const { safeAreaInsets } = uni.getSystemInfoSync()
-// console.log(safeAreaInsets)
 </script>
 
 <template>
-  <!-- 12-1.6 定义导航栏的顶部内边距为安全区域顶部间距（记得添加px单位） -->
   <view class="navbar" :style="{ paddingTop: safeAreaInsets?.top + 'px' }">
     <view class="logo">
-      <!-- <image class="logo-image" src="@/static/images/logo.png"></image> -->
       <text class="main-title">拾味生活</text>
-      <text class="logo-text">新鲜 · 亲民 · 快捷</text>
+      <text class="logo-text">品质好物 · 实惠优选</text>
     </view>
     <view class="search">
       <text class="icon-search">搜索商品</text>
@@ -22,10 +18,10 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 
 <style lang="scss">
 .navbar {
-  // background-image: url(@/static/images/navigator_bg.png);
+  /* 改用主题粉色纯色背景，替代背景图，风格更统一 */
   background-color: #ff9ebb;
   background-size: cover;
-  padding-top: var(--status-bar-height); /* 关键：不被状态栏挡住 */
+  padding-top: var(--status-bar-height);
   display: flex;
   flex-direction: column;
   padding-bottom: 20rpx;
@@ -36,11 +32,24 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
     height: 64rpx;
     padding: 20rpx 30rpx 0;
 
-    // .logo-image {
-    //   width: 166rpx;
-    //   height: 39rpx;
+    // .main-title {
+    //   font-size: 42rpx;
+    //   font-weight: 500;
+    //   color: #ffffff;
+    //   letter-spacing: 6rpx;
+    //   transform: translateY(-2rpx);
     // }
 
+    // .logo-text {
+    //   flex: 1;
+    //   line-height: 28rpx;
+    //   color: #fff;
+    //   margin-left: 20rpx;
+    //   padding-left: 20rpx;
+    //   border-left: 1rpx solid #fff;
+    //   font-size: 26rpx;
+    //   letter-spacing: 2rpx;
+    // }
     .main-title {
       font-size: 40rpx;
       font-weight: bold;
@@ -56,6 +65,7 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
       padding-left: 20rpx;
       border-left: 1rpx solid #fff;
       font-size: 26rpx;
+      letter-spacing: 2rpx;
     }
   }
 
@@ -66,10 +76,11 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
     padding: 0 20rpx;
     height: 64rpx;
     margin: 16rpx 20rpx;
-    color: #fff;
+    /* 搜索框文字改为深灰，提升辨识度 */
+    color: #666;
     font-size: 28rpx;
     border-radius: 32rpx;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.8);
   }
 }
 </style>
