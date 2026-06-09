@@ -1,5 +1,8 @@
 <!-- 25-1.1 创建src/pages/hot/hot.vue点击推荐选项切换推荐页面 -->
 <script setup lang="ts">
+import { ref } from 'vue'
+import { onLoad } from '@dcloudio/uni-app'
+import { getHotRecommendAPI } from '@/services/hot'
 // 热门推荐页 标题和url
 const hotMap = [
   { type: '1', title: '特惠推荐', url: '/hot/preference' },
@@ -22,6 +25,17 @@ const currentMap = hotMap.find((item) => item.type === query.type)
 // 25-1.5 动态设置标题
 uni.setNavigationBarTitle({
   title: currentMap!.title,
+})
+
+// 25-2.4 hot引入调用热门推荐接口，传递当前点击的推荐选项url，获取对应推荐数据
+const getHotRecommendData = async () => {
+  const res = await getHotRecommendAPI(currentMap!.url)
+  console.log(res)
+}
+
+// 25-2.6 页面加载时调用热门推荐接口，获取对应推荐数据
+onLoad(() => {
+  getHotRecommendData()
 })
 </script>
 
