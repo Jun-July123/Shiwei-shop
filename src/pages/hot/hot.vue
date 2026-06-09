@@ -30,7 +30,7 @@ uni.setNavigationBarTitle({
 // 25-2.4 hot引入调用热门推荐接口，传递当前点击的推荐选项url，获取对应推荐数据
 const getHotRecommendData = async () => {
   const res = await getHotRecommendAPI(currentMap!.url)
-  console.log(res)
+  console.log(res.result)
 }
 
 // 25-2.6 页面加载时调用热门推荐接口，获取对应推荐数据

@@ -16,3 +16,15 @@ export type PageParams = {
   /** 页大小：默认值为 10 */
   pageSize?: number
 }
+
+// 26-1.1 定义通用商品类型GoodsItem
+import type { GuessItem } from '@/types/home'
+export type GoodsItem = {
+  desc: string /** 商品描述 */
+  discount: number /** 商品折扣 */
+  id: string /** id */
+  name: string /** 商品名称 */
+  orderNum: number /** 商品已下单数量 */
+  picture: string /** 商品图片 */
+  price: number /** 商品价格 */
+}

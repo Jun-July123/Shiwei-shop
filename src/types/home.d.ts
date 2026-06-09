@@ -29,13 +29,17 @@ export type HotItem = {
   type: string /** 推荐类型 */
 }
 
+// 26-1.2 home.d.ts重新定义猜你喜欢商品类型
+// 猜你喜欢商品类型与通用商品一致，导入GoodsItem类型，实现类型复用
+import { GoodsItem } from './global'
 // 20-2.2 home.d.ts定义猜你喜欢数据类型
-export type GuessItem = {
-  desc: string /** 商品描述 */
-  discount: number /** 商品折扣 */
-  id: string /** id */
-  name: string /** 商品名称 */
-  orderNum: number /** 商品已下单数量 */
-  picture: string /** 商品图片 */
-  price: number /** 商品价格 */
-}
+export type GuessItem = GoodsItem
+// {
+//   desc: string /** 商品描述 */
+//   discount: number /** 商品折扣 */
+//   id: string /** id */
+//   name: string /** 商品名称 */
+//   orderNum: number /** 商品已下单数量 */
+//   picture: string /** 商品图片 */
+//   price: number /** 商品价格 */
+// }
