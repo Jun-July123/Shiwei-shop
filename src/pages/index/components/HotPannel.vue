@@ -16,7 +16,8 @@ const props = defineProps<{
         <text class="title-text">{{ item.title }}</text>
         <text class="title-desc">{{ item.alt }}</text>
       </view>
-      <navigator hover-class="none" url="/pages/hot/hot" class="cards">
+      <!-- 25-1.2 热门推荐动态绑定type参数,传递给子组件Hot,点击跳转对应推荐页面 -->
+      <navigator hover-class="none" :url="`/pages/hot/hot?type=${item.type}`" class="cards">
         <!-- 18-2.8 v-for遍历渲染热门推荐图片 -->
         <image
           v-for="src in item.pictures"
