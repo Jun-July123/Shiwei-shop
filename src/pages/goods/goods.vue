@@ -40,6 +40,12 @@ const onTabImage = (url: string) => {
     current: url,
   })
 }
+
+// 31-2.3 UniHelper.UniPopupType定义弹出层实例类型
+const popup = ref<{
+  open: (type?: UniHelper.UniPopupType) => void
+  close: () => void
+}>()
 </script>
 
 <template>
@@ -84,7 +90,8 @@ const onTabImage = (url: string) => {
           <text class="label">送至</text>
           <text class="text ellipsis"> 请选择收获地址 </text>
         </view>
-        <view class="item arrow">
+        <!-- 31-2.2 商品详情服务注册点击事件，点击服务底部弹出弹出层 -->
+        <view @tap="popup?.open('bottom')" class="item arrow">
           <text class="label">服务</text>
           <text class="text ellipsis"> 无忧退 快速退款 免费包邮 </text>
         </view>
@@ -156,6 +163,13 @@ const onTabImage = (url: string) => {
       <view class="buynow"> 立即购买 </view>
     </view>
   </view>
+
+  <!-- 31-2.1 商品详情弹出层uni-popup,定义popup变量添加ref属性绑定实例 -->
+  <uni-popup ref="popup" type="bottom" background-color="#fff">
+    <view>内容1</view>
+    <view>内容2</view>
+    <button @tap="popup?.close()">关闭</button>
+  </uni-popup>
 </template>
 
 <style lang="scss">
