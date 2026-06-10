@@ -1,7 +1,7 @@
 <!-- 32-1.1 创建login/login.vue登录页面 -->
 <script setup lang="ts">
 import { onLoad } from '@dcloudio/uni-app'
-import { postLoginWxMinAPI } from '@/services/login'
+import { postLoginWxMinAPI, postLoginWxMiniSimpleAPI } from '@/services/login'
 
 // 32-1.5 login.vue引入使用微信登录服务接口，获取登录凭证
 let code = ''
@@ -21,6 +21,17 @@ const onGetphonenumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
     iv,
   })
   console.log(res)
+}
+
+// 32-2.3 处理模拟登录事件,获取手机号信息
+const onGetphonenumberSimple: UniHelper.ButtonOnGetphonenumber = async (ev) => {
+  // 32-2.4 导入调用模拟登录服务接口,传递手机号,获取登录信息
+  const res = await postLoginWxMiniSimpleAPI('19176965419')
+  console.log(res)
+  uni.showToast({
+    title: '登录成功',
+    icon: 'success',
+  })
 }
 </script>
 
@@ -49,7 +60,8 @@ const onGetphonenumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
         </view>
         <view class="options">
           <!-- 通用模拟登录 -->
-          <button>
+          <!-- 32-2.2 模拟登录按钮绑定模拟登录事件 -->
+          <button class="button wechat" @tap="onGetphonenumberSimple">
             <text class="icon icon-phone">模拟快捷登录</text>
           </button>
         </view>

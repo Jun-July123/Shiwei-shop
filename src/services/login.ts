@@ -16,3 +16,12 @@ export const postLoginWxMinAPI = (data: LoginParams) => {
     data,
   })
 }
+
+// 32-2.1 定义导出模拟登录服务接口postLoginWxMiniSimpleAPI
+export const postLoginWxMiniSimpleAPI = (phoneNumber: string) => {
+  return promise({
+    method: 'POST',
+    url: '/login/wxMin/simple',
+    data: { phoneNumber },
+  })
+}
