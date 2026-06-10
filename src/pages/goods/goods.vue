@@ -3,7 +3,7 @@
 // 30-1.2 获取屏幕边界到安全区域距离,用于设置用户操作区域的padding-bottom
 const { safeAreaInsets } = uni.getSystemInfoSync()
 import { getGoodsByIdAPI } from '@/services/goods'
-import { onLoad } from '@dcloudio/uni-app'
+import { onLoad, onTabItemTap } from '@dcloudio/uni-app'
 import type { GoodsResult } from '@/types/goods'
 import { ref } from 'vue'
 
@@ -25,6 +25,21 @@ const getGoodsByIdData = async () => {
 onLoad(() => {
   getGoodsByIdData()
 })
+
+const currentIndex = ref(0)
+// 31-1.2 处理轮播图change事件，类型为UniHelper.SwiperOnChange
+const onChange: UniHelper.SwiperOnChange = (ev) => {
+  // 31-1.3 轮播图变化，更新当前商品轮播图索引
+  currentIndex.value = ev.detail!.current
+}
+
+// 31-1.6 处理图片绑定点击事件，uni.previewImage预览图片
+const onTabImage = (url: string) => {
+  uni.previewImage({
+    urls: [url],
+    current: url,
+  })
+}
 </script>
 
 <template>
@@ -33,16 +48,19 @@ onLoad(() => {
     <view class="goods">
       <!-- 商品主图 -->
       <view class="preview">
-        <swiper circular>
+        <!-- 31-1.1 商品轮播图绑定change事件,监听轮播图变化 -->
+        <swiper circular @change="onChange">
           <!-- 30-2.5 v-for渲染商品基本信息 -->
           <swiper-item v-for="item in goods?.mainPictures" :key="item">
-            <image mode="aspectFill" :src="item" />
+            <!-- 31-1.5 商品轮播图图片绑定点击事件 -->
+            <image @tap="onTabImage(item)" mode="aspectFill" :src="item" />
           </swiper-item>
         </swiper>
+        <!-- 31-1.4 商品轮播图指示器，更新当前商品轮播图下标-->
         <view class="indicator">
-          <text class="current">1</text>
+          <text class="current">{{ currentIndex + 1 }}</text>
           <text class="split">/</text>
-          <text class="total">5</text>
+          <text class="total">{{ goods?.mainPictures.length }}</text>
         </view>
       </view>
 
