@@ -1,6 +1,8 @@
 {
   "setting": {
     "es6": true,
+    "ignoreDevUnusedFiles": false,
+    "ignoreUploadUnusedFiles": false,
     "postcss": true,
     "minified": true,
     "uglifyFileName": false,

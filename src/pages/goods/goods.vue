@@ -3,9 +3,11 @@
 // 30-1.2 获取屏幕边界到安全区域距离,用于设置用户操作区域的padding-bottom
 const { safeAreaInsets } = uni.getSystemInfoSync()
 import { getGoodsByIdAPI } from '@/services/goods'
-import { onLoad, onTabItemTap } from '@dcloudio/uni-app'
+import { onLoad } from '@dcloudio/uni-app'
 import type { GoodsResult } from '@/types/goods'
 import { ref } from 'vue'
+import ServicePanel from './components/ServicePanel.vue'
+import AddressPanel from './components/AddressPanel.vue'
 
 // 30-1.3 defineProps接收category传递的商品id
 const query = defineProps<{
@@ -46,6 +48,14 @@ const popup = ref<{
   open: (type?: UniHelper.UniPopupType) => void
   close: () => void
 }>()
+
+// 31-3.4 定义弹出层条件渲染(服务弹出层或地址弹出层)
+const popupName = ref<'address' | 'service'>()
+// 31-3.5 定义打开弹出层事件，接收弹出层名称参数，根据名称渲染不同的弹出层
+const openPopup = (name: typeof popupName.value) => {
+  popupName.value = name
+  popup.value?.open()
+}
 </script>
 
 <template>
@@ -86,18 +96,17 @@ const popup = ref<{
           <text class="label">选择</text>
           <text class="text ellipsis"> 请选择商品规格 </text>
         </view>
-        <view class="item arrow">
+        <!-- 31-3.6 地址/服务绑定打开弹出层事件，传递弹出层名称参数 -->
+        <view @tap="openPopup('address')" class="item arrow">
           <text class="label">送至</text>
           <text class="text ellipsis"> 请选择收获地址 </text>
         </view>
-        <!-- 31-2.2 商品详情服务注册点击事件，点击服务底部弹出弹出层 -->
-        <view @tap="popup?.open('bottom')" class="item arrow">
+        <view @tap="openPopup('service')" class="item arrow">
           <text class="label">服务</text>
           <text class="text ellipsis"> 无忧退 快速退款 免费包邮 </text>
         </view>
       </view>
     </view>
-
     <!-- 商品详情 -->
     <view class="detail panel">
       <view class="title">
@@ -121,7 +130,6 @@ const popup = ref<{
         ></image>
       </view>
     </view>
-
     <!-- 同类推荐 -->
     <view class="similar panel">
       <view class="title">
@@ -166,9 +174,12 @@ const popup = ref<{
 
   <!-- 31-2.1 商品详情弹出层uni-popup,定义popup变量添加ref属性绑定实例 -->
   <uni-popup ref="popup" type="bottom" background-color="#fff">
-    <view>内容1</view>
-    <view>内容2</view>
-    <button @tap="popup?.close()">关闭</button>
+    <!-- 31-3.3 goods.vue导入使用服务及地址弹出层 -->
+    <!-- 31-3.7 v-if渲染弹出层 -->
+    <!-- 31-3.8.2 父组件ServicePanel标签监听服务弹出层关闭事件，关闭弹出层 -->
+    <ServicePanel v-if="popupName === 'service'" @close="popup?.close()" />
+    <!-- 31-3.9.2 父组件AddressPanel标签监听地址弹出层关闭事件，关闭弹出层 -->
+    <AddressPanel v-if="popupName === 'address'" @close="popup?.close()" />
   </uni-popup>
 </template>
 
