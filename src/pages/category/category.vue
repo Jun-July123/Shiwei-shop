@@ -10,9 +10,18 @@
     <!-- 分类 -->
     <view class="categories">
       <!-- 左侧：一级分类 -->
+      <!-- 28-3.5 v-for渲染一级分类 -->
+      <!-- 28-3.7 给当前选项添加点击事件，点击切换activeIndex值 -->
+      <!-- 添加active类名，实现选项高亮 -->
       <scroll-view class="primary" scroll-y>
-        <view v-for="(item, index) in 10" :key="item" class="item" :class="{ active: index === 0 }">
-          <text class="name"> 居家 </text>
+        <view
+          v-for="(item, index) in categoryList"
+          :key="item.id"
+          class="item"
+          :class="{ active: index === activeIndex }"
+          @tap="activeIndex = index"
+        >
+          <text class="name">{{ item.name }}</text>
         </view>
       </scroll-view>
       <!-- 右侧：二级分类 -->
@@ -55,21 +64,37 @@ import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 // 28-1.2 导入轮播图API、轮播图数据类型
 import { getHomeBannerAPI } from '@/services/home'
+import { getCategoryTopAPI } from '@/services/category'
 import type { BannerItem } from '@/types/home'
+import type { CategoryTopItem } from '@/types/category'
 
 //28-1.3 定义轮播图数据bannerList（类型BannerItem[]）
 const bannerList = ref<BannerItem[]>([])
 //28-1.4 调用轮播图API，获取轮播图数据并赋值
 const getBannerData = async () => {
-  const res = await getHomeBannerAPI()
+  const res = await getHomeBannerAPI(2)
   console.log('轮播图数据', res)
   bannerList.value = res.result
 }
+// 28-3.3 category.vue导入一级分类类型，定义分类数据categoryList（类型CategoryTopItem[]）
+const categoryList = ref<CategoryTopItem[]>([])
+// 28-3.6 一级分类Tap交互，定义activeIndex值，实现选项高亮
+const activeIndex = ref(0)
+// 28-2.4 category.vue导入调用一级分类API，获取一级分类数据
+const getCategoryTopData = async () => {
+  const res = await getCategoryTopAPI()
+  // 28-3.4 获取一级分类数据并赋值
+  categoryList.value = res.result
+}
+
+// 28-2.5 页面加载时调用获取一级分类数据函数
 //28-1.5 页面加载时调用获取轮播图数据函数
 onLoad(() => {
   getBannerData()
+  getCategoryTopData()
 })
 </script>
+
 <style lang="scss">
 page {
   height: 100%;
