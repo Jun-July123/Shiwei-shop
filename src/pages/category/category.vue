@@ -69,7 +69,7 @@ import { getHomeBannerAPI } from '@/services/home'
 import { getCategoryTopAPI } from '@/services/category'
 import type { BannerItem } from '@/types/home'
 import type { CategoryTopItem } from '@/types/category'
-import PageSkeleton from '@/components/page-skeleton/page-skeleton.vue'
+import PageSkeleton from '@/pages/category/components/PageSkeleton.vue'
 
 //28-1.3 定义轮播图数据bannerList（类型BannerItem[]）
 const bannerList = ref<BannerItem[]>([])
