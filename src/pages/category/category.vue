@@ -1,7 +1,6 @@
 <!-- 28-1.1 创建分类页面src/pages/category/category.vue -->
 <template>
-  <!-- 29-2.6 v-if绑定isFinish,为true时，显示页面内容 -->
-  <view class="viewport" v-if="isFinish">
+  <view class="viewport">
     <!-- 搜索框 -->
     <view class="search">
       <view class="input">
@@ -58,8 +57,6 @@
       </scroll-view>
     </view>
   </view>
-  <!-- 29-2.7 导入PageSkeleton骨架屏幕，isFinish为false显示骨架屏 -->
-  <PageSkeleton v-else />
 </template>
 <script setup lang="ts">
 import { ref, computed } from 'vue'
@@ -69,7 +66,6 @@ import { getHomeBannerAPI } from '@/services/home'
 import { getCategoryTopAPI } from '@/services/category'
 import type { BannerItem } from '@/types/home'
 import type { CategoryTopItem } from '@/types/category'
-import PageSkeleton from '@/pages/category/components/PageSkeleton.vue'
 
 //28-1.3 定义轮播图数据bannerList（类型BannerItem[]）
 const bannerList = ref<BannerItem[]>([])
@@ -90,20 +86,11 @@ const getCategoryTopData = async () => {
   categoryList.value = res.result
 }
 
-// 29-2.4 定义isFinish值,确定页面是否加载完成，是否显示骨架屏
-const isFinish = ref(false)
-
 // 28-2.5 页面加载时调用获取一级分类数据函数
 //28-1.5 页面加载时调用获取轮播图数据函数
 onLoad(() => {
-  Promise.all([getBannerData(), getCategoryTopData()])
-  // 29-2.5 页面数据加载完成，isFinish为true，显示骨架屏
-  isFinish.value = true
-})
-
-// 29-1.1 基于当前一级分类获取当前二级分类数据
-const subCategoryList = computed(() => {
-  return categoryList.value[activeIndex.value]?.children || []
+  getBannerData()
+  getCategoryTopData()
 })
 
 // 29-1.1 基于当前一级分类获取当前二级分类数据
