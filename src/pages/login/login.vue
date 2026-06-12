@@ -2,6 +2,8 @@
 <script setup lang="ts">
 import { onLoad } from '@dcloudio/uni-app'
 import { postLoginWxMinAPI, postLoginWxMiniSimpleAPI } from '@/services/login'
+import { useMemberStore } from '@/stores/modules/member'
+import type { LoginResult } from '@/types/member'
 
 // 32-1.5 login.vue引入使用微信登录服务接口，获取登录凭证
 let code = ''
@@ -21,17 +23,31 @@ const onGetphonenumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
     iv,
   })
   console.log(res)
+  loginSuccess(res.result)
 }
 
 // 32-2.3 处理模拟登录事件,获取手机号信息
 const onGetphonenumberSimple: UniHelper.ButtonOnGetphonenumber = async (ev) => {
   // 32-2.4 导入调用模拟登录服务接口,传递手机号,获取登录信息
   const res = await postLoginWxMiniSimpleAPI('19176965419')
-  console.log(res)
+  loginSuccess(res.result)
+}
+
+// 32-3.6 封装登录成功后的跳转操作,传递登录结果
+const loginSuccess = (profile: LoginResult) => {
+  // 32-3.4 login.vue引入使用会员仓库，保存会员信息,提示登录成功
+  const memberStore = useMemberStore()
+  memberStore.setProfile(profile)
   uni.showToast({
     title: '登录成功',
     icon: 'success',
   })
+  // 32-3.5 登录成功后，停留1.5秒后跳转到开发页面首页
+  setTimeout(() => {
+    uni.switchTab({
+      url: '/pages/my/my',
+    })
+  }, 1500)
 }
 </script>
 

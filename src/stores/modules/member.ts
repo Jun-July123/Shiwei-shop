@@ -1,14 +1,17 @@
 import { defineStore } from 'pinia'
 import { ref } from 'vue'
+import type { LoginResult } from '@/types/member'
 
 // 1-1.1 stores/modules/member.ts定义会员仓库
 export const useMemberStore = defineStore(
   'member',
   () => {
+    // 32-3.3 store/modules/member.ts定义会员仓库保存清理会员信息的类型
     // 1-1.1.1 会员信息
-    const profile = ref<any>()
+    const profile = ref<LoginResult>()
+
     // 1-1.1.2 保存会员信息，会员信息重新赋值
-    const setProfile = (val: any) => {
+    const setProfile = (val: LoginResult) => {
       profile.value = val
     }
     // 1-1.1.3 清理会员信息，会员信息清空
