@@ -1,5 +1,8 @@
 <!-- 33-1.1 创建pages/my/my用户页面 -->
 <script setup lang="ts">
+// import { ref } from 'vue'
+// import type { XtxGuessInstance } from '@/types/component'
+import { useGuessList } from '@/composables'
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 // 引入会员仓库，获取会员信息
@@ -12,10 +15,23 @@ const orderTypes = [
   { type: 3, text: '待收货', icon: 'icon-check' },
   { type: 4, text: '待评价', icon: 'icon-comment' },
 ]
+
+// 33-2.1 定义绑定猜你喜欢实例，为XtxGuessInstance类型
+// const guessRef = ref<XtxGuessInstance>()
+
+// 33-2.3 处理滚动事件,调用猜你喜欢实例getMore,加载更多商品
+// const onScrolltolower = () => {
+//   guessRef.value?.getMore()
+// }
+
+// 33-2.6 引入useGuessList函数,解构调用,
+// 获取猜你喜欢实例及滚动事件处理方法
+const { guessRef, onScrollToLower } = useGuessList()
 </script>
 
 <template>
-  <scroll-view class="viewport" scroll-y enable-back-to-top>
+  <!-- 33-2.2 滚动组件，注册滚动事件 -->
+  <scroll-view @scrolltolower="onScrollToLower" class="viewport" scroll-y enable-back-to-top>
     <!-- 个人资料 -->
     <view class="profile" :style="{ paddingTop: safeAreaInsets!.top + 'px' }">
       <!-- 情况1：已登录 -->

@@ -50,7 +50,8 @@ import CategoryPannel from './components/CategoryPannel.vue'
 import HotPannel from './components/HotPannel.vue'
 import { onLoad } from '@dcloudio/uni-app'
 import { ref } from 'vue'
-import type { XtxGuessInstance } from '@/types/component.d'
+// import type { XtxGuessInstance } from '@/types/component.d'
+import { useGuessList } from '@/composables/index'
 
 // 15-1.4 index.vue引入首页banner接口
 // 16-2.2 index.vue引入前台分类接口getHomeCategoryAPI
@@ -106,12 +107,15 @@ onLoad(async () => {
   isLoading.value = false
 })
 
-// 21-1.3 获取猜你喜欢组件实例,类型为XtxGuessInstance
-const guessRef = ref<XtxGuessInstance>()
-// 21-1.6 滚动事件处理函数,调用XtxGuess暴露的getMore方法，获取更多数据
-const onScrollToLower = () => {
-  guessRef.value?.getMore()
-}
+// 33-2.7 首页猜你喜欢调用组合式函数useGuessList,获取猜你喜欢实例及滚动事件处理方法
+const { guessRef, onScrollToLower } = useGuessList()
+// // 21-1.3 获取猜你喜欢组件实例,类型为XtxGuessInstance
+// const guessRef = ref<XtxGuessInstance>()
+// // 21-1.6 滚动事件处理函数,调用XtxGuess暴露的getMore方法，获取更多数据
+// const onScrollToLower = () => {
+//   guessRef.value?.getMore()
+// }
+
 // 22-1.5 定义isTriggered初始值为false，关闭刷新动画
 const isTriggered = ref(false)
 // 22-1.3 处理下拉刷新事件，重新获取轮播图、前台分类、热门推荐数据
