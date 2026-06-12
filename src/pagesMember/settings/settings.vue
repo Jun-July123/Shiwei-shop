@@ -1,13 +1,30 @@
 <!-- 34-1.1 创建src/pagesMember/settings/settings.vue-->
 <!-- 分包页面settings 设置 -->
 <script setup lang="ts">
-//
+import { useMemberStore } from '@/stores'
+const memberStore = useMemberStore()
+
+// 34-2.2 退出登录事件,弹出确认弹窗
+const onLogout = () => {
+  uni.showModal({
+    content: '确定退出登录吗？',
+    success: (res) => {
+      // 34-2.3 确认退出登录后,导入调用用户仓库
+      // 清空用户信息，返回上一页
+      if (res.confirm) {
+        memberStore.clearProfile()
+        uni.navigateBack()
+      }
+    },
+  })
+}
 </script>
 
 <template>
   <view class="viewport">
     <!-- 列表1 -->
-    <view class="list" v-if="true">
+    <!-- 34-2.4 登录后,存在用户信息,才显示我的收货地址 -->
+    <view class="list" v-if="memberStore.profile">
       <navigator url="/pagesMember/address/address" hover-class="none" class="item arrow">
         我的收货地址
       </navigator>
@@ -23,8 +40,10 @@
       <navigator hover-class="none" class="item arrow" url=" ">关于小兔鲜儿</navigator>
     </view>
     <!-- 操作按钮 -->
-    <view class="action">
-      <view class="button">退出登录</view>
+    <!-- 34-2.5 登录后,存在用户信息,才显示退出登录按钮 -->
+    <view class="action" v-if="memberStore.profile">
+      <!-- 34-2.1 注册退出登录事件 -->
+      <view @tap="onLogout" class="button">退出登录</view>
     </view>
   </view>
 </template>
