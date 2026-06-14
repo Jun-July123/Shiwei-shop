@@ -82,6 +82,17 @@ const onBirthdayChange: UniHelper.DatePickerOnChange = (ev) => {
   profile.value.birthday = ev.detail.value
 }
 
+// 36-6.4 定义城市编码数组fullLocationCode(元组类型)
+let fullLocationCode: [string, string, string] = ['', '', '']
+
+// 36-6.2 处理城市change事件,类型为UniHelper.RegionPickerOnChange
+const onFullLocationChange: UniHelper.RegionPickerOnChange = (ev) => {
+  // 36-6.3 获取城市选择框选择的城市，更新前端profile的fullLocation
+  profile.value.fullLocation = ev.detail.value.join(' ')
+  // 36-6.5 获取城市编码
+  fullLocationCode = ev.detail.code!
+}
+
 // 36-2.5 处理提交事件,导入调用修改个人信息接口,
 // 将profile中的数据传递给接口，提示修改成功
 const onSubmit = async () => {
@@ -92,6 +103,10 @@ const onSubmit = async () => {
     gender,
     // 36-5.4 提交日期至后端接口
     birthday,
+    // 36-6.6 提交城市编码至后端接口
+    provinceCode: fullLocationCode[0],
+    cityCode: fullLocationCode[1],
+    countyCode: fullLocationCode[2],
   })
   // 36-3.2 修改个昵称成功,将修改后的昵称赋值给用户仓库的profile
   memberStore.profile!.nickname = res.result!.nickname
@@ -174,7 +189,13 @@ const onSubmit = async () => {
         <view class="form-item">
           <text class="label">城市</text>
           <!-- 35-2.8.2 有城市则显示城市，否则城市选择框  -->
-          <picker class="picker" mode="region" :value="profile?.fullLocation?.split(' ')">
+          <!-- 36-6.1 城市选择框绑定change事件 -->
+          <picker
+            @change="onFullLocationChange"
+            class="picker"
+            mode="region"
+            :value="profile?.fullLocation?.split(' ')"
+          >
             <view v-if="profile?.fullLocation">{{ profile.fullLocation }}</view>
             <view class="placeholder" v-else>请选择城市</view>
           </picker>
