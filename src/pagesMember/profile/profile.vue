@@ -76,13 +76,22 @@ const onGenderChange: UniHelper.RadioGroupOnChange = (ev) => {
   profile.value.gender = ev.detail.value as Gender
 }
 
+// 36-5.2 处理日期change事件,类型为UniHelper.DatePickerOnChange
+const onBirthdayChange: UniHelper.DatePickerOnChange = (ev) => {
+  // 36-5.3 获取日期选择器选择的日期，更新profile的birthday
+  profile.value.birthday = ev.detail.value
+}
+
 // 36-2.5 处理提交事件,导入调用修改个人信息接口,
 // 将profile中的数据传递给接口，提示修改成功
 const onSubmit = async () => {
+  const { nickname, gender, birthday } = profile.value!
   const res = await putMemberProfileAPI({
-    nickname: profile.value!.nickname,
+    nickname,
     // 36-4.4 提交性别至后端接口
-    gender: profile.value!.gender,
+    gender,
+    // 36-5.4 提交日期至后端接口
+    birthday,
   })
   // 36-3.2 修改个昵称成功,将修改后的昵称赋值给用户仓库的profile
   memberStore.profile!.nickname = res.result!.nickname
@@ -149,7 +158,9 @@ const onSubmit = async () => {
         <view class="form-item">
           <text class="label">生日</text>
           <!-- 35-2.8.1 有出生日期则显示出生日期，否则日期选择框 -->
+          <!-- 36-5.1 日期绑定change事件 -->
           <picker
+            @change="onBirthdayChange"
             class="picker"
             mode="date"
             start="1900-01-01"
