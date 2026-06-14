@@ -96,7 +96,7 @@ const onFullLocationChange: UniHelper.RegionPickerOnChange = (ev) => {
 // 36-2.5 处理提交事件,导入调用修改个人信息接口,
 // 将profile中的数据传递给接口，提示修改成功
 const onSubmit = async () => {
-  const { nickname, gender, birthday } = profile.value!
+  const { nickname, gender, birthday, profession } = profile.value!
   const res = await putMemberProfileAPI({
     nickname,
     // 36-4.4 提交性别至后端接口
@@ -107,6 +107,8 @@ const onSubmit = async () => {
     provinceCode: fullLocationCode[0],
     cityCode: fullLocationCode[1],
     countyCode: fullLocationCode[2],
+    // 36-7.2 提交职业至后端接口
+    profession,
   })
   // 36-3.2 修改个昵称成功,将修改后的昵称赋值给用户仓库的profile
   memberStore.profile!.nickname = res.result!.nickname
@@ -202,7 +204,8 @@ const onSubmit = async () => {
         </view>
         <view class="form-item">
           <text class="label">职业</text>
-          <input class="input" type="text" placeholder="请填写职业" :value="profile?.profession" />
+          <!-- 36-7.1 职业输入框v-model实现数据双向绑定 -->
+          <input v-model="profile!.profession" class="input" type="text" placeholder="请填写职业" />
         </view>
       </view>
       <!-- 36-2.4 注册点击保存事件 -->
