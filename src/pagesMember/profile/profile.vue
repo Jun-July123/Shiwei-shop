@@ -4,6 +4,8 @@ import { getMemberProfileAPI } from '@/services/profile'
 import { onLoad } from '@dcloudio/uni-app'
 import type { ProfileDetail } from '@/types/member'
 import { ref } from 'vue'
+import { useMemberStore } from '@/stores/modules/member'
+const memberStore = useMemberStore()
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
@@ -20,6 +22,47 @@ const getMemberProfileData = async () => {
 onLoad(async () => {
   getMemberProfileData()
 })
+
+// 36-1.2 处理修改头像事件,uni.chooseMedia选择上传图片
+const onAvatarChange = () => {
+  uni.chooseMedia({
+    // 36-1.2.1 选择数量count
+    count: 1,
+    // 36-1.2.2 选择图片类型mediaType
+    mediaType: ['image'],
+    // 36-1.3 选择图片后,获取图片路径,将图片上传至后端
+    success: (res) => {
+      // 36-1.3.1 解构获取图片路径
+      const { tempFilePath } = res.tempFiles[0]
+      // 36-1.3.2 uni.uploadFile将图片上传至后端接口
+      uni.uploadFile({
+        url: '/member/profile/avatar',
+        filePath: tempFilePath,
+        name: 'file',
+        // 36-1.4 上传，根据状态码判断是否成功
+        success: (res) => {
+          // 36-1.4.1 状态码200，上传成功，将字符串data转换为js对象,
+          // 将上传后的avatar赋值给profile的avatar，显示上传成功提示
+          if (res.statusCode == 200) {
+            const avatar = JSON.parse(res.data).result.avatar
+            profile.value!.avatar = avatar
+            uni.showToast({
+              title: '上传成功',
+              icon: 'success',
+            })
+          }
+          // 36-1.4.2 状态码非200，上传失败，显示上传失败提示
+          else {
+            uni.showToast({
+              title: '上传失败',
+              icon: 'none',
+            })
+          }
+        },
+      })
+    },
+  })
+}
 </script>
 
 <template>
@@ -32,7 +75,8 @@ onLoad(async () => {
     <!-- 头像 -->
     <!-- 35-2.8 渲染个人信息页面 -->
     <view class="avatar">
-      <view class="avatar-content">
+      <!-- 36-1.1 注册点击修改头像事件-->
+      <view @tap="onAvatarChange" class="avatar-content">
         <image class="image" :src="profile?.avatar" mode="aspectFill" />
         <text class="text">点击修改头像</text>
       </view>
