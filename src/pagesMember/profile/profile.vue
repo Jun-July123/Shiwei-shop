@@ -1,7 +1,25 @@
 <!-- 35-1.1 创建pagesMember/profile/profile.vue个人信息分包页面 -->
 <script setup lang="ts">
+import { getMemberProfileAPI } from '@/services/profile'
+import { onLoad } from '@dcloudio/uni-app'
+import type { ProfileDetail } from '@/types/member'
+import { ref } from 'vue'
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
+
+// 35-2.6 profile.vue 定义个人信息数据profile及类型
+const profile = ref<ProfileDetail>()
+// 35-2.2 调用个人信息接口,获取用户信息
+const getMemberProfileData = async () => {
+  const res = await getMemberProfileAPI()
+  // 35-2.7 获取个人信息，将信息赋值给profile
+  profile.value = res.result
+}
+
+// 35-2.3 页面加载时,调用个人信息接口,获取用户信息
+onLoad(async () => {
+  getMemberProfileData()
+})
 </script>
 
 <template>
@@ -12,9 +30,10 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
       <view class="title">个人信息</view>
     </view>
     <!-- 头像 -->
+    <!-- 35-2.8 渲染个人信息页面 -->
     <view class="avatar">
       <view class="avatar-content">
-        <image class="image" src=" " mode="aspectFill" />
+        <image class="image" :src="profile?.avatar" mode="aspectFill" />
         <text class="text">点击修改头像</text>
       </view>
     </view>
@@ -24,48 +43,56 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
       <view class="form-content">
         <view class="form-item">
           <text class="label">账号</text>
-          <text class="account">账号名</text>
+          <text class="account">{{ profile?.account }}</text>
         </view>
         <view class="form-item">
           <text class="label">昵称</text>
-          <input class="input" type="text" placeholder="请填写昵称" value="" />
+          <input
+            class="input"
+            type="text"
+            placeholder="请填写昵称"
+            :value="profile?.nickname"
+            readonly
+          />
         </view>
         <view class="form-item">
           <text class="label">性别</text>
           <radio-group>
             <label class="radio">
-              <radio value="男" color="#27ba9b" :checked="true" />
+              <radio value="男" color="#27ba9b" :checked="profile?.gender === '男'" />
               男
             </label>
             <label class="radio">
-              <radio value="女" color="#27ba9b" :checked="false" />
+              <radio value="女" color="#27ba9b" :checked="profile?.gender === '女'" />
               女
             </label>
           </radio-group>
         </view>
         <view class="form-item">
           <text class="label">生日</text>
+          <!-- 35-2.8.1 有出生日期则显示出生日期，否则日期选择框 -->
           <picker
             class="picker"
             mode="date"
             start="1900-01-01"
             :end="new Date()"
-            value="2000-01-01"
+            :value="profile?.birthday"
           >
-            <view v-if="false">2000-01-01</view>
+            <view v-if="profile?.birthday">{{ profile?.birthday }}</view>
             <view class="placeholder" v-else>请选择日期</view>
           </picker>
         </view>
         <view class="form-item">
           <text class="label">城市</text>
-          <picker class="picker" mode="region" :value="['广东省', '广州市', '天河区']">
-            <view v-if="false">广东省广州市天河区</view>
+          <!-- 35-2.8.2 有城市则显示城市，否则城市选择框  -->
+          <picker class="picker" mode="region" :value="profile?.fullLocation?.split(' ')">
+            <view v-if="profile?.fullLocation">{{ profile.fullLocation }}</view>
             <view class="placeholder" v-else>请选择城市</view>
           </picker>
         </view>
         <view class="form-item">
           <text class="label">职业</text>
-          <input class="input" type="text" placeholder="请填写职业" value="" />
+          <input class="input" type="text" placeholder="请填写职业" :value="profile?.profession" />
         </view>
       </view>
       <!-- 提交按钮 -->

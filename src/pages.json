@@ -112,7 +112,7 @@
 				{
 					"path": "profile/profile",
 					"style": {
-						// 35-1.2 个人信息分包页面配置自定义导航栏custom,
+						// 35-1.2 pages.json个人信息分包页面配置自定义导航栏custom,
 						// 并设置导航栏文字颜色为白色
 						"navigationStyle": "custom",
 						"navigationBarTextStyle": "white",
