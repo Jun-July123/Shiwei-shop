@@ -2,7 +2,7 @@
 <script setup lang="ts">
 import { getMemberProfileAPI } from '@/services/profile'
 import { onLoad } from '@dcloudio/uni-app'
-import type { ProfileDetail } from '@/types/member'
+import type { Gender, ProfileDetail } from '@/types/member'
 import { ref } from 'vue'
 import { useMemberStore } from '@/stores/modules/member'
 import type { ProfileParams } from '@/types/member'
@@ -70,11 +70,19 @@ const onAvatarChange = () => {
   })
 }
 
+// 36-4.2 处理性别变化change事件,类型为UniHelper.RadioGroupOnChange
+const onGenderChange: UniHelper.RadioGroupOnChange = (ev) => {
+  // 36-4.3 获取选择框所选的性别，更新profile的gender
+  profile.value.gender = ev.detail.value as Gender
+}
+
 // 36-2.5 处理提交事件,导入调用修改个人信息接口,
 // 将profile中的数据传递给接口，提示修改成功
 const onSubmit = async () => {
   const res = await putMemberProfileAPI({
     nickname: profile.value!.nickname,
+    // 36-4.4 提交性别至后端接口
+    gender: profile.value!.gender,
   })
   // 36-3.2 修改个昵称成功,将修改后的昵称赋值给用户仓库的profile
   memberStore.profile!.nickname = res.result!.nickname
@@ -126,7 +134,8 @@ const onSubmit = async () => {
         </view>
         <view class="form-item">
           <text class="label">性别</text>
-          <radio-group>
+          <!-- 36-4.1 性别选择框绑定change事件 -->
+          <radio-group @change="onGenderChange">
             <label class="radio">
               <radio value="男" color="#27ba9b" :checked="profile?.gender === '男'" />
               男
