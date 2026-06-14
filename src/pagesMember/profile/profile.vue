@@ -50,6 +50,8 @@ const onAvatarChange = () => {
           if (res.statusCode == 200) {
             const avatar = JSON.parse(res.data).result.avatar
             profile.value!.avatar = avatar
+            // 36-3.1 上传头像成功,将上传后的avatar赋值给用户仓库的profile
+            memberStore.profile!.avatar = avatar
             uni.showToast({
               title: '上传成功',
               icon: 'success',
@@ -74,10 +76,16 @@ const onSubmit = async () => {
   const res = await putMemberProfileAPI({
     nickname: profile.value!.nickname,
   })
+  // 36-3.2 修改个昵称成功,将修改后的昵称赋值给用户仓库的profile
+  memberStore.profile!.nickname = res.result!.nickname
+  // 36-3.3 提示修改个昵称成功,等待几秒返回上一页
   uni.showToast({
     title: '保存成功',
     icon: 'success',
   })
+  setTimeout(() => {
+    uni.navigateBack()
+  }, 1500)
 }
 </script>
 
