@@ -27,3 +27,15 @@ export type ProfileDetail = BaseProfile & {
 }
 /** 性别 */
 export type Gender = '女' | '男'
+
+/** 36-2.2 member.ts 定义修改个人信息请求体参数类型 */
+// 36-2.2.1 Pick<'类型'，属性名>从类型中提取部分属性名
+export type ProfileParams = Picky<
+  ProfileDetail,
+  'nickname' | 'gender' | 'birthday' | 'profession'
+> & {
+  // 36-2.2.2 &将省市区属性合并到个人信息个人信息类型
+  provinceCode?: string
+  cityCode?: string
+  districtCode?: string
+}

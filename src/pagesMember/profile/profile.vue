@@ -5,12 +5,16 @@ import { onLoad } from '@dcloudio/uni-app'
 import type { ProfileDetail } from '@/types/member'
 import { ref } from 'vue'
 import { useMemberStore } from '@/stores/modules/member'
+import type { ProfileParams } from '@/types/member'
+import { putMemberProfileAPI } from '@/services/profile'
 const memberStore = useMemberStore()
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
+// 36-2.7 个人信息数据需要定义初始值才能进行修改（空对象 ProfileDetail类型）
+const profile = ref({} as ProfileDetail)
 // 35-2.6 profile.vue 定义个人信息数据profile及类型
-const profile = ref<ProfileDetail>()
+// const profile = ref<ProfileDetail>()
 // 35-2.2 调用个人信息接口,获取用户信息
 const getMemberProfileData = async () => {
   const res = await getMemberProfileAPI()
@@ -63,6 +67,18 @@ const onAvatarChange = () => {
     },
   })
 }
+
+// 36-2.5 处理提交事件,导入调用修改个人信息接口,
+// 将profile中的数据传递给接口，提示修改成功
+const onSubmit = async () => {
+  const res = await putMemberProfileAPI({
+    nickname: profile.value!.nickname,
+  })
+  uni.showToast({
+    title: '保存成功',
+    icon: 'success',
+  })
+}
 </script>
 
 <template>
@@ -91,11 +107,12 @@ const onAvatarChange = () => {
         </view>
         <view class="form-item">
           <text class="label">昵称</text>
+          <!-- 36-2.6 昵称:value改成v-model实现数据双向绑定 -->
           <input
+            v-model="profile!.nickname"
             class="input"
             type="text"
             placeholder="请填写昵称"
-            :value="profile?.nickname"
             readonly
           />
         </view>
@@ -139,8 +156,8 @@ const onAvatarChange = () => {
           <input class="input" type="text" placeholder="请填写职业" :value="profile?.profession" />
         </view>
       </view>
-      <!-- 提交按钮 -->
-      <button class="form-button">保 存</button>
+      <!-- 36-2.4 注册点击保存事件 -->
+      <button @tap="onSubmit" class="form-button">保 存</button>
     </view>
   </view>
 </template>
