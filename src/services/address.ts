@@ -13,3 +13,12 @@ export const postMemberAddressAPI = (data: AddressParams) => {
 export const getMemberAddressListAPI = () => {
   return promise<AddressItem[]>({ url: '/member/address', method: 'GET' })
 }
+
+// 37-4.1 address.ts 封装收货地址详情接口
+export const getMemberAddressDetailAPI = (id: string) => {
+  // 37-4.2 接口返回类型为AddressItem
+  return promise<AddressItem>({
+    url: `/member/address/${id}`,
+    method: 'GET',
+  })
+}

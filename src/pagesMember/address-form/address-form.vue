@@ -1,14 +1,8 @@
 <!-- 37-1.1 创建新增/修改地址页分包pagesMember/address-form.vue -->
 <script setup lang="ts">
-import { postMemberAddressAPI } from '@/services/address'
+import { postMemberAddressAPI, getMemberAddressDetailAPI } from '@/services/address'
 import { ref } from 'vue'
-
-// 37-1.3 获取address.vue传递给address-form.vue的页面参数
-const query = defineProps<{ id?: string }>()
-// 37-1.4 根据参数是否有id动态设置修改/新建地址标题
-uni.setNavigationBarTitle({
-  title: query.id ? '修改地址' : '新建地址',
-})
+import { onLoad } from '@dcloudio/uni-app'
 
 // 37-2.4 address-form定义表单数据
 const form = ref({
@@ -20,6 +14,27 @@ const form = ref({
   countyCode: '', // 区/县编码(后端参数)
   address: '', // 详细地址
   isDefault: 0, // 默认地址，1为是，0为否
+})
+
+// 37-4.3 address-form调用获取地址详情API，存在id传递地址id，获取地址详情
+const getMemberAddressByIdData = async () => {
+  if (query.id) {
+    const res = await getMemberAddressDetailAPI(query.id)
+    // 37-4.5 获取地址详情，Object.assign将信息赋值给form表单，显示渲染在页面上
+    Object.assign(form.value, res.result)
+  }
+}
+
+// 37-4.4 页面加载时,获取该地址id地址详情
+onLoad(async () => {
+  await getMemberAddressByIdData()
+})
+
+// 37-1.3 获取address.vue传递给address-form.vue的页面参数
+const query = defineProps<{ id?: string }>()
+// 37-1.4 根据参数是否有id动态设置修改/新建地址标题
+uni.setNavigationBarTitle({
+  title: query.id ? '修改地址' : '新建地址',
 })
 
 const onRegionChange = (e: any) => {
