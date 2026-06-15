@@ -15,3 +15,10 @@ export type AddressParams = {
   /** 默认地址，1为是，0为否 */
   isDefault: number
 }
+
+// 37-3.4 address.d.ts定义收获地址列表数据类型AddressItem
+export type AddressItem = AddressParams & {
+  /** 收货地址列表 */
+  id: string
+  fullLocation: string
+}
