@@ -1,11 +1,19 @@
-<!-- 7-1.1 创建新增/修改地址页分包pagesMember/address-form.vue -->
+<!-- 37-1.1 创建新增/修改地址页分包pagesMember/address-form.vue -->
 <script setup lang="ts">
+import { postMemberAddressAPI } from '@/services/address'
 import { ref } from 'vue'
 
-// 表单数据
+// 37-1.3 获取address.vue传递给address-form.vue的页面参数
+const query = defineProps<{ id?: string }>()
+// 37-1.4 根据参数是否有id动态设置修改/新建地址标题
+uni.setNavigationBarTitle({
+  title: query.id ? '修改地址' : '新建地址',
+})
+
+// 37-2.4 address-form定义表单数据
 const form = ref({
-  receiver: '', // 收货人
-  contact: '', // 联系方式
+  receiver: '小样', // 收货人
+  contact: '19151878176', // 联系方式
   fullLocation: '', // 省市区(前端展示)
   provinceCode: '', // 省份编码(后端参数)
   cityCode: '', // 城市编码(后端参数)
@@ -14,45 +22,87 @@ const form = ref({
   isDefault: 0, // 默认地址，1为是，0为否
 })
 
-// 37-1.3 获取address.vue传递给address-form.vue的页面参数
-const query = defineProps<{ id?: string }>()
-// 37-1.4 根据参数是否有id动态设置修改/新建地址标题
-uni.setNavigationBarTitle({
-  title: query.id ? '修改地址' : '新建地址',
-})
+const onRegionChange = (e: any) => {
+  // 37-2.6.2 获取并赋值所选择的地区
+  form.value.fullLocation = e.detail.value.join(' ')
+  // 37-2.6.3 解构获取所选择的地区编码
+  if (e.detail.code) {
+    const [provinceCode, cityCode, countyCode] = e.detail.code!
+    // 37-2.6.4 获取选择的地区编码用于传递给后端
+    Object.assign(form.value, { provinceCode, cityCode, countyCode })
+    // form.value.provinceCode = provinceCode
+  }
+}
+
+const onSwitchChange: UniHelper.SwitchOnChange = (e: any) => {
+  // 37-2.7.2 获取并赋值是否设置为默认地址的状态
+  form.value.isDefault = e.detail.value ? 1 : 0
+}
+
+// 37-2.8.2 处理提交事件,将收集到的表单数据提交至后端接口
+const onSubmit = async () => {
+  await postMemberAddressAPI(form.value)
+  // 37-2.8.3 提交成功,显示成功提示,并返回上一页
+  uni.showToast({
+    title: '提交成功',
+    icon: 'success',
+  })
+  setTimeout(() => {
+    uni.navigateBack()
+  }, 1000)
+}
 </script>
 
 <template>
   <view class="content">
     <form>
       <!-- 表单内容 -->
+      <!-- 37-2.5 绑定收集表单数据 -->
       <view class="form-item">
         <text class="label">收货人</text>
-        <input class="input" placeholder="请填写收货人姓名" value="" />
+        <!-- 37-2.5.1 v-model 绑定收集收货人姓名 -->
+        <input v-model="form.receiver" class="input" placeholder="请填写收货人姓名" />
       </view>
       <view class="form-item">
         <text class="label">手机号码</text>
-        <input class="input" placeholder="请填写收货人手机号码" value="" />
+        <!-- 37-2.5.2 v-model 绑定收集收货人手机号码 -->
+        <input v-model="form.contact" class="input" placeholder="请填写收货人手机号码" />
       </view>
       <view class="form-item">
         <text class="label">所在地区</text>
-        <picker class="picker" mode="region" value="">
-          <view v-if="false">广东省 广州市 天河区</view>
+        <!-- 37-2.6.1 @change事件获取所选择的地区 -->
+        <!-- 37-2.6.3 :value 绑定收集所选择的地区 -->
+        <picker
+          @change="onRegionChange"
+          :value="form.fullLocation.split(' ')"
+          class="picker"
+          mode="region"
+        >
+          <view v-if="form.fullLocation">{{ form.fullLocation }}</view>
           <view v-else class="placeholder">请选择省/市/区(县)</view>
         </picker>
       </view>
       <view class="form-item">
         <text class="label">详细地址</text>
-        <input class="input" placeholder="街道、楼牌号等信息" value="" />
+        <!-- 37-2.5.3 v-model 绑定收集详细地址 -->
+        <input v-model="form.address" class="input" placeholder="街道、楼牌号等信息" />
       </view>
       <view class="form-item">
         <label class="label">设为默认地址</label>
-        <switch class="switch" color="#27ba9b" :checked="true" />
+        <!-- 37-2.7.1 添加@change是否设置为默认地址 -->
+        <!-- 37-2.7.3 :checked 绑定收集是否默认地址的状态,1为是 选中设置高亮,0为否 -->
+        <switch
+          @change="onSwitchChange"
+          :checked="form.isDefault === 1"
+          class="switch"
+          color="#27ba9b"
+        />
       </view>
     </form>
   </view>
   <!-- 提交按钮 -->
-  <button class="button">保存并使用</button>
+  <!-- 37-2.8.1 保存按钮，注册提交事件 -->
+  <button @tap="onSubmit" class="button">保存并使用</button>{{ form }}
 </template>
 
 <style lang="scss">
