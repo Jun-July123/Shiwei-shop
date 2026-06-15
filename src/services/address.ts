@@ -31,3 +31,11 @@ export const putMemberAddressByIdAPI = (id: string, data: AddressParams) => {
     data,
   })
 }
+
+// 37-7.5 封装删除地址接口(接收地址id)
+export const deleteMemberAddressAPI = (id: string) => {
+  return promise({
+    method: 'DELETE',
+    url: `/member/address/${id}`,
+  })
+}
