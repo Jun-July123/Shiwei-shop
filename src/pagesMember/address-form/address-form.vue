@@ -1,6 +1,10 @@
 <!-- 37-1.1 创建新增/修改地址页分包pagesMember/address-form.vue -->
 <script setup lang="ts">
-import { postMemberAddressAPI, getMemberAddressDetailAPI } from '@/services/address'
+import {
+  postMemberAddressAPI,
+  getMemberAddressDetailAPI,
+  putMemberAddressByIdAPI,
+} from '@/services/address'
 import { ref } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 
@@ -54,12 +58,18 @@ const onSwitchChange: UniHelper.SwitchOnChange = (e: any) => {
   form.value.isDefault = e.detail.value ? 1 : 0
 }
 
-// 37-2.8.2 处理提交事件,将收集到的表单数据提交至后端接口
 const onSubmit = async () => {
-  await postMemberAddressAPI(form.value)
+  if (query.id) {
+    // 37-5.2 提交表单，存在id，调用修改地址接口，传递地址id和表单数据
+    await putMemberAddressByIdAPI(query.id, form.value)
+  } else {
+    // 37-2.8.2 处理提交事件,将收集到的表单数据提交至后端新增地址接口
+    await postMemberAddressAPI(form.value)
+  }
   // 37-2.8.3 提交成功,显示成功提示,并返回上一页
   uni.showToast({
-    title: '提交成功',
+    // 37-5.3 提交成功，存在id显示修改成功，否则提交成功
+    title: query.id ? '修改地址成功' : '新增地址成功',
     icon: 'success',
   })
   setTimeout(() => {

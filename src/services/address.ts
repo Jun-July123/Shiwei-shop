@@ -22,3 +22,12 @@ export const getMemberAddressDetailAPI = (id: string) => {
     method: 'GET',
   })
 }
+
+// 37-5.1 address.ts 封装修改地址接口(接收id和请求参数表单数据)
+export const putMemberAddressByIdAPI = (id: string, data: AddressParams) => {
+  return promise({
+    method: 'PUT',
+    url: `/member/address/${id}`,
+    data,
+  })
+}
