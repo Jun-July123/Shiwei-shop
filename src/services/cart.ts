@@ -1,10 +1,21 @@
 // 38-5.2 创建service/cart.ts封装加入购物车接口，接收skuId和count参数
 import { promise } from '@/utils/http'
+import type { CartItem } from '@/types/cart.d'
 
 export const postMemberCartAPI = (data: { skuId: string; count: number }) => {
   return promise({
     url: '/member/cart',
     method: 'POST',
     data,
+  })
+}
+
+// 39-1.4 cart.ts封装获取购物车列表接口
+export const getMemberCartAPI = () => {
+  // 39-1.7.2 cart.ts导入购物车类型，定义购物车列表API返回值类型
+  return promise<CartItem[]>({
+    // @ts-ignore
+    url: '/member/cart',
+    method: 'GET',
   })
 }

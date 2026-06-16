@@ -44,9 +44,10 @@ const loginSuccess = (profile: LoginResult) => {
   })
   // 32-3.5 登录成功后，停留1.5秒后跳转到开发页面首页
   setTimeout(() => {
-    uni.switchTab({
-      url: '/pages/my/my',
-    })
+    // uni.switchTab({ url: '/pages/my/my' })
+    // 39-1.3 重新设置登录成功后跳转页面，跳转至上一页
+    // （购物车页面显示未登录，点击登录之后，跳转至购物车页面）
+    uni.navigateBack()
   }, 1500)
 }
 </script>
