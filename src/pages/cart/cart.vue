@@ -77,6 +77,33 @@ const onChangeSelectedAll = () => {
   // 39-4.7 调用全选反选商品接口，传递选中状态参数，后端更新购物车商品全选反选状态
   putMemberCartSelectedAPI({ selected: _isSelectedAll })
 }
+
+// 39-5.1 computed计算filter过滤出购物车选中的商品列表
+const selectedCartList = computed(() => {
+  return cartList.value.filter((item) => item.selected)
+})
+
+// 39-5.2 computed计算reduce遍历出商品选中的总件数
+const selectedCartListCount = computed((item) => {
+  return selectedCartList.value.reduce((sum, item) => sum + item.count, 0)
+})
+
+// 39-5.4 computed计算reduce遍历出商品选中的总金额
+const selectedCartListMoney = computed(() => {
+  return selectedCartList.value
+    .reduce((sum, item) => sum + item.count * item.nowPrice, 0)
+    .toFixed(2)
+})
+
+// 39-5.7 结算事件
+const gotoPayment = () => {
+  // 39-5.7.1 判断是否有选中的商品，没有选中的商品提示用户选择商品
+  if (selectedCartListCount.value === 0) {
+    return uni.showToast({ title: '请选择商品', icon: 'none' })
+  }
+  // 39-5.7.2 有选中的商品，跳转结算页面（目前先提示用户结算中）
+  uni.showToast({ title: '结算中...' })
+}
 </script>
 
 <template>
@@ -156,9 +183,18 @@ const onChangeSelectedAll = () => {
         <!-- 39-4.4 注册全选反选点击事件-->
         <text @tap="onChangeSelectedAll" class="all" :class="{ checked: isSellectAll }">全选</text>
         <text class="text">合计:</text>
-        <text class="amount">100</text>
+        <!-- 39-5.5 渲染选中的商品总金额 -->
+        <text class="amount">{{ selectedCartListMoney }}</text>
         <view class="button-grounp">
-          <view class="button payment-button" :class="{ disabled: true }"> 去结算(10) </view>
+          <!-- 39-5.3 渲染选中的总件数，当商品选中的总件数为0时，添加禁用类 -->
+          <!-- 39-5.6 结算按钮注册去结算点击事件 -->
+          <view
+            @tap="gotoPayment"
+            class="button payment-button"
+            :class="{ disabled: selectedCartListCount === 0 }"
+          >
+            去结算({{ selectedCartListCount }})
+          </view>
         </view>
       </view>
     </template>
