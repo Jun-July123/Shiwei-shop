@@ -34,6 +34,13 @@
 				"navigationBarTitleText": "购物车"
 			}
 		},
+		// 39-6.5 pages.json配置cart2.vue购物车普通页路由
+		{
+			"path": "pages/cart/cart2",
+			"style": {
+				"navigationBarTitleText": "购物车"
+			}
+		},
 		{
 			"path": "pages/category/category",
 			"style": {

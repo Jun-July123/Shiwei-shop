@@ -250,7 +250,8 @@ const onAddCart = (ev: SkuPopupEvent) => {
       <button class="icons-button" open-type="contact">
         <text class="icon-handset"></text>客服
       </button>
-      <navigator class="icons-button" url="/pages/cart/cart" open-type="switchTab">
+      <!-- 39-6.6 goods.vue点击购物车，跳转到购物车普通页cart2（有返回箭头） -->
+      <navigator class="icons-button" url="/pages/cart/cart2" open-type="navigate">
         <text class="icon-cart"></text>购物车
       </navigator>
     </view>
