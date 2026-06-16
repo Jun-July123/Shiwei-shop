@@ -8,12 +8,12 @@ import type { GoodsResult } from '@/types/goods'
 import { ref } from 'vue'
 import ServicePanel from './components/ServicePanel.vue'
 import AddressPanel from './components/AddressPanel.vue'
+import type { SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
 
 // 30-1.3 defineProps接收category传递的商品id
 const query = defineProps<{
   id: string
 }>()
-
 // 30-2.3 goods.vue定义商品goods为GoodsResult类型
 const goods = ref<GoodsResult>()
 // 30-1.6 导入调用商品详情接口获取商品详情
@@ -21,6 +21,23 @@ const getGoodsByIdData = async () => {
   const res = await getGoodsByIdAPI(query.id)
   // 30-2.4 获取商品详情数据，赋值给goods.value
   goods.value = res.result
+
+  // 38-2.4 将获取到的商品详情数据转换为sku组件所需格式
+  localdata.value = {
+    _id: res.result.id,
+    name: res.result.name,
+    goods_thumb: res.result.mainPictures[0],
+    spec_list: res.result.specs.map((v) => ({ name: v.name, list: v.values })),
+    sku_list: res.result.skus.map((v) => ({
+      _id: v.id,
+      goods_id: res.result.id,
+      goods_name: res.result.name,
+      image: v.picture,
+      price: v.price * 100, // 注意：需要乘以 100
+      stock: v.inventory,
+      sku_name_arr: v.specs.map((vv) => vv.valueName),
+    })),
+  }
 }
 
 // 30-1.7 页面加载时调用商品详情接口获取商品详情
@@ -56,9 +73,16 @@ const openPopup = (name: typeof popupName.value) => {
   popupName.value = name
   popup.value?.open()
 }
-</script>
 
+// sku列表
+const isShowSku = ref(false)
+// 38-2.3 定义localdata类型为SkuPopupLocaldata
+const localdata = ref({} as SkuPopupLocaldata)
+</script>
 <template>
+  <!-- 38-2.2 goods.vue使用sku弹窗组件，绑定isShowSku变量控制弹窗显示隐藏 -->
+  <!-- 38-2.3 添加:localdata属性绑定localdata -->
+  <vk-data-goods-sku-popup v-model="isShowSku" :localdata="localdata" />
   <scroll-view scroll-y class="viewport">
     <!-- 基本信息 -->
     <view class="goods">
@@ -92,7 +116,8 @@ const openPopup = (name: typeof popupName.value) => {
 
       <!-- 操作面板 -->
       <view class="action">
-        <view class="item arrow">
+        <!-- 38-2.5 选择商品规格绑定点击事件，打开sku弹窗 -->
+        <view @tap="isShowSku = true" class="item arrow">
           <text class="label">选择</text>
           <text class="text ellipsis"> 请选择商品规格 </text>
         </view>

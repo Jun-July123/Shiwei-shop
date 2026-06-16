@@ -1,6 +1,6 @@
 <!-- 38-1.1 下载sku插件 -->
 <!-- 38-1.2 将插件的vk-data-goods-sku-popup及vk-data-input-number-box引入到项目components中 -->
-<!-- 38-1.3 cart.vue中使用sku组件 -->
+<!-- 38-1.3 cart.vue中使用sku组件,导入模板测试 -->
 <template>
   <view class="test" style="padding: 3rem 1.5rem">
     <geek-sku
@@ -22,6 +22,7 @@
 import { ref, reactive, inject, toRefs } from 'vue'
 import { onLoad } from '@dcloudio/uni-app'
 
+// sku列表
 let skuShow = ref(false)
 // sku列表
 let skus = ref([
