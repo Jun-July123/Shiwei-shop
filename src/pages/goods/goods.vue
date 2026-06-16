@@ -11,7 +11,9 @@ import AddressPanel from './components/AddressPanel.vue'
 import type {
   SkuPopupLocaldata,
   SkuPopupInstanceType,
+  SkuPopupEvent,
 } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
+import { postMemberCartAPI } from '@/services/cart'
 
 // 30-1.3 defineProps接收category传递的商品id
 const query = defineProps<{
@@ -103,6 +105,23 @@ const skuPopupRef = ref<SkuPopupInstanceType>()
 const slectArrText = computed(() => {
   return skuPopupRef.value?.selectArr?.join(' ').trim() || '请选择商品规格'
 })
+
+// 38-5.3 添加购物车事件，调用加入购物车接口，传递商品skuId和count
+const onAddCart = (ev: SkuPopupEvent) => {
+  console.log(ev)
+  postMemberCartAPI({
+    skuId: ev._id,
+    count: ev.buy_num,
+  })
+  // 38-5.4 加入购物车成功后，显示成功提示,并关闭弹出弹窗
+  uni.showToast({
+    title: '加入购物车成功',
+    icon: 'success',
+  })
+  setTimeout(() => {
+    isShowSku.value = false
+  }, 1000)
+}
 </script>
 <template>
   <!-- 38-2.2 goods.vue使用sku弹窗组件，绑定isShowSku变量控制弹窗显示隐藏 -->
@@ -111,7 +130,9 @@ const slectArrText = computed(() => {
   <!-- 38-3.7 定义购物车和购买按钮背景颜色 -->
   <!-- 38-4.1 ref绑定sku弹窗组件 -->
   <!-- 38-4.4 定义sku弹窗选中商品规格的显示样式 -->
+  <!-- 38-5.1 sku弹窗注册添加购物车事件 -->
   <vk-data-goods-sku-popup
+    @add-cart="onAddCart"
     ref="skuPopupRef"
     :active-style="{
       color: '#27BA9B',
