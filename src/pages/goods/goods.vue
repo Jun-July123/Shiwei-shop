@@ -5,10 +5,13 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 import { getGoodsByIdAPI } from '@/services/goods'
 import { onLoad } from '@dcloudio/uni-app'
 import type { GoodsResult } from '@/types/goods'
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 import ServicePanel from './components/ServicePanel.vue'
 import AddressPanel from './components/AddressPanel.vue'
-import type { SkuPopupLocaldata } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
+import type {
+  SkuPopupLocaldata,
+  SkuPopupInstanceType,
+} from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
 
 // 30-1.3 defineProps接收category传递的商品id
 const query = defineProps<{
@@ -94,13 +97,27 @@ const openSkuPopup = (val: SkuMode) => {
   // 38-3.3.2 根据点击按钮模式，更新mode.value
   mode.value = val
 }
+// 38-4.2 获取sku弹窗组件实例，类型为SkuPopupInstanceType
+const skuPopupRef = ref<SkuPopupInstanceType>()
+// 38-4.3 计算获取sku弹窗内选中的商品规格,并显示在页面
+const slectArrText = computed(() => {
+  return skuPopupRef.value?.selectArr?.join(' ').trim() || '请选择商品规格'
+})
 </script>
 <template>
   <!-- 38-2.2 goods.vue使用sku弹窗组件，绑定isShowSku变量控制弹窗显示隐藏 -->
   <!-- 38-2.3 添加:localdata属性绑定localdata -->
   <!-- 38-3.1 sku弹出配置mode模式 -->
   <!-- 38-3.7 定义购物车和购买按钮背景颜色 -->
+  <!-- 38-4.1 ref绑定sku弹窗组件 -->
+  <!-- 38-4.4 定义sku弹窗选中商品规格的显示样式 -->
   <vk-data-goods-sku-popup
+    ref="skuPopupRef"
+    :active-style="{
+      color: '#27BA9B',
+      borderColor: '#27BA9B',
+      backgroundColor: '#27BA9B',
+    }"
     :mode="mode"
     add-cart-background-color="#FFA868"
     buy-now-background-color="#27BA9B"
@@ -144,7 +161,7 @@ const openSkuPopup = (val: SkuMode) => {
         <!-- 38-3.4 点击选择，调用openSkuPopup传递SkuMode.Both，显示购物车和购买按钮 -->
         <view @tap="openSkuPopup(SkuMode.Both)" class="item arrow">
           <text class="label">选择</text>
-          <text class="text ellipsis"> 请选择商品规格 </text>
+          <text class="text ellipsis"> {{ slectArrText }} </text>
         </view>
         <!-- 31-3.6 地址/服务绑定打开弹出层事件，传递弹出层名称参数 -->
         <view @tap="openPopup('address')" class="item arrow">
