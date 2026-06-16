@@ -78,11 +78,35 @@ const openPopup = (name: typeof popupName.value) => {
 const isShowSku = ref(false)
 // 38-2.3 定义localdata类型为SkuPopupLocaldata
 const localdata = ref({} as SkuPopupLocaldata)
+
+// 38-3.2 枚举定义sku弹窗按钮模式
+enum SkuMode {
+  Both = 1, //弹窗显示购物车和购买按钮
+  Cart = 2, //弹窗显示购物车按钮
+  Buy = 3, //弹窗显示购买按钮
+}
+const mode = ref<SkuMode>(SkuMode.Both)
+
+// 38-3.3 点击不同按钮显示不同sku模式
+const openSkuPopup = (val: SkuMode) => {
+  // 38-3.3.1 显示sku弹窗
+  isShowSku.value = true
+  // 38-3.3.2 根据点击按钮模式，更新mode.value
+  mode.value = val
+}
 </script>
 <template>
   <!-- 38-2.2 goods.vue使用sku弹窗组件，绑定isShowSku变量控制弹窗显示隐藏 -->
   <!-- 38-2.3 添加:localdata属性绑定localdata -->
-  <vk-data-goods-sku-popup v-model="isShowSku" :localdata="localdata" />
+  <!-- 38-3.1 sku弹出配置mode模式 -->
+  <!-- 38-3.7 定义购物车和购买按钮背景颜色 -->
+  <vk-data-goods-sku-popup
+    :mode="mode"
+    add-cart-background-color="#FFA868"
+    buy-now-background-color="#27BA9B"
+    v-model="isShowSku"
+    :localdata="localdata"
+  />
   <scroll-view scroll-y class="viewport">
     <!-- 基本信息 -->
     <view class="goods">
@@ -117,7 +141,8 @@ const localdata = ref({} as SkuPopupLocaldata)
       <!-- 操作面板 -->
       <view class="action">
         <!-- 38-2.5 选择商品规格绑定点击事件，打开sku弹窗 -->
-        <view @tap="isShowSku = true" class="item arrow">
+        <!-- 38-3.4 点击选择，调用openSkuPopup传递SkuMode.Both，显示购物车和购买按钮 -->
+        <view @tap="openSkuPopup(SkuMode.Both)" class="item arrow">
           <text class="label">选择</text>
           <text class="text ellipsis"> 请选择商品规格 </text>
         </view>
@@ -192,8 +217,10 @@ const localdata = ref({} as SkuPopupLocaldata)
       </navigator>
     </view>
     <view class="buttons">
-      <view class="addcart"> 加入购物车 </view>
-      <view class="buynow"> 立即购买 </view>
+      <!-- 38-3.5 点击加入购物车，调用openSkuPopup传递SkuMode.Cart，显示购物车按钮 -->
+      <view @tap="openSkuPopup(SkuMode.Cart)" class="addcart"> 加入购物车 </view>
+      <!-- 38-3.6 点击立即购买，调用openSkuPopup传递SkuMode.Buy，显示购买按钮 -->
+      <view @tap="openSkuPopup(SkuMode.Buy)" class="buynow"> 立即购买 </view>
     </view>
   </view>
 
