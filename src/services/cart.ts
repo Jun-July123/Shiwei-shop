@@ -19,3 +19,12 @@ export const getMemberCartAPI = () => {
     method: 'GET',
   })
 }
+
+// 39-2.1 cart.ts封装删除购物车商品接口，接收ids参数
+export const deleteMemberCartAPI = (data: { ids: string[] }) => {
+  return promise({
+    url: '/member/cart',
+    method: 'DELETE',
+    data,
+  })
+}
