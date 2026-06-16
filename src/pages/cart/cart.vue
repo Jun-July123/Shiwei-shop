@@ -5,9 +5,9 @@ import { onShow } from '@dcloudio/uni-app'
 import { getMemberCartAPI, deleteMemberCartAPI } from '@/services/cart'
 const memberStore = useMemberStore()
 import type { CartItem } from '@/types/cart.d'
-import { putMemberCartBySkuIdAPI } from '@/services/cart'
+import { putMemberCartBySkuIdAPI, putMemberCartSelectedAPI } from '@/services/cart'
 
-import { ref } from 'vue'
+import { computed, ref } from 'vue'
 import type { InputNumberBoxEvent } from '@/components/vk-data-input-number-box/vk-data-input-number-box'
 // 37-1.7.3 cart.vue定义购物车列表类型为CartItem[]类型
 const cartList = ref<CartItem[]>([])
@@ -50,6 +50,33 @@ const onChangeCount = (ev: InputNumberBoxEvent) => {
   // 调用更新购物车商品接口putMemberCartBySkuIdAPI，传递唯一标识商品skuId和数量参数
   putMemberCartBySkuIdAPI(ev.index, { count: ev.value })
 }
+
+// 39-4.2 商品选中事件，更新商品选中状态
+const onChangeSelected = (item: CartItem) => {
+  // 39-4.2.1 取反切换商品选中状态
+  item.selected = !item.selected
+  // 39-4.2.2 调用购物车商品接口，传递唯一标识商品skuId和选中状态参数，后端更新单品选中状态
+  putMemberCartBySkuIdAPI(item.skuId, { selected: item.selected })
+}
+
+// 39-4.3 计算全选
+// 39-4.3.1 定义computed属性全选状态isSellectAll
+const isSellectAll = computed(() => {
+  // 39-4.3.2 every遍历购物车列表，判断所有商品是否选中
+  return cartList.value.length && cartList.value.every((v) => v.selected)
+})
+
+// 39-4.5 全选反选事件-->
+const onChangeSelectedAll = () => {
+  // 39-4.5.1 获取当前的选中状态，并取反
+  const _isSelectedAll = !isSellectAll.value
+  // 39-4.5.2 切换所有商品选中状态
+  cartList.value.forEach((v) => {
+    v.selected = _isSelectedAll
+  })
+  // 39-4.7 调用全选反选商品接口，传递选中状态参数，后端更新购物车商品全选反选状态
+  putMemberCartSelectedAPI({ selected: _isSelectedAll })
+}
 </script>
 
 <template>
@@ -73,7 +100,12 @@ const onChangeCount = (ev: InputNumberBoxEvent) => {
             <!-- 商品信息 -->
             <view class="goods">
               <!-- 选中状态 -->
-              <text class="checkbox" :class="{ checked: item.selected }"></text>
+              <!-- 39-4.1 商品选中状态注册点击事件，传递商品item-->
+              <text
+                @tap="onChangeSelected(item)"
+                class="checkbox"
+                :class="{ checked: item.selected }"
+              ></text>
               <navigator
                 :url="`/pages/goods/goods?id=${item.id}`"
                 hover-class="none"
@@ -120,7 +152,9 @@ const onChangeCount = (ev: InputNumberBoxEvent) => {
       </view>
       <!-- 吸底工具栏 -->
       <view class="toolbar">
-        <text class="all" :class="{ checked: true }">全选</text>
+        <!-- 39-4.1 isSelected决定是否添加全选类 -->
+        <!-- 39-4.4 注册全选反选点击事件-->
+        <text @tap="onChangeSelectedAll" class="all" :class="{ checked: isSellectAll }">全选</text>
         <text class="text">合计:</text>
         <text class="amount">100</text>
         <view class="button-grounp">

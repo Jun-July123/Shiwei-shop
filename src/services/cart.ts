@@ -40,3 +40,12 @@ export const putMemberCartBySkuIdAPI = (
     data,
   })
 }
+
+// 39-4.6 cart.ts封装全选反选商品接口，接收selected参数
+export const putMemberCartSelectedAPI = (data: { selected: boolean }) => {
+  return promise({
+    url: '/member/cart/selected',
+    method: 'PUT',
+    data,
+  })
+}
