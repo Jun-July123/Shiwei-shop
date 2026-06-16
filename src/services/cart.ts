@@ -28,3 +28,15 @@ export const deleteMemberCartAPI = (data: { ids: string[] }) => {
     data,
   })
 }
+
+// 39-3.5 cart.ts封装更新购物车商品接口，接收skuId,商品选中状态selected和数量count参数
+export const putMemberCartBySkuIdAPI = (
+  skuId: string,
+  data: { selected?: boolean; count?: number },
+) => {
+  return promise({
+    url: `/member/cart/${skuId}`,
+    method: 'PUT',
+    data,
+  })
+}

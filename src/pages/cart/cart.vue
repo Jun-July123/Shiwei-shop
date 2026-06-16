@@ -5,8 +5,10 @@ import { onShow } from '@dcloudio/uni-app'
 import { getMemberCartAPI, deleteMemberCartAPI } from '@/services/cart'
 const memberStore = useMemberStore()
 import type { CartItem } from '@/types/cart.d'
+import { putMemberCartBySkuIdAPI } from '@/services/cart'
 
 import { ref } from 'vue'
+import type { InputNumberBoxEvent } from '@/components/vk-data-input-number-box/vk-data-input-number-box'
 // 37-1.7.3 cart.vue定义购物车列表类型为CartItem[]类型
 const cartList = ref<CartItem[]>([])
 
@@ -42,6 +44,12 @@ onShow(() => {
     getMemberCartData()
   }
 })
+
+// 39-3.6  商品数量变化事件，更新商品数量
+const onChangeCount = (ev: InputNumberBoxEvent) => {
+  // 调用更新购物车商品接口putMemberCartBySkuIdAPI，传递唯一标识商品skuId和数量参数
+  putMemberCartBySkuIdAPI(ev.index, { count: ev.value })
+}
 </script>
 
 <template>
@@ -80,9 +88,16 @@ onShow(() => {
               </navigator>
               <!-- 商品数量 -->
               <view class="count">
-                <text class="text">-</text>
-                <input class="input" type="number" :value="item.count.toString()" />
-                <text class="text">+</text>
+                <!-- 39-3.2 商品数量加减结构text修改为步进器组件vk-data-input-number-box -->
+                <!-- 39-3.3 v-model绑定商品数量,min最小值,max最大值,index唯一标识商品skuId -->
+                <!-- 39-3.4 @change 监听步进器组件数量变化事件，更新商品数量 -->
+                <vk-data-input-number-box
+                  v-model="item.count"
+                  :min="1"
+                  :max="item.stock"
+                  :index="item.skuId"
+                  @change="onChangeCount"
+                />
               </view>
             </view>
             <!-- 右侧删除按钮 -->
