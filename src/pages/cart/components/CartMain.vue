@@ -3,7 +3,8 @@
 
 <!-- 39-1.1 cart.vue购物车静态结构 -->
 <script setup lang="ts">
-const { safeAreaInsets } = uni.getSystemInfoSync()
+// const { safeAreaInsets } = uni.getSystemInfoSync()
+
 import { useMemberStore } from '@/stores'
 import { onShow } from '@dcloudio/uni-app'
 import { getMemberCartAPI, deleteMemberCartAPI } from '@/services/cart'
@@ -106,8 +107,17 @@ const gotoPayment = () => {
     return uni.showToast({ title: '请选择商品', icon: 'none' })
   }
   // 39-5.7.2 有选中的商品，跳转结算页面（目前先提示用户结算中）
-  uni.showToast({ title: '结算中...' })
+  // uni.showToast({ title: '结算中...' })
+  // 40-1.8 CartMain.vue组件点击结算跳转到订单结算分包页
+  uni.navigateTo({ url: `/pagesOrder/create/create` })
 }
+
+// 新增：接收父页面传递的底部安全高度，tab页面不传默认0
+const props = defineProps<{
+  safeBottom?: number
+}>()
+// 默认兜底0，避免无传参时报错
+const safeBottom = props.safeBottom ?? 0
 </script>
 
 <template>
@@ -182,6 +192,7 @@ const gotoPayment = () => {
         </navigator>
       </view>
       <!-- 吸底工具栏 -->
+      <!-- :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' } -->
       <view class="toolbar">
         <!-- 39-4.1 isSelected决定是否添加全选类 -->
         <!-- 39-4.4 注册全选反选点击事件-->
@@ -212,7 +223,7 @@ const gotoPayment = () => {
     <!-- 猜你喜欢 -->
     <XtxGuess ref="guessRef"></XtxGuess>
     <!-- 底部占位空盒子 -->
-    <view class="toolbar-height"></view>
+    <view class="toolbar-height" :style="{ height: `${50 + safeBottom}px` }"></view>
   </scroll-view>
 </template>
 

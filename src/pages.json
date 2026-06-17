@@ -139,6 +139,17 @@
 					}
 				}
 			]
+		},
+		{
+			"root": "pagesOrder",
+			"pages": [
+				{
+					"path": "create/create",
+					"style": {
+						"navigationBarTitleText": "填写订单"
+					}
+				}
+			]
 		}
 	],
 	// 34-1.3 配置分包预下载（在my页面预下载pagesMember分包）
