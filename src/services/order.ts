@@ -43,3 +43,12 @@ export const getMemberOrderByIdAPI = (id: string) => {
     method: 'GET',
   })
 }
+
+// 41-5.1 order.ts封装模拟发货接口
+export const getMemberOrderConsignmentByIdAPI = (data: { id: string }) => {
+  return promise({
+    url: `/member/order/consignment/${data.id}`,
+    method: 'GET',
+    data,
+  })
+}

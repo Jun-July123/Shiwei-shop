@@ -3,7 +3,7 @@
 import { useGuessList } from '@/composables'
 import { ref } from 'vue'
 import { onReady, onLoad } from '@dcloudio/uni-app'
-import { getMemberOrderByIdAPI } from '@/services/order'
+import { getMemberOrderConsignmentByIdAPI, getMemberOrderByIdAPI } from '@/services/order'
 import type { OrderResult } from '@/types/order'
 import { OrderState, orderStateList } from '@/services/constants'
 import { getPayWxPayMiniPayAPI, getPayMockAPI } from '@/services/pay'
@@ -112,6 +112,21 @@ const onOrderPay = async () => {
     url: `/pagesOrder/payment/payment?id=${query.id}`,
   })
 }
+
+// 41-5.2 detail.vue定义isDev变量，判断是否为开发环境
+const isDev = import.meta.env.DEV
+
+// 41-5.5 模拟发货事件
+const onOrderSend = async () => {
+  if (isDev) {
+    // 41-5.5.1 如果当前为开发环境,调用模拟发货接口,传递订单id参数
+    await getMemberOrderConsignmentByIdAPI({ id: query.id })
+    // 41-5.5.2 模拟发货成功，提示模拟发货成功
+    uni.showToast({ title: '模拟发货成功', icon: 'success' })
+    // 41-5.5.3 发货成功后，更新订单状态为待收货
+    order.value!.orderState = OrderState.DaiShouHuo
+  }
+}
 </script>
 
 <template>
@@ -170,7 +185,16 @@ const onOrderPay = async () => {
               再次购买
             </navigator>
             <!-- 待发货状态：模拟发货,开发期间使用,用于修改订单状态为已发货 -->
-            <view v-if="false" class="button"> 模拟发货 </view>
+            <!-- 41-5.3 当在开发环境且订单状态为待发货时，显示模拟发货按钮 -->
+            <!-- 41-5.4 模拟发货注册点击事件 -->
+            <view
+              v-if="isDev && order.orderState == OrderState.DaiFaHuo"
+              @tap="onOrderSend"
+              class="button"
+            >
+              模拟发货
+            </view>
+            <view v-if="false" class="button"> 确认收货 </view>
           </view>
         </template>
       </view>
