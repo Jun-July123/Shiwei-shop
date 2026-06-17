@@ -1,7 +1,7 @@
 <!-- 40-1.1 创建订单填写分包页src/pagesOrder/create/create.vue -->
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { getMemberOrderPreAPI } from '@/services/order'
+import { getMemberOrderPreAPI, getMemberOrderPreNowAPI } from '@/services/order'
 import { onLoad } from '@dcloudio/uni-app'
 import type { OrderPreResult } from '@/types/order'
 import { useAddressStore } from '@/stores/modules/address'
@@ -28,11 +28,30 @@ const onChangeDelivery: UniHelper.SelectorPickerOnChange = (ev) => {
 // 40-1.5.3 create.vue定义预付订单信息orderPre类型为OrderPreResult
 const orderPre = ref<OrderPreResult>()
 
+// 40-3.4 create.vue接收页面参数，根据是否接收到页面参数展现订单内容立即购买页面/购物车购买
+const query = defineProps<{
+  skuId?: string
+  count?: string
+}>()
+
 // 40-1.3 create.vue调用接口获取预付订单
 const getMemberOrderPreData = async () => {
-  const res = await getMemberOrderPreAPI()
-  // 40-1.6 调用接口获取到预付订单消息后，赋值给orderPre
-  orderPre.value = res.result
+  // 40-3.4.1 接收到页面参数skuId及count，调用立即购买接口
+  // 获取立即购买数据，将数据赋值给预付订单
+  if (query.count && query.skuId) {
+    const res = await getMemberOrderPreNowAPI({
+      count: query.count,
+      skuId: query.skuId,
+    })
+    orderPre.value = res.result as OrderPreResult
+  }
+  // 40-3.4.2 接收到页面参数skuId及count，调用立即购买接口
+  // 获取立即购买数据，将数据赋值给预付订单
+  else {
+    const res = await getMemberOrderPreAPI()
+    // 40-1.6 调用接口获取到预付订单消息后，赋值给orderPre
+    orderPre.value = res.result
+  }
 }
 
 // 40-1.4 页面加载时获取预付订单

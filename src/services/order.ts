@@ -10,3 +10,16 @@ export const getMemberOrderPreAPI = () => {
     method: 'GET',
   })
 }
+
+// 40-3.1 立即购买接口,接收商品skuId和count参数
+export const getMemberOrderPreNowAPI = (data: {
+  skuId: string
+  count: string
+  addressId?: string
+}) => {
+  return promise({
+    url: '/member/order/pre/now',
+    method: 'GET',
+    data,
+  })
+}

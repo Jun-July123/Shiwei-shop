@@ -122,6 +122,13 @@ const onAddCart = (ev: SkuPopupEvent) => {
     isShowSku.value = false
   }, 1000)
 }
+
+// 40-3.3 立即购买事件,跳转至订单页面，传递商品skuId和count
+const onBuyNow = async (ev: SkuPopupEvent) => {
+  uni.navigateTo({
+    url: `/pagesOrder/create/create?skuId=${ev._id}&count=${ev.buy_num}`,
+  })
+}
 </script>
 <template>
   <!-- 38-2.2 goods.vue使用sku弹窗组件，绑定isShowSku变量控制弹窗显示隐藏 -->
@@ -131,7 +138,9 @@ const onAddCart = (ev: SkuPopupEvent) => {
   <!-- 38-4.1 ref绑定sku弹窗组件 -->
   <!-- 38-4.4 定义sku弹窗选中商品规格的显示样式 -->
   <!-- 38-5.1 sku弹窗注册添加购物车事件 -->
+  <!-- 40-3.2 goods.vue注册立即购买事件 -->
   <vk-data-goods-sku-popup
+    @buy-now="onBuyNow"
     @add-cart="onAddCart"
     ref="skuPopupRef"
     :active-style="{
