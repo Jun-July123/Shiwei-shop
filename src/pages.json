@@ -152,7 +152,10 @@
 				{
 					"path": "detail/detail",
 					"style": {
-						"navigationBarTitleText": "订单详情"
+						"navigationBarTitleText": "订单详情",
+						// 41-1.2 订单详情页自定义导航栏
+						// 41-1.2.1 pages.json设置导航样式自定义custom
+						"navigationStyle": "custom"
 					}
 				}
 			]
