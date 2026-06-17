@@ -5,6 +5,9 @@ import type {
   OrderCreateParams,
   OrderResult,
   OrderLogisticResult,
+  OrderListParams,
+  OrderListResult,
+  OrderItem,
 } from '@/types/order'
 
 // 预付订单接口
@@ -81,6 +84,17 @@ export const deleteMemberOrderAPI = (data: { ids: string[] }) => {
   return promise({
     url: `/member/order`,
     method: 'DELETE',
+    data,
+  })
+}
+
+// 42-3.5 order.ts封装获取订单列表接口，接收订单状态参数
+export const getMemberOrderAPI = (data: OrderListParams) => {
+  // 42-3.6.2 order.ts定义获取订单列表接口类型
+  // 接收的参数为OrderListParams，请求返回值类型为OrderListResult
+  return promise<OrderListResult>({
+    method: 'GET',
+    url: `/member/order`,
     data,
   })
 }

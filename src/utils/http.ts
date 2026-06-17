@@ -12,7 +12,7 @@ const httpInterceptor = {
       options.url = baseURL + options.url
     }
     // 1.4.2 设置请求超时时间（默认60s）
-    options.timeout = 10000
+    options.timeout = 60000
     // console.log(options)
 
     // 1.4.3 请求头设置
