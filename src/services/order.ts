@@ -52,3 +52,12 @@ export const getMemberOrderConsignmentByIdAPI = (data: { id: string }) => {
     data,
   })
 }
+
+// 41-6.1 order.ts封装确认收货接口，接收订单id参数，返回值类型为OrderResult
+export const putMemberOrderReceiptByIdAPI = (data: { id: string }) => {
+  return promise<OrderResult>({
+    url: `/member/order/${data.id}/receipt`,
+    method: 'PUT',
+    data,
+  })
+}

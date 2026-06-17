@@ -3,7 +3,11 @@
 import { useGuessList } from '@/composables'
 import { ref } from 'vue'
 import { onReady, onLoad } from '@dcloudio/uni-app'
-import { getMemberOrderConsignmentByIdAPI, getMemberOrderByIdAPI } from '@/services/order'
+import {
+  getMemberOrderConsignmentByIdAPI,
+  getMemberOrderByIdAPI,
+  putMemberOrderReceiptByIdAPI,
+} from '@/services/order'
 import type { OrderResult } from '@/types/order'
 import { OrderState, orderStateList } from '@/services/constants'
 import { getPayWxPayMiniPayAPI, getPayMockAPI } from '@/services/pay'
@@ -127,6 +131,25 @@ const onOrderSend = async () => {
     order.value!.orderState = OrderState.DaiShouHuo
   }
 }
+
+// 41-6.4 确认收货事件
+const onOrderConfirm = async () => {
+  // 41-6.4.1 确认收货弹窗
+  uni.showModal({
+    title: '确认收货',
+    content: '为了保障您的权益，请收到商品并确认无误后，再确认收货',
+    success: async (res) => {
+      // 41-6.4.2 确认收货，调用确认收货接口，传递订单id参数
+      if (res.confirm) {
+        await putMemberOrderReceiptByIdAPI({ id: query.id })
+        // 41-6.4.3 确认收货成功，提示确认收货成功
+        uni.showToast({ title: '确认收货成功', icon: 'success' })
+        // 41-6.4.4 确认收货成功后，更新订单状态为待评价
+        order.value!.orderState = OrderState.DaiPingJia
+      }
+    },
+  })
+}
 </script>
 
 <template>
@@ -194,7 +217,14 @@ const onOrderSend = async () => {
             >
               模拟发货
             </view>
-            <view v-if="false" class="button"> 确认收货 </view>
+            <!-- 41-6.2 当订单状态为待收货时，显示确认收货按钮 -->
+            <!-- 41-6.3 确认收货按钮注册点击事件 -->
+            <view
+              v-if="order.orderState == OrderState.DaiShouHuo"
+              @tap="onOrderConfirm"
+              class="button"
+              >确认收货
+            </view>
           </view>
         </template>
       </view>
