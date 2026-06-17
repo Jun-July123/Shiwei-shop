@@ -4,6 +4,7 @@ import { getMemberAddressListAPI, deleteMemberAddressAPI } from '@/services/addr
 import { ref } from 'vue'
 import { onShow } from '@dcloudio/uni-app'
 import type { AddressItem } from '@/types/address'
+import { useAddressStore } from '@/stores/modules/address'
 
 // 37-3.6 addressList.vue定义收货地址列表，类型为AddressItem[]
 const addressList = ref<AddressItem[]>([])
@@ -34,6 +35,16 @@ const onDeleteAddress = async (id: string) => {
     },
   })
 }
+
+// 40-2.5 切换地址事件
+const onChangeAddress = (item: AddressItem) => {
+  // 40-2.5.1 导入使用地址仓库
+  const addressStore = useAddressStore()
+  // 40-2.5.2 调用地址仓库的切换选中地址方法，传递当前选中的地址，更新选中地址
+  addressStore.changeSelectedAddress(item)
+  // 40-2.5.3 切换选中的地址后，返回上一页
+  uni.navigateBack()
+}
 </script>
 
 <template>
@@ -48,14 +59,19 @@ const onDeleteAddress = async (id: string) => {
           <!-- 37-3.8 v-for渲染收货地址列表 -->
           <!-- 37-7.3 修改view收货地址项结构为uni-swipe-action-item -->
           <uni-swipe-action-item v-for="item in addressList" :key="item.id" class="item">
-            <view class="item-content">
+            <!-- 40-2.4 pagesMember/address.vue 注册点击事件，传递当前选中的地址 -->
+            <view @tap="onChangeAddress(item)" class="item-content">
               <view class="user">
                 {{ item.receiver }}
                 <text class="contact">{{ item.contact }}</text>
                 <text v-if="item.isDefault" class="badge">默认</text>
               </view>
               <view class="locate">{{ item.fullLocation }}{{ item.address }}</view>
+              <!-- 40-2.8 address.vue 地址项添加了点击切换选中地址，然后返回上一页功能-->
+              <!-- 点击修改不再跳转到修改页面 ，添加阻止冒泡事件 -->
+              <!-- 点击修改，不受父元素的点击切换选中地址事件的影响-->
               <navigator
+                @tap.stop="() => {}"
                 class="edit"
                 hover-class="none"
                 :url="`/pagesMember/address-form/address-form?id=${item.id}`"

@@ -4,6 +4,7 @@ import { computed, ref } from 'vue'
 import { getMemberOrderPreAPI } from '@/services/order'
 import { onLoad } from '@dcloudio/uni-app'
 import type { OrderPreResult } from '@/types/order'
+import { useAddressStore } from '@/stores/modules/address'
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -38,19 +39,31 @@ const getMemberOrderPreData = async () => {
 onLoad(() => {
   getMemberOrderPreData()
 })
+
+// 40-2.6 create.vue 导入使用地址仓库
+const addressStore = useAddressStore()
+
+// 40-2.1 computed计算收find获取货地址信息
+const selectedAddress = computed(() => {
+  // return orderPre.value?.userAddresses.find((item) => item.isDefault)
+  return (
+    // 40-2.7 获取地址仓库中的选中地址，当前选中的地址不为空，则返回当前选中的地址，否则返回默认地址
+    addressStore.selectedAddress || orderPre.value?.userAddresses.find((item) => item.isDefault)
+  )
+})
 </script>
 
 <template>
   <scroll-view scroll-y class="viewport">
-    <!-- 收货地址 -->
+    <!-- 40-2.2 渲染收货地址信息 -->
     <navigator
-      v-if="false"
+      v-if="selectedAddress"
       class="shipment"
       hover-class="none"
       url="/pagesMember/address/address?from=order"
     >
-      <view class="user"> 张三 13333333333 </view>
-      <view class="address"> 广东省 广州市 天河区 黑马程序员3 </view>
+      <view class="user"> {{ selectedAddress.receiver }} {{ selectedAddress.contact }} </view>
+      <view class="address"> {{ selectedAddress.fullLocation }}{{ selectedAddress.address }} </view>
       <text class="icon icon-right"></text>
     </navigator>
     <navigator
