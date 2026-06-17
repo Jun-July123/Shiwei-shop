@@ -6,6 +6,7 @@ import { onReady, onLoad } from '@dcloudio/uni-app'
 import { getMemberOrderByIdAPI } from '@/services/order'
 import type { OrderResult } from '@/types/order'
 import { OrderState, orderStateList } from '@/services/constants'
+import { getPayWxPayMiniPayAPI, getPayMockAPI } from '@/services/pay'
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -95,6 +96,22 @@ onLoad(() => {
 const onTimeUp = () => {
   // order.value!.orderState = OrderState.YiQuXiao
 }
+
+// 41-4.4 支付事件，调用支付接口，传递订单id参数
+const onOrderPay = async () => {
+  // 41-4.9 当开发环境下，调用模拟支付接口，传递支付参数res.result
+  if (import.meta.env.DEV) {
+    await getPayMockAPI({ orderId: query.id })
+  } else {
+    const res = await getPayWxPayMiniPayAPI({ orderId: query.id })
+    // 41-4.5 调用真实微信支付接口，传递支付参数res.result
+    wx.requestPayment(res.result)
+  }
+  // 41-4.7 支付成功后，关闭当前页面，跳转到支付结果页,传递订单id参数
+  uni.redirectTo({
+    url: `/pagesOrder/payment/payment?id=${query.id}`,
+  })
+}
 </script>
 
 <template>
@@ -128,7 +145,7 @@ const onTimeUp = () => {
             <!-- 41-3.1.1 :seconds="order.countdown" 倒计时时间 -->
             <!-- 41-3.1.2 @timeup="onTimeUp" 注册倒计时结束事件 -->
             <uni-countdown
-              :seconds="order.countdown"
+              :seconds="30"
               @timeup="onTimeUp"
               color="#fff"
               :show-day="false"
@@ -136,7 +153,8 @@ const onTimeUp = () => {
               splitor-color="#fff"
             ></uni-countdown>
           </view>
-          <view class="button">去支付</view>
+          <!-- 41-4.3 支付按钮注册点击事件 -->
+          <view @tap="onOrderPay" class="button">去支付</view>
         </template>
         <!-- 其他订单状态:展示再次购买按钮 -->
         <template v-else>

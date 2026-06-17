@@ -157,6 +157,12 @@
 						// 41-1.2.1 pages.json设置导航样式自定义custom
 						"navigationStyle": "custom"
 					}
+				},
+				{
+					"path": "payment/payment",
+					"style": {
+						"navigationBarTitleText": "支付结果"
+					}
 				}
 			]
 		}
