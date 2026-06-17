@@ -75,3 +75,12 @@ export const getMemberOrderLogisticsByIdAPI = (id: string) => {
     method: 'GET',
   })
 }
+
+// 41-8.1 order.ts封装订单删除接口，接收订单id参数
+export const deleteMemberOrderAPI = (data: { ids: string[] }) => {
+  return promise({
+    url: `/member/order`,
+    method: 'DELETE',
+    data,
+  })
+}

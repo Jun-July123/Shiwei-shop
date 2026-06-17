@@ -8,6 +8,7 @@ import {
   getMemberOrderByIdAPI,
   putMemberOrderReceiptByIdAPI,
   getMemberOrderLogisticsByIdAPI,
+  deleteMemberOrderAPI,
 } from '@/services/order'
 import type { OrderResult, OrderLogisticResult, LogisticItem } from '@/types/order'
 import { OrderState, orderStateList } from '@/services/constants'
@@ -165,6 +166,27 @@ const onOrderConfirm = async () => {
         uni.showToast({ title: '确认收货成功', icon: 'success' })
         // 41-6.4.4 确认收货成功后，更新订单状态为待评价
         order.value!.orderState = OrderState.DaiPingJia
+      }
+    },
+  })
+}
+
+// 41-8.4 删除订单事件
+const onOrderDelete = () => {
+  // 41-8.4.1 确认删除弹窗
+  uni.showModal({
+    title: '删除订单',
+    content: '确认删除订单吗？',
+    success: async (res) => {
+      // 41-8.4.2 确认删除，调用删除接口，传递订单id数组参数
+      if (res.confirm) {
+        await deleteMemberOrderAPI({ ids: [query.id] })
+        // 41-8.4.3 删除订单成功，提示删除订单成功
+        uni.showToast({ title: '删除订单成功', icon: 'success' })
+        // 41-8.4.4 关闭当前页面，创建订单列表分包页，跳转至订单列表页
+        uni.redirectTo({
+          url: '/pagesOrder/list/list',
+        })
       }
     },
   })
@@ -350,7 +372,11 @@ const onOrderConfirm = async () => {
           <view class="button" v-if="order.orderState === OrderState.DaiPingJia"> 去评价 </view>
           <!-- 41-8.2.9 当订单状态为待评价/已完成/已取消时（枚举的值大于大于待评价），展示删除订单按钮 -->
           <!-- 41-8.3 删除按钮注册点击事件 -->
-          <view v-if="order.orderState >= OrderState.DaiPingJia" class="button delete">
+          <view
+            v-if="order.orderState >= OrderState.DaiPingJia"
+            @tap="onOrderDelete"
+            class="button delete"
+          >
             删除订单
           </view>
         </template>
