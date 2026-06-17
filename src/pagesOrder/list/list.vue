@@ -14,8 +14,16 @@ const orderTabs = ref([
   { orderState: 4, title: '待评价' },
 ])
 
+// 42-2.1 list.vue接收my.vue我的订单的传递的参数
+const query = defineProps<{
+  type: string
+}>()
+
+// 42-2.2 tabs的高亮下标，findIndex遍历查找orderTabs中orderState等于传递的参数的下标，
+// 根据传递的参数动态切换tab的高亮下标
+const activeIndex = ref(orderTabs.value.findIndex((v) => v.orderState === Number(query.type)))
 // 42-1.4 定义tabs的高亮下标
-const activeIndex = ref(0)
+// const activeIndex = ref(0)
 </script>
 
 <template>
