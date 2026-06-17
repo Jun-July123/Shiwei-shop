@@ -3,7 +3,7 @@
 import { useGuessList } from '@/composables'
 import { ref } from 'vue'
 import { onReady, onLoad } from '@dcloudio/uni-app'
-import { getMemberOrderDetailAPI } from '@/services/order'
+import { getMemberOrderByIdAPI } from '@/services/order'
 import type { OrderResult } from '@/types/order'
 import { OrderState, orderStateList } from '@/services/constants'
 
@@ -80,16 +80,21 @@ onReady(() => {
 const order = ref<OrderResult>()
 
 // 41-2.2 detail.vue调用订单详情接口，获取订单详情
-const getMemberOrderByIdDetail = async () => {
-  const res = await getMemberOrderDetailAPI(query.id)
+const getMemberOrderByIdData = async () => {
+  const res = await getMemberOrderByIdAPI(query.id)
   // 41-2.5 将接口获取到的订单详情赋值给order
   order.value = res.result
 }
 
 // 41-2.3 页面加载时获取订单详情
 onLoad(() => {
-  getMemberOrderByIdDetail()
+  getMemberOrderByIdData()
 })
+
+// 41-3.2 倒计时结束事件，将订单状态改为已取消
+const onTimeUp = () => {
+  // order.value!.orderState = OrderState.YiQuXiao
+}
 </script>
 
 <template>
@@ -119,7 +124,17 @@ onLoad(() => {
           <view class="tips">
             <text class="money">应付金额: ¥ 99.00</text>
             <text class="time">支付剩余</text>
-            00 时 29 分 59 秒
+            <!-- 41-3.1 uni-countdown组件实现待付款倒计时 -->
+            <!-- 41-3.1.1 :seconds="order.countdown" 倒计时时间 -->
+            <!-- 41-3.1.2 @timeup="onTimeUp" 注册倒计时结束事件 -->
+            <uni-countdown
+              :seconds="order.countdown"
+              @timeup="onTimeUp"
+              color="#fff"
+              :show-day="false"
+              :show-colon="false"
+              splitor-color="#fff"
+            ></uni-countdown>
           </view>
           <view class="button">去支付</view>
         </template>
