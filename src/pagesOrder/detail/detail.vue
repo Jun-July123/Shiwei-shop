@@ -2,7 +2,10 @@
 <script setup lang="ts">
 import { useGuessList } from '@/composables'
 import { ref } from 'vue'
-import { onReady } from '@dcloudio/uni-app'
+import { onReady, onLoad } from '@dcloudio/uni-app'
+import { getMemberOrderDetailAPI } from '@/services/order'
+import type { OrderResult } from '@/types/order'
+import { OrderState, orderStateList } from '@/services/constants'
 
 // 获取屏幕边界到安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
@@ -72,6 +75,21 @@ onReady(() => {
     endScrollOffset: 50,
   })
 })
+
+// 41-2.4.3 detail.vue定义订单详情order类型为OrderResult类型
+const order = ref<OrderResult>()
+
+// 41-2.2 detail.vue调用订单详情接口，获取订单详情
+const getMemberOrderByIdDetail = async () => {
+  const res = await getMemberOrderDetailAPI(query.id)
+  // 41-2.5 将接口获取到的订单详情赋值给order
+  order.value = res.result
+}
+
+// 41-2.3 页面加载时获取订单详情
+onLoad(() => {
+  getMemberOrderByIdDetail()
+})
 </script>
 
 <template>
@@ -91,11 +109,12 @@ onReady(() => {
     </view>
   </view>
   <scroll-view scroll-y class="viewport" id="scroller" @scrolltolower="onScrollToLower">
-    <template v-if="true">
+    <template v-if="order">
       <!-- 订单状态 -->
       <view class="overview" :style="{ paddingTop: safeAreaInsets!.top + 20 + 'px' }">
         <!-- 待付款状态:展示去支付按钮和倒计时 -->
-        <template v-if="true">
+        <!-- 41-2.6.2 导入订单状态枚举及列表，当订单状态为待付款时，展示待付款状态文字 -->
+        <template v-if="order?.orderState === OrderState.DaiFuKuan">
           <view class="status icon-clock">等待付款</view>
           <view class="tips">
             <text class="money">应付金额: ¥ 99.00</text>
@@ -107,7 +126,8 @@ onReady(() => {
         <!-- 其他订单状态:展示再次购买按钮 -->
         <template v-else>
           <!-- 订单状态文字 -->
-          <view class="status"> 待付款 </view>
+          <!-- 41-2.6.3 其他订单状态，根据订单状态列表，展示订单状态文字 -->
+          <view class="status"> {{ orderStateList[order.orderState].text }} </view>
           <view class="button-group">
             <navigator
               class="button"
