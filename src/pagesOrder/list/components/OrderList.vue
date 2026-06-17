@@ -4,6 +4,7 @@ import { ref, onMounted } from 'vue'
 import type { OrderListParams, OrderItem } from '@/types/order'
 import { OrderState, orderStateList } from '@/services/constants'
 import { getMemberOrderAPI } from '@/services/order'
+import { getPayMockAPI, getPayWxPayMiniPayAPI } from '@/services/pay'
 // 获取屏幕安全区域距离
 const { safeAreaInsets } = uni.getSystemInfoSync()
 
@@ -34,6 +35,27 @@ const getMemberOrderData = async () => {
 onMounted(() => {
   getMemberOrderData()
 })
+
+// 42-4.2 支付事件（可从detail.vue中copy修改）
+const onOrderPay = async (id: string) => {
+  // 42-4.2.1 当开发环境下，调用模拟支付接口，传递订单id参数
+  if (import.meta.env.DEV) {
+    await getPayMockAPI({ orderId: id })
+  } else {
+    const res = await getPayWxPayMiniPayAPI({ orderId: id })
+    // 42-4.2.2 否则，调用真实微信支付接口，传递支付参数res.result
+    wx.requestPayment(res.result)
+  }
+  // 42-4.2.3 支付成功后，展示支付成功提示
+  uni.showToast({
+    title: '支付成功',
+    icon: 'success',
+  })
+  // 42-4.2.4 find遍历查找订单列表中，当前订单id对应的订单项
+  const order = orderList.value.find((item) => item.id === id)
+  // 42-4.2.5 将查找到的订单项的订单状态由待支付切换为待发货
+  order!.orderState = OrderState.DaiFaHuo
+}
 </script>
 <template>
   <scroll-view scroll-y class="orders">
@@ -73,7 +95,8 @@ onMounted(() => {
       <view class="action">
         <!-- 42-3.9.4 当订单状态为待付款状态时，显示去支付按钮，否则显示再次购买按钮 -->
         <template v-if="order.orderState === OrderState.DaiFuKuan">
-          <view class="button primary">去支付</view>
+          <!-- 42-4.1 支付按钮注册点击事件，传递当前订单id -->
+          <view @tap="onOrderPay(order.id)" class="button primary">去支付</view>
         </template>
         <template v-else>
           <navigator
