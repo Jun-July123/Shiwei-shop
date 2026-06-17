@@ -1,6 +1,11 @@
 // 40-1.2 订单预付接口service/order
 import { promise } from '@/utils/http'
-import type { OrderPreResult, OrderCreateParams, OrderResult } from '@/types/order'
+import type {
+  OrderPreResult,
+  OrderCreateParams,
+  OrderResult,
+  OrderLogisticResult,
+} from '@/types/order'
 
 // 预付订单接口
 export const getMemberOrderPreAPI = () => {
@@ -59,5 +64,14 @@ export const putMemberOrderReceiptByIdAPI = (data: { id: string }) => {
     url: `/member/order/${data.id}/receipt`,
     method: 'PUT',
     data,
+  })
+}
+
+// 41-7.1 order.ts封装获取物流信息接口，接收订单id参数
+export const getMemberOrderLogisticsByIdAPI = (id: string) => {
+  // 41-7.3 定义获取物流信息接口返回值类型为OrderLogisticResult
+  return promise<OrderLogisticResult>({
+    url: `/member/order/${id}/logistics`,
+    method: 'GET',
   })
 }

@@ -7,8 +7,9 @@ import {
   getMemberOrderConsignmentByIdAPI,
   getMemberOrderByIdAPI,
   putMemberOrderReceiptByIdAPI,
+  getMemberOrderLogisticsByIdAPI,
 } from '@/services/order'
-import type { OrderResult } from '@/types/order'
+import type { OrderResult, OrderLogisticResult, LogisticItem } from '@/types/order'
 import { OrderState, orderStateList } from '@/services/constants'
 import { getPayWxPayMiniPayAPI, getPayMockAPI } from '@/services/pay'
 
@@ -89,6 +90,24 @@ const getMemberOrderByIdData = async () => {
   const res = await getMemberOrderByIdAPI(query.id)
   // 41-2.5 将接口获取到的订单详情赋值给order
   order.value = res.result
+  // 41-7.5 当获取到订单详情后，当前订单状态为待收货、待评价、已完成时获取物流信息
+  if (
+    [OrderState.DaiShouHuo, OrderState.DaiPingJia, OrderState.YiWanCheng].includes(
+      order.value!.orderState,
+    )
+  ) {
+    await getMemberOrderLogisticsByIdData()
+  }
+}
+
+// 41-7.4 detail.vue获取物流信息
+// 41-7.4.1 定义物流信息列表logisticList类型为LogisticItem[]类型
+const logisticList = ref<LogisticItem[]>([])
+// 41-7.4.2 调用获取物流信息接口，获取物流信息，传递订单id参数
+const getMemberOrderLogisticsByIdData = async () => {
+  const res = await getMemberOrderLogisticsByIdAPI(query.id)
+  // 41-7.4.3 将接口获取到的物流信息赋值给logisticList.value
+  logisticList.value = res.result.list
 }
 
 // 41-2.3 页面加载时获取订单详情
@@ -177,7 +196,7 @@ const onOrderConfirm = async () => {
         <template v-if="order?.orderState === OrderState.DaiFuKuan">
           <view class="status icon-clock">等待付款</view>
           <view class="tips">
-            <text class="money">应付金额: ¥ 99.00</text>
+            <text class="money">应付金额: ¥ {{ order.payMoney }}</text>
             <text class="time">支付剩余</text>
             <!-- 41-3.1 uni-countdown组件实现待付款倒计时 -->
             <!-- 41-3.1.1 :seconds="order.countdown" 倒计时时间 -->
@@ -230,89 +249,88 @@ const onOrderConfirm = async () => {
       </view>
       <!-- 配送状态 -->
       <view class="shipment">
-        <!-- 订单物流信息 -->
-        <view v-for="item in 1" :key="item" class="item">
+        <!-- 41-7.6 渲染订单物流信息 -->
+        <view v-for="item in logisticList" :key="item.id" class="item">
           <view class="message">
-            您已在广州市天河区黑马程序员完成取件，感谢使用菜鸟驿站，期待再次为您服务。
+            {{ item.text }}
           </view>
-          <view class="date"> 2023-04-14 13:14:20 </view>
+          <view class="date"> {{ item.time }} </view>
         </view>
         <!-- 用户收货地址 -->
         <view class="locate">
-          <view class="user"> 张三 13333333333 </view>
-          <view class="address"> 广东省 广州市 天河区 黑马程序员 </view>
+          <view class="user"> {{ order.receiverContact }} {{ order.receiverMobile }} </view>
+          <view class="address"> {{ order.receiverAddress }} </view>
         </view>
       </view>
-
-      <!-- 商品信息 -->
+      <!-- 41-8.2 整体渲染订单详情页面 -->
+      <!-- 41-8.2.1 渲染商品信息 -->
       <view class="goods">
         <view class="item">
           <navigator
             class="navigator"
-            v-for="item in 2"
-            :key="item"
-            :url="`/pages/goods/goods?id=${item}`"
+            v-for="item in order.skus"
+            :key="item.id"
+            :url="`/pages/goods/goods?id=${item.spuId}`"
             hover-class="none"
           >
-            <image
-              class="cover"
-              src="https://yanxuan-item.nosdn.127.net/c07edde1047fa1bd0b795bed136c2bb2.jpg"
-            ></image>
+            <image class="cover" :src="item.image"></image>
             <view class="meta">
-              <view class="name ellipsis">ins风小碎花泡泡袖衬110-160cm</view>
-              <view class="type">藏青小花， 130</view>
+              <view class="name ellipsis">{{ item.name }}</view>
+              <view class="type">{{ item.attrsText }}</view>
               <view class="price">
                 <view class="actual">
                   <text class="symbol">¥</text>
-                  <text>99.00</text>
+                  <text>{{ item.curPrice }}</text>
                 </view>
               </view>
-              <view class="quantity">x1</view>
+              <view class="quantity">x{{ item.quantity }}</view>
             </view>
           </navigator>
           <!-- 待评价状态:展示按钮 -->
-          <view class="action" v-if="true">
+          <!-- 41-8.2.2 当订单状态为待评价时，展示评价按钮 -->
+          <view class="action" v-if="order.orderState == OrderState.DaiPingJia">
             <view class="button primary">申请售后</view>
             <navigator url="" class="button"> 去评价 </navigator>
           </view>
         </view>
-        <!-- 合计 -->
+        <!-- 41-8.2.3 渲染订单总价 -->
         <view class="total">
           <view class="row">
             <view class="text">商品总价: </view>
-            <view class="symbol">99.00</view>
+            <view class="symbol">¥{{ order.totalMoney }}</view>
           </view>
           <view class="row">
             <view class="text">运费: </view>
-            <view class="symbol">10.00</view>
+            <view class="symbol">¥{{ order.postFee }}</view>
           </view>
           <view class="row">
             <view class="text">应付金额: </view>
-            <view class="symbol primary">109.00</view>
+            <view class="symbol primary">¥{{ order.payMoney }}</view>
           </view>
         </view>
       </view>
 
-      <!-- 订单信息 -->
       <view class="detail">
         <view class="title">订单信息</view>
         <view class="row">
-          <view class="item">
-            订单编号: {{ query.id }} <text class="copy" @tap="onCopy(query.id)">复制</text>
-          </view>
-          <view class="item">下单时间: 2023-04-14 13:14:20</view>
+          <!-- 41-8.2.4 渲染订单信息 -->
+          <view class="item"
+            >订单编号: {{ query.id }} <text class="copy" @tap="onCopy(query.id)">复制</text></view
+          >
+          <view class="item">下单时间: {{ order.createTime }}</view>
         </view>
       </view>
 
       <!-- 猜你喜欢 -->
       <XtxGuess ref="guessRef" />
 
-      <!-- 底部操作栏 -->
+      <!-- 底部操作栏-->
       <view class="toolbar-height" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }"></view>
       <view class="toolbar" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
-        <!-- 待付款状态:展示支付按钮 -->
-        <template v-if="true">
-          <view class="button primary"> 去支付 </view>
+        <!-- 41-8.2.5 当订单状态为待付款，展示支付按钮 -->
+        <template v-if="order.orderState == OrderState.DaiFuKuan">
+          <!-- 41-8.2.6 点击去支付，触发去支付事件 -->
+          <view class="button primary" @tap="onOrderPay"> 去支付 </view>
           <view class="button" @tap="popup?.open?.()"> 取消订单 </view>
         </template>
         <!-- 其他订单状态:按需展示按钮 -->
@@ -324,12 +342,17 @@ const onOrderConfirm = async () => {
           >
             再次购买
           </navigator>
-          <!-- 待收货状态: 展示确认收货 -->
-          <view class="button primary"> 确认收货 </view>
-          <!-- 待评价状态: 展示去评价 -->
-          <view class="button"> 去评价 </view>
-          <!-- 待评价/已完成/已取消 状态: 展示删除订单 -->
-          <view class="button delete"> 删除订单 </view>
+          <!-- 41-8.2.7 当订单状态为待收货状态时，展示确认收货按钮 -->
+          <view class="button primary" v-if="order.orderState === OrderState.DaiShouHuo"
+            >确认收货</view
+          >
+          <!-- 41-8.2.8 当订单状态为待评价状态时，展示去评价 -->
+          <view class="button" v-if="order.orderState === OrderState.DaiPingJia"> 去评价 </view>
+          <!-- 41-8.2.9 当订单状态为待评价/已完成/已取消时（枚举的值大于大于待评价），展示删除订单按钮 -->
+          <!-- 41-8.3 删除按钮注册点击事件 -->
+          <view v-if="order.orderState >= OrderState.DaiPingJia" class="button delete">
+            删除订单
+          </view>
         </template>
       </view>
     </template>
