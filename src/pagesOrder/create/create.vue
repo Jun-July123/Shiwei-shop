@@ -1,7 +1,7 @@
 <!-- 40-1.1 创建订单填写分包页src/pagesOrder/create/create.vue -->
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { getMemberOrderPreAPI, getMemberOrderPreNowAPI } from '@/services/order'
+import { getMemberOrderPreAPI, getMemberOrderPreNowAPI, postMemberOrderAPI } from '@/services/order'
 import { onLoad } from '@dcloudio/uni-app'
 import type { OrderPreResult } from '@/types/order'
 import { useAddressStore } from '@/stores/modules/address'
@@ -70,6 +70,30 @@ const selectedAddress = computed(() => {
     addressStore.selectedAddress || orderPre.value?.userAddresses.find((item) => item.isDefault)
   )
 })
+
+// 40-4.5 提交订单事件
+const onOrderSubmit = async () => {
+  // 40-4.5.1 如果没有选择收货地址，提示用户选择收货地址
+  if (!selectedAddress.value?.id) {
+    return uni.showToast({ title: '请选择收货地址', icon: 'none' })
+  }
+  // 40-4.5.2 已经选择收货地址，调用提交订单接口,传递参数
+  const res = await postMemberOrderAPI({
+    addressId: selectedAddress.value?.id,
+    deliveryTimeType: activeDelivery.value.type,
+    buyerMessage: buyerMessage.value,
+    goods: orderPre.value!.goods.map((item) => ({
+      skuId: item.skuId,
+      count: item.count,
+    })),
+    payChannel: 2,
+    payType: 1,
+  })
+  // 40-4.5.3 提交订单成功后，跳转到订单详情分包页，传递订单id
+  uni.redirectTo({
+    url: `/pagesOrder/detail/detail?id=${res.result.id}`,
+  })
+}
 </script>
 
 <template>
@@ -155,7 +179,10 @@ const selectedAddress = computed(() => {
     <view class="total-pay symbol">
       <text class="number">{{ orderPre?.summary.totalPayPrice.toFixed(2) }}</text>
     </view>
-    <view class="button" :class="{ disabled: true }"> 提交订单 </view>
+    <!-- 40-4.4 当没有选中地址时，提交按钮添加禁用类，注册点击提交事件 -->
+    <view @tap="onOrderSubmit" :class="{ disabled: !selectedAddress?.id }" class="button">
+      提交订单
+    </view>
   </view>
 </template>
 

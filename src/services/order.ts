@@ -1,6 +1,6 @@
 // 40-1.2 订单预付接口service/order
 import { promise } from '@/utils/http'
-import type { OrderPreResult } from '@/types/order'
+import type { OrderPreResult, OrderCreateParams } from '@/types/order'
 
 // 预付订单接口
 export const getMemberOrderPreAPI = () => {
@@ -20,6 +20,17 @@ export const getMemberOrderPreNowAPI = (data: {
   return promise({
     url: '/member/order/pre/now',
     method: 'GET',
+    data,
+  })
+}
+
+// 40-4.1 order.ts封装提交订单接口
+// 40-4.3 定义订单提交接口请求参数类型OrderCreateParams
+export const postMemberOrderAPI = (data: OrderCreateParams) => {
+  // 40-4.6 定义提交订单接口，返回值的id为string类型
+  return promise<{ id: string }>({
+    url: '/member/order',
+    method: 'POST',
     data,
   })
 }
