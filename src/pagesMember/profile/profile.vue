@@ -163,11 +163,11 @@ const onSubmit = async () => {
           <!-- 36-4.1 性别选择框绑定change事件 -->
           <radio-group @change="onGenderChange">
             <label class="radio">
-              <radio value="男" color="#27ba9b" :checked="profile?.gender === '男'" />
+              <radio value="男" color="#fc7e9d" :checked="profile?.gender === '男'" />
               男
             </label>
             <label class="radio">
-              <radio value="女" color="#27ba9b" :checked="profile?.gender === '女'" />
+              <radio value="女" color="#fc7e9d" :checked="profile?.gender === '女'" />
               女
             </label>
           </radio-group>
@@ -216,7 +216,7 @@ const onSubmit = async () => {
 
 <style lang="scss">
 page {
-  background-color: #f4f4f4;
+  background-color: #fff5f8;
 }
 
 .viewport {
@@ -231,23 +231,24 @@ page {
 // 导航栏
 .navbar {
   position: relative;
+  padding-top: var(--status-bar-height);
 
   .title {
-    height: 40px;
+    height: 80rpx;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 16px;
+    font-size: 32rpx;
     font-weight: 500;
     color: #fff;
   }
 
   .back {
     position: absolute;
-    height: 40px;
-    width: 40px;
+    height: 80rpx;
+    width: 80rpx;
     left: 0;
-    font-size: 20px;
+    font-size: 40rpx;
     color: #fff;
     display: flex;
     justify-content: center;
@@ -269,7 +270,7 @@ page {
     width: 160rpx;
     height: 160rpx;
     border-radius: 50%;
-    background-color: #eee;
+    background-color: #ffe0e8;
   }
 
   .text {
@@ -283,12 +284,12 @@ page {
 
 // 表单
 .form {
-  background-color: #f4f4f4;
+  background-color: #fff5f8;
 
   &-content {
     margin: 20rpx 20rpx 0;
     padding: 0 20rpx;
-    border-radius: 10rpx;
+    border-radius: 16rpx;
     background-color: #fff;
   }
 
@@ -299,7 +300,7 @@ page {
     padding: 25rpx 10rpx;
     background-color: #fff;
     font-size: 28rpx;
-    border-bottom: 1rpx solid #ddd;
+    border-bottom: 1rpx solid #ffe0e8;
 
     &:last-child {
       border: none;
@@ -328,7 +329,7 @@ page {
       flex: 1;
     }
     .placeholder {
-      color: #808080;
+      color: #999;
     }
   }
 
@@ -340,7 +341,7 @@ page {
     color: #fff;
     border-radius: 80rpx;
     font-size: 30rpx;
-    background-color: #27ba9b;
+    background-color: #fc7e9d;
   }
 }
 </style>

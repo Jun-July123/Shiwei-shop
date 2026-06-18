@@ -147,7 +147,7 @@ const onScrollToLower = async () => {
 <style lang="scss">
 page {
   height: 100%;
-  background-color: #f4f4f4;
+  background-color: #fff5f8;
 }
 .viewport {
   display: flex;
@@ -175,8 +175,8 @@ page {
   line-height: 90rpx;
   margin: 0 20rpx;
   font-size: 28rpx;
-  border-radius: 10rpx;
-  box-shadow: 0 4rpx 5rpx rgba(200, 200, 200, 0.3);
+  border-radius: 16rpx;
+  box-shadow: 0 4rpx 8rpx rgba(255, 122, 156, 0.15);
   color: #333;
   background-color: #fff;
   position: relative;
@@ -191,7 +191,7 @@ page {
       width: 40rpx;
       height: 4rpx;
       transform: translate(-50%);
-      background-color: #27ba9b;
+      background-color: #fc7e9d;
       position: absolute;
       left: 50%;
       bottom: 24rpx;
@@ -207,20 +207,23 @@ page {
     width: 345rpx;
     padding: 20rpx;
     margin-top: 20rpx;
-    border-radius: 10rpx;
+    border-radius: 16rpx;
     background-color: #fff;
+    box-shadow: 0 2rpx 10rpx rgba(255, 122, 156, 0.08);
   }
   .thumb {
     width: 305rpx;
     height: 305rpx;
+    border-radius: 10rpx;
   }
   .name {
     height: 88rpx;
     font-size: 26rpx;
+    color: #333;
   }
   .price {
     line-height: 1;
-    color: #cf4444;
+    color: #fc7e9d;
     font-size: 30rpx;
   }
   .symbol {
@@ -234,7 +237,7 @@ page {
 .loading-text {
   text-align: center;
   font-size: 28rpx;
-  color: #666;
+  color: #999;
   padding: 20rpx 0 50rpx;
 }
 </style>

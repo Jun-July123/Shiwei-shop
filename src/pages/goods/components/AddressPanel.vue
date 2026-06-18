@@ -41,7 +41,7 @@ const emit = defineEmits<{
 <style lang="scss">
 .address-panel {
   padding: 0 30rpx;
-  border-radius: 10rpx 10rpx 0 0;
+  border-radius: 16rpx 16rpx 0 0;
   position: relative;
   background-color: #fff;
 }
@@ -52,8 +52,8 @@ const emit = defineEmits<{
   text-align: center;
   font-size: 32rpx;
   font-weight: normal;
-  border-bottom: 1rpx solid #ddd;
-  color: #444;
+  border-bottom: 1rpx solid #ffe0e8;
+  color: #333;
 }
 
 .close {
@@ -72,11 +72,11 @@ const emit = defineEmits<{
     background-size: 40rpx;
     background-repeat: no-repeat;
     background-position: 0 center;
-    background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/locate.png);
+    background-image: url(@/static/images/locate_1.png);
     position: relative;
   }
   .icon {
-    color: #999;
+    color: #bbb;
     font-size: 40rpx;
     transform: translateY(-50%);
     position: absolute;
@@ -84,19 +84,19 @@ const emit = defineEmits<{
     right: 0;
   }
   .icon-checked {
-    color: #27ba9b;
+    color: #fc7e9d;
   }
   .icon-ring {
-    color: #444;
+    color: #666;
   }
   .user {
     font-size: 28rpx;
-    color: #444;
+    color: #333;
     font-weight: 500;
   }
   .address {
     font-size: 26rpx;
-    color: #666;
+    color: #999;
   }
 }
 
@@ -105,7 +105,7 @@ const emit = defineEmits<{
   justify-content: space-between;
   padding: 20rpx 0 40rpx;
   font-size: 28rpx;
-  color: #444;
+  color: #333;
 
   .button {
     flex: 1;
@@ -119,11 +119,11 @@ const emit = defineEmits<{
 
   .primary {
     color: #fff;
-    background-color: #27ba9b;
+    background-color: #fc7e9d;
   }
 
   .secondary {
-    background-color: #ffa868;
+    background-color: #ffb3c2;
   }
 }
 </style>

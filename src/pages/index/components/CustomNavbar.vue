@@ -23,7 +23,9 @@ const { safeAreaInsets } = uni.getSystemInfoSync()
 <style lang="scss">
 .navbar {
   // background-image: url(@/static/images/navigator_bg.png);
-  background-color: #ff9ebb;
+  // background-color: #ff9ebb;
+  background-color: #fc7e9d;
+  // background-color: #ff7a9c;
   background-size: cover;
   padding-top: var(--status-bar-height); /* 关键：不被状态栏挡住 */
   display: flex;

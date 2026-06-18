@@ -46,6 +46,7 @@ const handleChange: UniHelper.SwiperOnChange = (ev) => {
 :host {
   display: block;
   height: 280rpx;
+  // background-color: #fff5f8;
 }
 /* 轮播图 */
 .carousel {
@@ -53,7 +54,9 @@ const handleChange: UniHelper.SwiperOnChange = (ev) => {
   position: relative;
   overflow: hidden;
   transform: translateY(0);
-  background-color: #efefef;
+  background-color: #fff5f8;
+  border-radius: 14rpx;
+  margin: 0 20rpx;
   .indicator {
     position: absolute;
     left: 0;
@@ -66,10 +69,10 @@ const handleChange: UniHelper.SwiperOnChange = (ev) => {
       height: 6rpx;
       margin: 0 8rpx;
       border-radius: 6rpx;
-      background-color: rgba(255, 255, 255, 0.4);
+      background-color: rgba(255, 255, 255, 0.45);
     }
     .active {
-      background-color: #fff;
+      background-color: #fc7e9d;
     }
   }
   .navigator,

@@ -27,7 +27,7 @@ const props = defineProps<{
   display: flex;
   flex-wrap: wrap;
   min-height: 328rpx;
-
+  background-color: #fff5f8;
   .category-item {
     width: 150rpx;
     display: flex;
@@ -39,10 +39,14 @@ const props = defineProps<{
     .icon {
       width: 100rpx;
       height: 100rpx;
+      border-radius: 14rpx;
+      // background-color: #fff0f5;
+      padding: 10rpx;
     }
     .text {
       font-size: 26rpx;
-      color: #666;
+      color: #333;
+      margin-top: 8rpx;
     }
   }
 }

@@ -123,6 +123,8 @@ const onOrderPay = async (id: string) => {
 <style lang="scss">
 /* 订单列表 */
 .orders {
+  min-height: 100%;
+  background-color: #fff5f8;
   .card {
     min-height: 100rpx;
     padding: 20rpx;
@@ -149,7 +151,7 @@ const onOrderPay = async (id: string) => {
     }
 
     .primary {
-      color: #ff9240;
+      color: #ff7a9c;
     }
 
     .icon-delete {
@@ -236,8 +238,9 @@ const onOrderPay = async (id: string) => {
     }
 
     .amount {
-      color: #444;
+      color: #ff7a9c;
       margin-left: 6rpx;
+      font-size: 30rpx;
     }
 
     .symbol {
@@ -265,13 +268,13 @@ const onOrderPay = async (id: string) => {
     }
 
     .secondary {
-      color: #27ba9b;
-      border-color: #27ba9b;
+      color: #ff7a9c;
+      border-color: #ff7a9c;
     }
 
     .primary {
       color: #fff;
-      background-color: #27ba9b;
+      background-color: #ff7a9c;
     }
   }
 

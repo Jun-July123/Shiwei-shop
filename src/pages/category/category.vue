@@ -103,6 +103,7 @@ const subCategoryList = computed(() => {
 page {
   height: 100%;
   overflow: hidden;
+  // background-color: #fff5f8;
 }
 .viewport {
   height: 100%;
@@ -118,10 +119,10 @@ page {
     justify-content: space-between;
     height: 64rpx;
     padding-left: 26rpx;
-    color: #8b8b8b;
+    color: #999;
     font-size: 28rpx;
     border-radius: 32rpx;
-    background-color: #f3f4f4;
+    background-color: #fff0f5;
   }
 }
 .icon-search {
@@ -147,7 +148,7 @@ page {
     align-items: center;
     height: 96rpx;
     font-size: 26rpx;
-    color: #595c63;
+    color: #666;
     position: relative;
     &::after {
       content: '';
@@ -155,7 +156,8 @@ page {
       left: 42rpx;
       bottom: 0;
       width: 96rpx;
-      border-top: 1rpx solid #e3e4e7;
+      border-top: 1rpx solid #eee;
+      // background-color: #fff;
     }
   }
   .active {
@@ -167,7 +169,7 @@ page {
       top: 0;
       width: 8rpx;
       height: 100%;
-      background-color: #27ba9b;
+      background-color: #fc7e9d;
     }
   }
 }
@@ -177,11 +179,11 @@ page {
 }
 /* 二级分类 */
 .secondary {
-  background-color: #fff;
+  // background-color: #fff5f8;
   .carousel {
     height: 200rpx;
     margin: 0 30rpx 20rpx;
-    border-radius: 4rpx;
+    border-radius: 14rpx;
     overflow: hidden;
   }
   .panel {
@@ -190,9 +192,10 @@ page {
   .title {
     height: 60rpx;
     line-height: 60rpx;
-    color: #333;
+    // color: #333;
+    color: #fc7e9d;
     font-size: 28rpx;
-    border-bottom: 1rpx solid #f7f7f8;
+    border-bottom: 1rpx solid #eee;
     .more {
       float: right;
       padding-left: 20rpx;
@@ -220,6 +223,7 @@ page {
       image {
         width: 150rpx;
         height: 150rpx;
+        border-radius: 10rpx;
       }
       .name {
         padding: 5rpx;
@@ -229,7 +233,8 @@ page {
       .price {
         padding: 5rpx;
         font-size: 18rpx;
-        color: #cf4444;
+        color: #fc7e9d;
+        // color: #cf4444;
       }
       .number {
         font-size: 24rpx;

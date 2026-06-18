@@ -19,6 +19,7 @@ const finish = ref(false)
 const guessList = ref<GuessItem[]>([])
 // 20-1.2 XtxGuess.vue通用组件引入调用猜你喜欢接口，获取猜你喜欢数据
 const getHomeGoodsGuessLikeData = async () => {
+  // console.log('当前请求页码：', pageParams.page)
   // 21-3.4 调用接口获取数据前，判断finish是否为true
   // 如果为true，提示用户没有更多数据了
   if (finish.value) {
@@ -92,6 +93,7 @@ defineExpose({
 <style lang="scss">
 :host {
   display: block;
+  background-color: #fff5f8;
 }
 /* 分类标题 */
 .caption {
@@ -100,7 +102,7 @@ defineExpose({
   line-height: 1;
   padding: 36rpx 0 40rpx;
   font-size: 32rpx;
-  color: #262626;
+  color: #fc7e9d;
   .text {
     display: flex;
     justify-content: center;
@@ -112,9 +114,10 @@ defineExpose({
       content: '';
       width: 20rpx;
       height: 20rpx;
-      background-image: url(@/static/images/bubble.png);
+      background-image: url(@/static/images/bubble_2.png);
       background-size: contain;
       margin: 0 10rpx;
+      filter: hue-rotate(330deg);
     }
   }
 }
@@ -125,23 +128,26 @@ defineExpose({
   flex-wrap: wrap;
   justify-content: space-between;
   padding: 0 20rpx;
+  color: #fff5f8;
   .guess-item {
     width: 345rpx;
     padding: 24rpx 20rpx 20rpx;
     margin-bottom: 20rpx;
-    border-radius: 10rpx;
+    border-radius: 16rpx;
     overflow: hidden;
     background-color: #fff;
+    box-shadow: 0 2rpx 10rpx rgba(255, 122, 156, 0.12);
   }
   .image {
     width: 304rpx;
     height: 304rpx;
+    border-radius: 10rpx;
   }
   .name {
     height: 75rpx;
     margin: 10rpx 0;
     font-size: 26rpx;
-    color: #262626;
+    color: #333333;
     overflow: hidden;
     text-overflow: ellipsis;
     display: -webkit-box;
@@ -151,8 +157,9 @@ defineExpose({
   .price {
     line-height: 1;
     padding-top: 4rpx;
-    color: #cf4444;
+    color: #ff7a9c;
     font-size: 26rpx;
+    font-weight: 500;
   }
   .small {
     font-size: 80%;
@@ -162,7 +169,7 @@ defineExpose({
 .loading-text {
   text-align: center;
   font-size: 28rpx;
-  color: #666;
-  padding: 20rpx 0;
+  color: #999;
+  padding: 30rpx 0;
 }
 </style>

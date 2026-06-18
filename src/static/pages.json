@@ -22,9 +22,6 @@
     {
       "path": "pages/my/my",
       "style": {
-        // 33-1.2 自定义设置导航栏（移除默认导航栏，设置文字颜色为白色）
-        "navigationStyle": "custom",
-        "navigationBarTextStyle": "white",
         "navigationBarTitleText": "我的"
       }
     },

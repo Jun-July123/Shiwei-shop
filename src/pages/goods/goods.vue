@@ -144,13 +144,13 @@ const onBuyNow = async (ev: SkuPopupEvent) => {
     @add-cart="onAddCart"
     ref="skuPopupRef"
     :active-style="{
-      color: '#27BA9B',
-      borderColor: '#27BA9B',
-      backgroundColor: '#27BA9B',
+      color: '#fc7e9d',
+      borderColor: '#fc7e9d',
+      backgroundColor: '#fc7e9d',
     }"
     :mode="mode"
-    add-cart-background-color="#FFA868"
-    buy-now-background-color="#27BA9B"
+    add-cart-background-color="#ffb3c2"
+    buy-now-background-color="#fc7e9d"
     v-model="isShowSku"
     :localdata="localdata"
   />
@@ -289,15 +289,18 @@ page {
   overflow: hidden;
   display: flex;
   flex-direction: column;
+  background-color: #fff5f8;
 }
 
 .viewport {
-  background-color: #f4f4f4;
+  background-color: #fff5f8;
 }
 
 .panel {
   margin-top: 20rpx;
   background-color: #fff;
+  border-radius: 14rpx;
+  overflow: hidden;
   .title {
     display: flex;
     justify-content: space-between;
@@ -311,7 +314,7 @@ page {
       font-size: 28rpx;
       color: #333;
       font-weight: 600;
-      border-left: 4rpx solid #27ba9b;
+      border-left: 4rpx solid #fc7e9d;
     }
     navigator {
       font-size: 24rpx;
@@ -326,7 +329,7 @@ page {
     top: 50%;
     right: 30rpx;
     content: '\e6c2';
-    color: #ccc;
+    color: #bbb;
     font-family: 'erabbit' !important;
     font-size: 32rpx;
     transform: translateY(-50%);
@@ -336,6 +339,7 @@ page {
 /* 商品信息 */
 .goods {
   background-color: #fff;
+  border-radius: 0 0 14rpx 14rpx;
   .preview {
     height: 750rpx;
     position: relative;
@@ -368,14 +372,14 @@ page {
   }
   .meta {
     position: relative;
-    border-bottom: 1rpx solid #eaeaea;
+    border-bottom: 1rpx solid #ffe0e8;
     .price {
       height: 130rpx;
       padding: 25rpx 30rpx 0;
       color: #fff;
       font-size: 34rpx;
       box-sizing: border-box;
-      background-color: #35c8a9;
+      background-color: #fc7e9d;
     }
     .number {
       font-size: 56rpx;
@@ -399,7 +403,7 @@ page {
       line-height: 1;
       padding: 0 20rpx 30rpx;
       font-size: 24rpx;
-      color: #cf4444;
+      color: #f2658b;
     }
   }
   .action {
@@ -447,7 +451,7 @@ page {
       padding: 10rpx;
       font-size: 26rpx;
       color: #333;
-      border-bottom: 1rpx dashed #ccc;
+      border-bottom: 1rpx dashed #eaeaea;
     }
     .label {
       width: 200rpx;
@@ -462,30 +466,32 @@ page {
 .similar {
   .content {
     padding: 0 20rpx 200rpx;
-    background-color: #f4f4f4;
+    background-color: #fff5f8;
     display: flex;
     flex-wrap: wrap;
     .goods {
       width: 340rpx;
       padding: 24rpx 20rpx 20rpx;
       margin: 20rpx 7rpx;
-      border-radius: 10rpx;
+      border-radius: 16rpx;
       background-color: #fff;
+      box-shadow: 0 2rpx 10rpx rgba(255, 122, 156, 0.08);
     }
     .image {
       width: 300rpx;
       height: 260rpx;
+      border-radius: 10rpx;
     }
     .name {
       height: 80rpx;
       margin: 10rpx 0;
       font-size: 26rpx;
-      color: #262626;
+      color: #333;
     }
     .price {
       line-height: 1;
       font-size: 20rpx;
-      color: #cf4444;
+      color: #fc7e9d;
     }
     .number {
       font-size: 26rpx;
@@ -509,7 +515,7 @@ page {
   background-color: #fff;
   height: 100rpx;
   padding: 0 20rpx var(--window-bottom);
-  border-top: 1rpx solid #eaeaea;
+  border-top: 1rpx solid #ffe0e8;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -525,11 +531,11 @@ page {
       border-radius: 72rpx;
     }
     .addcart {
-      background-color: #ffa868;
+      background-color: #fc8fa5;
     }
     .buynow,
     .payment {
-      background-color: #27ba9b;
+      background-color: #fc7e9d;
       margin-left: 20rpx;
     }
   }

@@ -47,17 +47,18 @@ page {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  background-color: #fff5f8;
 }
 
 .viewport {
-  background-color: #f7f7f8;
+  background-color: #fff5f8;
 }
 
 .overview {
   line-height: 1;
   padding: 50rpx 0;
   color: #fff;
-  background-color: #27ba9b;
+  background-color: #fc7e9d;
 
   .status {
     font-size: 36rpx;

@@ -86,7 +86,7 @@ page {
     text-align: center;
     padding: 20rpx;
     font-size: 28rpx;
-    color: #262626;
+    color: #333;
   }
 
   .cursor {
@@ -96,7 +96,7 @@ page {
     width: 20%;
     height: 6rpx;
     padding: 0 50rpx;
-    background-color: #27ba9b;
+    background-color: #ff7a9c;
     /* 过渡效果 */
     transition: all 0.4s;
   }

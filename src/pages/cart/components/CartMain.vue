@@ -234,7 +234,7 @@ const safeBottom = props.safeBottom ?? 0
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  background-color: #f7f7f8;
+  background-color: #fff5f8;
 }
 
 // 滚动容器
@@ -258,9 +258,9 @@ const safeBottom = props.safeBottom ?? 0
     .label {
       color: #fff;
       padding: 7rpx 15rpx 5rpx;
-      border-radius: 4rpx;
+      border-radius: 20rpx;
       font-size: 24rpx;
-      background-color: #27ba9b;
+      background-color: #fc7e9d;
       margin-right: 10rpx;
     }
   }
@@ -269,9 +269,10 @@ const safeBottom = props.safeBottom ?? 0
   .goods {
     display: flex;
     padding: 20rpx 20rpx 20rpx 80rpx;
-    border-radius: 10rpx;
+    border-radius: 16rpx;
     background-color: #fff;
     position: relative;
+    box-shadow: 0 2rpx 10rpx rgba(255, 122, 156, 0.08);
 
     .navigator {
       display: flex;
@@ -292,18 +293,20 @@ const safeBottom = props.safeBottom ?? 0
         content: '\e6cd';
         font-family: 'erabbit' !important;
         font-size: 40rpx;
-        color: #444;
+        color: #bbb;
       }
 
       &.checked::before {
         content: '\e6cc';
-        color: #27ba9b;
+        color: #fc7e9d;
       }
     }
 
     .picture {
       width: 170rpx;
       height: 170rpx;
+      border-radius: 10rpx;
+      overflow: hidden;
     }
 
     .meta {
@@ -317,7 +320,7 @@ const safeBottom = props.safeBottom ?? 0
     .name {
       height: 72rpx;
       font-size: 26rpx;
-      color: #444;
+      color: #333;
     }
 
     .attrsText {
@@ -325,7 +328,7 @@ const safeBottom = props.safeBottom ?? 0
       padding: 0 15rpx;
       font-size: 24rpx;
       align-self: flex-start;
-      border-radius: 4rpx;
+      border-radius: 10rpx;
       color: #888;
       background-color: #f7f7f8;
     }
@@ -333,9 +336,8 @@ const safeBottom = props.safeBottom ?? 0
     .price {
       line-height: 1;
       font-size: 26rpx;
-      color: #444;
       margin-bottom: 2rpx;
-      color: #cf4444;
+      color: #fc7e9d;
 
       &::before {
         content: '￥';
@@ -359,16 +361,16 @@ const safeBottom = props.safeBottom ?? 0
         height: 100%;
         padding: 0 20rpx;
         font-size: 32rpx;
-        color: #444;
+        color: #333;
       }
 
       .input {
         height: 100%;
         text-align: center;
-        border-radius: 4rpx;
+        border-radius: 10rpx;
         font-size: 24rpx;
-        color: #444;
-        background-color: #f6f6f6;
+        color: #333;
+        background-color: #fff0f5;
       }
     }
   }
@@ -395,7 +397,7 @@ const safeBottom = props.safeBottom ?? 0
     }
 
     .delete-button {
-      background-color: #cf4444;
+      background-color: #ff8080;
     }
   }
 }
@@ -413,7 +415,7 @@ const safeBottom = props.safeBottom ?? 0
     height: 281rpx;
   }
   .text {
-    color: #444;
+    color: #666;
     font-size: 26rpx;
     margin: 20rpx 0;
   }
@@ -425,7 +427,7 @@ const safeBottom = props.safeBottom ?? 0
     font-size: 26rpx;
     border-radius: 60rpx;
     color: #fff;
-    background-color: #27ba9b;
+    background-color: #fc7e9d;
   }
 }
 
@@ -441,15 +443,15 @@ const safeBottom = props.safeBottom ?? 0
   padding: 0 20rpx;
   display: flex;
   align-items: center;
-  border-top: 1rpx solid #ededed;
-  border-bottom: 1rpx solid #ededed;
+  border-top: 1rpx solid #ffe0e8;
+  border-bottom: 1rpx solid #ffe0e8;
   background-color: #fff;
   box-sizing: content-box;
 
   .all {
     margin-left: 25rpx;
     font-size: 14px;
-    color: #444;
+    color: #333;
     display: flex;
     align-items: center;
   }
@@ -459,23 +461,24 @@ const safeBottom = props.safeBottom ?? 0
     content: '\e6cd';
     font-size: 40rpx;
     margin-right: 8rpx;
+    color: #bbb;
   }
 
   .checked::before {
     content: '\e6cc';
-    color: #27ba9b;
+    color: #fc7e9d;
   }
 
   .text {
     margin-right: 8rpx;
     margin-left: 32rpx;
-    color: #444;
+    color: #333;
     font-size: 14px;
   }
 
   .amount {
     font-size: 20px;
-    color: #cf4444;
+    color: #fc7e9d;
 
     .decimal {
       font-size: 12px;
@@ -503,7 +506,7 @@ const safeBottom = props.safeBottom ?? 0
     }
 
     .payment-button {
-      background-color: #27ba9b;
+      background-color: #fc7e9d;
 
       &.disabled {
         opacity: 0.6;

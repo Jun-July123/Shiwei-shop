@@ -83,7 +83,7 @@ const loginSuccess = (profile: LoginResult) => {
           </button>
         </view>
       </view>
-      <view class="tips">登录/注册即视为你同意《服务条款》和《小兔鲜儿隐私协议》</view>
+      <view class="tips">登录/注册即视为你同意《服务条款》和《拾味生活隐私协议》</view>
     </view>
   </view>
 </template>
@@ -91,6 +91,7 @@ const loginSuccess = (profile: LoginResult) => {
 <style lang="scss">
 page {
   height: 100%;
+  background-color: #fff5f8;
 }
 
 .viewport {
@@ -98,6 +99,7 @@ page {
   flex-direction: column;
   height: 100%;
   padding: 20rpx 40rpx;
+  background-color: #fff5f8;
 }
 
 .logo {
@@ -107,6 +109,7 @@ page {
     width: 220rpx;
     height: 220rpx;
     margin-top: 15vh;
+    border-radius: 20rpx;
   }
 }
 
@@ -121,9 +124,10 @@ page {
     height: 80rpx;
     font-size: 28rpx;
     border-radius: 72rpx;
-    border: 1px solid #ddd;
+    border: 1px solid #ffe0e8;
     padding-left: 30rpx;
     margin-bottom: 20rpx;
+    background-color: #fff;
   }
 
   .button {
@@ -142,11 +146,11 @@ page {
   }
 
   .phone {
-    background-color: #28bb9c;
+    background-color: #fc7e9d;
   }
 
   .wechat {
-    background-color: #06c05f;
+    background-color: #ffb3c2;
   }
 
   .extra {
@@ -155,13 +159,13 @@ page {
     .caption {
       width: 440rpx;
       line-height: 1;
-      border-top: 1rpx solid #ddd;
+      border-top: 1rpx solid #ffe0e8;
       font-size: 26rpx;
-      color: #999;
+      color: #666;
       position: relative;
       text {
         transform: translate(-40%);
-        background-color: #fff;
+        background-color: #fff5f8;
         position: absolute;
         top: -12rpx;
         left: 50%;
@@ -181,7 +185,7 @@ page {
 
     .icon {
       font-size: 24rpx;
-      color: #444;
+      color: #333;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -194,13 +198,13 @@ page {
         height: 80rpx;
         margin-bottom: 6rpx;
         font-size: 40rpx;
-        border: 1rpx solid #444;
+        border: 1rpx solid #fc7e9d;
         border-radius: 50%;
       }
     }
     .icon-weixin::before {
-      border-color: #06c05f;
-      color: #06c05f;
+      border-color: #fc7e9d;
+      color: #fc7e9d;
     }
   }
 }

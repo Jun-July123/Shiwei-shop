@@ -6,6 +6,8 @@ import { onShow } from '@dcloudio/uni-app'
 import type { AddressItem } from '@/types/address'
 import { useAddressStore } from '@/stores/modules/address'
 
+// 屏幕安全距离
+const { safeAreaInsets } = uni.getSystemInfoSync()
 // 37-3.6 addressList.vue定义收货地址列表，类型为AddressItem[]
 const addressList = ref<AddressItem[]>([])
 // 37-3.2 address.vue 调用接口收货列表接口获取收货地址列表
@@ -90,7 +92,7 @@ const onChangeAddress = (item: AddressItem) => {
       <view v-else class="blank">暂无收货地址</view>
     </scroll-view>
     <!-- 添加按钮 -->
-    <view class="add-btn">
+    <view class="add-btn" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
       <navigator hover-class="none" url="/pagesMember/address-form/address-form">
         新建地址
       </navigator>
@@ -171,9 +173,9 @@ page {
       padding: 4rpx 10rpx 2rpx 14rpx;
       margin: 2rpx 0 0 10rpx;
       font-size: 26rpx;
-      color: #27ba9b;
+      color: #fc7e9d;
       border-radius: 6rpx;
-      border: 1rpx solid #27ba9b;
+      border: 1rpx solid #fc7e9d;
     }
   }
 
@@ -199,6 +201,6 @@ page {
   color: #fff;
   border-radius: 80rpx;
   font-size: 30rpx;
-  background-color: #27ba9b;
+  background-color: #fc7e9d;
 }
 </style>

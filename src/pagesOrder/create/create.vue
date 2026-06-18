@@ -272,7 +272,7 @@ page {
       font-size: 24rpx;
       align-self: flex-start;
       border-radius: 4rpx;
-      color: #888;
+      color: #999;
       background-color: #f7f7f8;
     }
 
@@ -284,7 +284,7 @@ page {
 
       .pay-price {
         margin-right: 10rpx;
-        color: #cf4444;
+        color: #fc7e9d;
       }
 
       .price {
@@ -358,7 +358,7 @@ page {
   }
 
   .danger {
-    color: #cf4444;
+    color: #fc7e9d;
   }
 }
 
@@ -381,7 +381,7 @@ page {
 
   .total-pay {
     font-size: 40rpx;
-    color: #cf4444;
+    color: #fc7e9d;
 
     .decimal {
       font-size: 75%;
@@ -395,7 +395,7 @@ page {
     font-size: 26rpx;
     color: #fff;
     border-radius: 72rpx;
-    background-color: #27ba9b;
+    background-color: #fc7e9d;
   }
 
   .disabled {

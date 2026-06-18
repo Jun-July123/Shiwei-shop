@@ -38,19 +38,21 @@ const props = defineProps<{
   flex-wrap: wrap;
   min-height: 508rpx;
   margin: 20rpx 20rpx 0;
-  border-radius: 10rpx;
-  background-color: #fff;
+  border-radius: 16rpx;
+  background-color: #fff5f8;
+
+  box-shadow: 0 2rpx 10rpx rgba(255, 122, 156, 0.08);
 
   .title {
     display: flex;
     align-items: center;
     padding: 24rpx 24rpx 0;
     font-size: 32rpx;
-    color: #262626;
+    color: #333;
     position: relative;
     .title-desc {
       font-size: 24rpx;
-      color: #7f7f7f;
+      color: #999;
       margin-left: 18rpx;
     }
   }
@@ -60,8 +62,8 @@ const props = defineProps<{
     flex-direction: column;
     width: 50%;
     height: 254rpx;
-    border-right: 1rpx solid #eee;
-    border-top: 1rpx solid #eee;
+    border-right: 1rpx solid #ffe0e8;
+    border-top: 1rpx solid #ffe0e8;
     .title {
       justify-content: start;
     }
@@ -74,6 +76,7 @@ const props = defineProps<{
     .image {
       width: 150rpx;
       height: 150rpx;
+      border-radius: 10rpx;
     }
   }
   .cards {

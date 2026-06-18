@@ -41,7 +41,7 @@ const emit = defineEmits<{
 <style lang="scss">
 .service-panel {
   padding: 0 30rpx;
-  border-radius: 10rpx 10rpx 0 0;
+  border-radius: 16rpx 16rpx 0 0;
   position: relative;
   background-color: #fff;
 }
@@ -52,8 +52,8 @@ const emit = defineEmits<{
   text-align: center;
   font-size: 32rpx;
   font-weight: normal;
-  border-bottom: 1rpx solid #ddd;
-  color: #444;
+  border-bottom: 1rpx solid #ffe0e8;
+  color: #333;
 }
 
 .close {
@@ -81,7 +81,7 @@ const emit = defineEmits<{
       width: 10rpx;
       height: 10rpx;
       border-radius: 50%;
-      background-color: #eaeaea;
+      background-color: #fc7e9d;
       transform: translateY(-50%);
       position: absolute;
       top: 50%;
@@ -92,7 +92,7 @@ const emit = defineEmits<{
   .dd {
     line-height: 1.6;
     font-size: 26rpx;
-    color: #999;
+    color: #666;
   }
 }
 </style>

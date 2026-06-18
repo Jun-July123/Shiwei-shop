@@ -38,7 +38,12 @@ const { guessRef, onScrollToLower } = useGuessList()
       <!-- 33-1.3 导入使用会员仓库，渲染用户信息 -->
       <view class="overview" v-if="true">
         <navigator url="/pagesMember/profile/profile" hover-class="none">
-          <image class="avatar" mode="aspectFill" :src="memberStore.profile?.avatar"></image>
+          <image
+            class="avatar"
+            mode="aspectFill"
+            src="https://tse2-mm.cn.bing.net/th/id/OIP-C.UbUeQFxPPug-0F81qpLZYgHaHa?w=186&h=186&c=7&r=0&o=7&dpr=2&pid=1.7&rm=3"
+          ></image>
+          <!-- <image class="avatar" mode="aspectFill" :src="memberStore.profile?.avatar"></image> -->
         </navigator>
         <view class="meta">
           <view class="nickname">{{
@@ -106,14 +111,20 @@ const { guessRef, onScrollToLower } = useGuessList()
 page {
   height: 100%;
   overflow: hidden;
-  background-color: #f7f7f8;
+  background-color: #fff5f8;
 }
 
 .viewport {
   height: 100%;
   background-repeat: no-repeat;
-  background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/center_bg.png);
-  background-size: 100% auto;
+  // background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/center_bg.png);
+  // background-image: url('/static/other/viewport_bg.jpg');
+  background: linear-gradient(180deg, #fb7c9c 0%, #fff5f8 100%);
+  background-size: 100% 45%;
+  background-position: top center; /* 渐变对齐顶部 */
+  background-repeat: no-repeat; /* 禁止渐变重复铺满 */
+  border-radius: 0 0 40rpx 40rpx; /* 顺序：左上、右上、右下、左下 */
+  overflow: hidden; /* 必须加，否则渐变溢出看不到圆角 */
 }
 
 /* 用户信息 */
@@ -221,7 +232,9 @@ page {
       &::before {
         display: block;
         font-size: 60rpx;
-        color: #ff9545;
+        // color: #ff9545;
+        // color: #fc7e9d;
+        color: #ff9ebb;
       }
     }
     .contact {

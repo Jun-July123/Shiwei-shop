@@ -140,7 +140,8 @@ const onRefreshrefresh = async () => {
 <style lang="scss">
 /* 16-1.3 设置小程序页面page背景颜色 */
 page {
-  background-color: #f7f7f7;
+  // background-color: #f7f7f7;
+  background-color: #fff5f8;
   // 19-1.5 设置页面滚动高度
   // 19-1.5.1 页面内容（page不包含顶部底部导航栏高度）
   // 占满高度100%，flex布局，垂直排列

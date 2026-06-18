@@ -160,7 +160,7 @@ const onSubmit = async () => {
   </view>
   <!-- 提交按钮 -->
   <!-- 37-2.8.1 保存按钮，注册提交事件 -->
-  <button @tap="onSubmit" class="button">保存并使用</button>{{ form }}
+  <button @tap="onSubmit" class="button">保存并使用</button>
 </template>
 
 <style lang="scss">
@@ -232,6 +232,6 @@ page {
   color: #fff;
   border-radius: 80rpx;
   font-size: 30rpx;
-  background-color: #27ba9b;
+  background-color: #fc7e9d;
 }
 </style>

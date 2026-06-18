@@ -319,15 +319,15 @@ const onOrderDelete = () => {
         <view class="total">
           <view class="row">
             <view class="text">商品总价: </view>
-            <view class="symbol">¥{{ order.totalMoney }}</view>
+            <view class="symbol">{{ order.totalMoney }}</view>
           </view>
           <view class="row">
             <view class="text">运费: </view>
-            <view class="symbol">¥{{ order.postFee }}</view>
+            <view class="symbol">{{ order.postFee }}</view>
           </view>
           <view class="row">
             <view class="text">应付金额: </view>
-            <view class="symbol primary">¥{{ order.payMoney }}</view>
+            <view class="symbol primary">{{ order.payMoney }}</view>
           </view>
         </view>
       </view>
@@ -412,6 +412,7 @@ page {
   flex-direction: column;
   height: 100%;
   overflow: hidden;
+  background-color: #fff5f8;
 }
 
 .navbar {
@@ -464,8 +465,17 @@ page {
   line-height: 1;
   padding-bottom: 30rpx;
   color: #fff;
-  background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/order_bg.png);
-  background-size: cover;
+  // background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/order_bg.png);
+  // background-size: cover;
+  background-repeat: no-repeat;
+  // background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/center_bg.png);
+  // background-image: url('/static/other/viewport_bg.jpg');
+  background: linear-gradient(180deg, #fb7c9c 0%, #fff5f8 100%);
+  background-size: 100% 100%;
+  background-position: top center; /* 渐变对齐顶部 */
+  background-repeat: no-repeat; /* 禁止渐变重复铺满 */
+  border-radius: 0 0 40rpx 40rpx; /* 顺序：左上、右上、右下、左下 */
+  overflow: hidden; /* 必须加，否则渐变溢出看不到圆角 */
 
   .status {
     font-size: 36rpx;
@@ -501,7 +511,7 @@ page {
     text-align: center;
     line-height: 64rpx;
     font-size: 28rpx;
-    color: #27ba9b;
+    color: #fc7e9d;
     border-radius: 68rpx;
     background-color: #fff;
   }
@@ -524,8 +534,8 @@ page {
   }
 
   .locate {
-    background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/locate.png);
-
+    // background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/locate.png);
+    background-image: url('/static/images/locate_1.png');
     .user {
       font-size: 26rpx;
       color: #444;
@@ -538,7 +548,8 @@ page {
   }
 
   .item {
-    background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/car.png);
+    // background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/car.png);
+    background-image: url('/static/images/car_2.png');
     border-bottom: 1rpx solid #eee;
     position: relative;
 
@@ -653,8 +664,8 @@ page {
       }
 
       .primary {
-        color: #27ba9b;
-        border-color: #27ba9b;
+        color: #fc7e9d;
+        border-color: #fc7e9d;
       }
     }
   }
@@ -679,7 +690,7 @@ page {
     }
 
     .primary {
-      color: #cf4444;
+      color: #fc7e9d;
       font-size: 36rpx;
     }
   }
@@ -764,14 +775,14 @@ page {
 
   .secondary {
     order: 2;
-    color: #27ba9b;
-    border-color: #27ba9b;
+    color: #fc7e9d;
+    border-color: #fc7e9d;
   }
 
   .primary {
     order: 1;
     color: #fff;
-    background-color: #27ba9b;
+    background-color: #fc7e9d;
   }
 }
 
@@ -813,7 +824,7 @@ page {
     .icon.checked::before {
       content: '\e6cc';
       font-size: 38rpx;
-      color: #27ba9b;
+      color: #fc7e9d;
     }
   }
 
@@ -837,7 +848,7 @@ page {
 
     .primary {
       color: #fff;
-      background-color: #27ba9b;
+      background-color: #fc7e9d;
       border: none;
     }
   }
