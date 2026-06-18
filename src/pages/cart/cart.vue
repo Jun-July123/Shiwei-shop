@@ -9,4 +9,8 @@ import CartMain from '@/pages/cart/components/CartMain.vue'
   </view>
 </template>
 
-<style scoped></style>
+<style lang="scss">
+page {
+  height: 100%;
+}
+</style>

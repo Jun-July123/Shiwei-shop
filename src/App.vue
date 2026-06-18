@@ -15,7 +15,9 @@ onHide(() => {
 <style lang="scss">
 // 字体图标
 @import '@/styles/fonts.scss';
-
+// * {
+//   color: #f30909;
+// }
 view,
 navigator,
 input,

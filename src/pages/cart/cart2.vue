@@ -17,8 +17,8 @@ onMounted(() => {
   </view>
 </template>
 
-<style scoped>
-.cart-main {
-  height: 100vh;
+<style lang="scss">
+page {
+  height: 100%;
 }
 </style>

@@ -56,7 +56,6 @@ const handleChange: UniHelper.SwiperOnChange = (ev) => {
   transform: translateY(0);
   background-color: #fff5f8;
   border-radius: 14rpx;
-  margin: 0 20rpx;
   .indicator {
     position: absolute;
     left: 0;
