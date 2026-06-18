@@ -98,10 +98,11 @@ const onOrderPay = async (id: string) => {
           <!-- 42-4.1 支付按钮注册点击事件，传递当前订单id -->
           <view @tap="onOrderPay(order.id)" class="button primary">去支付</view>
         </template>
+        <!-- 43-1.2 订单列表再次购买按钮，跳转到填写订单页面create，传递当前订单id参数 -->
         <template v-else>
           <navigator
             class="button secondary"
-            :url="`/pagesOrder/create/create?orderId=id`"
+            :url="`/pagesOrder/create/create?orderId=${order.id}`"
             hover-class="none"
           >
             再次购买

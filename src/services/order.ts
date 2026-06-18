@@ -98,3 +98,11 @@ export const getMemberOrderAPI = (data: OrderListParams) => {
     data,
   })
 }
+
+// 43-1.1 订单列表再次购买接口，接收订单id参数
+export const getMemberOrderRepurchaseAPI = (orderId: string) => {
+  return promise<OrderPreResult>({
+    url: `/member/order/repurchase/${orderId}`,
+    method: 'GET',
+  })
+}

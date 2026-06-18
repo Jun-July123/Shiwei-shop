@@ -1,7 +1,12 @@
 <!-- 40-1.1 创建订单填写分包页src/pagesOrder/create/create.vue -->
 <script setup lang="ts">
 import { computed, ref } from 'vue'
-import { getMemberOrderPreAPI, getMemberOrderPreNowAPI, postMemberOrderAPI } from '@/services/order'
+import {
+  getMemberOrderPreAPI,
+  getMemberOrderRepurchaseAPI,
+  getMemberOrderPreNowAPI,
+  postMemberOrderAPI,
+} from '@/services/order'
 import { onLoad } from '@dcloudio/uni-app'
 import type { OrderPreResult } from '@/types/order'
 import { useAddressStore } from '@/stores/modules/address'
@@ -32,13 +37,21 @@ const orderPre = ref<OrderPreResult>()
 const query = defineProps<{
   skuId?: string
   count?: string
+  // 43-1.3 create.vue接收页面参数orderId
+  orderId?: string // 新增：再次购买传订单ID
 }>()
 
 // 40-1.3 create.vue调用接口获取预付订单
 const getMemberOrderPreData = async () => {
+  // 43-1.4 create.vue根据是否接收到页面参数orderId，调用再次购买接口获取预付订单
+  if (query.orderId) {
+    // 调用 /member/order/repurchase/{id}
+    const res = await getMemberOrderRepurchaseAPI(query.orderId)
+    orderPre.value = res.result
+  }
   // 40-3.4.1 接收到页面参数skuId及count，调用立即购买接口
   // 获取立即购买数据，将数据赋值给预付订单
-  if (query.count && query.skuId) {
+  else if (query.count && query.skuId) {
     const res = await getMemberOrderPreNowAPI({
       count: query.count,
       skuId: query.skuId,
