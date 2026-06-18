@@ -5,6 +5,7 @@ import { postLoginWxMinAPI, postLoginWxMiniSimpleAPI } from '@/services/login'
 import { useMemberStore } from '@/stores/modules/member'
 import type { LoginResult } from '@/types/member'
 
+// #ifdef MP-WEIXIN
 // 32-1.5 login.vue引入使用微信登录服务接口，获取登录凭证
 let code = ''
 onLoad(async () => {
@@ -25,6 +26,7 @@ const onGetphonenumber: UniHelper.ButtonOnGetphonenumber = async (ev) => {
   console.log(res)
   loginSuccess(res.result)
 }
+// #endif
 
 // 32-2.3 处理模拟登录事件,获取手机号信息
 const onGetphonenumberSimple: UniHelper.ButtonOnGetphonenumber = async (ev) => {
@@ -60,17 +62,24 @@ const loginSuccess = (profile: LoginResult) => {
       ></image>
     </view>
     <view class="login">
+      <!-- 44-1.1 条件编译，网页编译#ifdef H5 -->
+      <!-- #ifdef H5 -->
       <!-- 网页端表单登录 -->
-      <!-- <input class="input" type="text" placeholder="请输入用户名/手机号码" /> -->
-      <!-- <input class="input" type="text" password placeholder="请输入密码" /> -->
-      <!-- <button class="button phone">登录</button> -->
+      <input class="input" type="text" placeholder="请输入用户名/手机号码" />
+      <input class="input" type="text" password placeholder="请输入密码" />
+      <button class="button phone">登录</button>
+      <!-- #endif -->
 
+      <!-- 44-1.1 条件编译，小程序编译#ifdef MP-WEIXIN -->
+      <!-- #ifdef MP-WEIXIN -->
       <!-- 小程序端授权登录 -->
       <!-- 31-1.6 手机号登录按钮绑定获取手机号事件 -->
       <button class="button phone" open-type="getPhoneNumber" @getphonenumber="onGetphonenumber">
         <text class="icon icon-phone"></text>
         手机号快捷登录
       </button>
+      <!-- #endif -->
+
       <view class="extra">
         <view class="caption">
           <text>其他登录方式</text>

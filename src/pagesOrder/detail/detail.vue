@@ -127,9 +127,11 @@ const onOrderPay = async () => {
   if (import.meta.env.DEV) {
     await getPayMockAPI({ orderId: query.id })
   } else {
+    // #ifdef MP-WEIXIN
     const res = await getPayWxPayMiniPayAPI({ orderId: query.id })
     // 41-4.5 调用真实微信支付接口，传递支付参数res.result
     wx.requestPayment(res.result)
+    // #endif
   }
   // 41-4.7 支付成功后，关闭当前页面，跳转到支付结果页,传递订单id参数
   uni.redirectTo({
@@ -197,15 +199,19 @@ const onOrderDelete = () => {
   <!-- 自定义导航栏: 默认透明不可见, scroll-view 滚动到 50 时展示 -->
   <view class="navbar" :style="{ paddingTop: safeAreaInsets?.top + 'px' }">
     <view class="wrap">
+      <!-- #ifdef MP-WEIXIN -->
       <!-- 41-1.2.3 如果页面数>1，导航栏左上角显示返回上一页按钮 -->
       <navigator
         v-if="pages.length > 1"
         open-type="navigateBack"
         class="back icon-left"
       ></navigator>
+      <!-- #endif -->
+      <!-- #ifdef MP-WEIXIN -->
       <!-- 14-1.2.4 否则显示返回首页按钮 -->
       <navigator v-else url="/pages/index/index" open-type="switchTab" class="back icon-home">
       </navigator>
+      <!-- #endif -->
       <view class="title">订单详情</view>
     </view>
   </view>

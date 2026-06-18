@@ -153,7 +153,7 @@ const onSubmit = async () => {
           @change="onSwitchChange"
           :checked="form.isDefault === 1"
           class="switch"
-          color="#27ba9b"
+          color="#fc7e9d"
         />
       </uni-forms-item>
     </uni-forms>

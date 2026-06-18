@@ -17,6 +17,7 @@ import { postMemberCartAPI } from '@/services/cart'
 import { useAddressStore } from '@/stores/modules/address'
 import { getMemberAddressListAPI } from '@/services/address'
 import type { AddressItem } from '@/types/address'
+
 // 30-1.3 defineProps接收category传递的商品id
 const query = defineProps<{
   id: string
@@ -168,10 +169,10 @@ const onBuyNow = async (ev: SkuPopupEvent) => {
     :active-style="{
       color: '#fc7e9d',
       borderColor: '#fc7e9d',
-      backgroundColor: '#fc7e9d',
+      backgroundColor: 'rgba(252, 126, 157, 0.1)',
     }"
     :mode="mode"
-    add-cart-background-color="#ffb3c2"
+    add-cart-background-color="#fc8fa5"
     buy-now-background-color="#fc7e9d"
     v-model="isShowSku"
     :localdata="localdata"
@@ -287,6 +288,7 @@ const onBuyNow = async (ev: SkuPopupEvent) => {
   <view class="toolbar" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
     <view class="icons">
       <button class="icons-button"><text class="icon-heart"></text>收藏</button>
+      <!-- #ifdef MP-WEIXIN -->
       <button class="icons-button" open-type="contact">
         <text class="icon-handset"></text>客服
       </button>
@@ -294,6 +296,7 @@ const onBuyNow = async (ev: SkuPopupEvent) => {
       <navigator class="icons-button" url="/pages/cart/cart2" open-type="navigate">
         <text class="icon-cart"></text>购物车
       </navigator>
+      <!-- #endif -->
     </view>
     <view class="buttons">
       <!-- 38-3.5 点击加入购物车，调用openSkuPopup传递SkuMode.Cart，显示购物车按钮 -->

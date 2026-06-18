@@ -49,7 +49,9 @@ const onSelect = (item: AddressItem) => {
     </scroll-view>
     <!-- 底部按钮 -->
     <view class="footer">
-      <!-- 新建地址跳转地址表单页 -->
+      <!-- 43-2.7 新建地址 -->
+      <!-- 43-2.7.1 新建地址按钮点击事件，跳转地址表单页新建地址 -->
+      <!-- 43-2.7.2 新增地址表单成功后，会自动返回goods地址弹出层界面 -->
       <navigator
         class="button secondary"
         hover-class="none"
@@ -161,7 +163,8 @@ const onSelect = (item: AddressItem) => {
   }
 
   .secondary {
-    background-color: #ffb3c2;
+    // background-color: #ffb3c2;
+    background-color: #fc8fa5;
   }
 }
 </style>

@@ -117,7 +117,7 @@ page {
   color: #fff;
   border-radius: 0;
   padding: 0;
-  background-color: #cf4444;
+  background-color: #fc7e9d;
 }
 
 .viewport {

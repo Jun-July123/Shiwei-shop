@@ -402,9 +402,9 @@ export default {
 						backgroundColor: '#ffffff'
 					},
 					activedStyle: {
-						color: 'rgb(254, 86, 10)',
-						borderColor: 'rgb(254, 86, 10)',
-						backgroundColor: 'rgba(254,86,10,0.1)'
+						color: '#fc7e9d',
+						borderColor: '#fc7e9d',
+						backgroundColor: 'rgba(252, 126, 157, 0.1)'
 					},
 					disableStyle: {
 						color: '#c3c3c3',
@@ -1197,7 +1197,8 @@ export default {
 						font-weight: 500;
 
 						.price-content {
-							color: #fe560a;
+							// color: #fe560a;
+							color: #fc7e9d;
 							margin-bottom: 20rpx;
 
 							.sign {
@@ -1207,10 +1208,13 @@ export default {
 							.price {
 								margin-left: 4rpx;
 								font-size: 48rpx;
+								color: #fc7e9d;
 							}
 							.price2 {
 								margin-left: 4rpx;
 								font-size: 36rpx;
+								color:  #fc7e9d;
+								
 							}
 						}
 
@@ -1257,11 +1261,12 @@ export default {
 								color: #333333;
 								margin-right: 20rpx;
 								margin-bottom: 16rpx;
-								border: 1px solid #f4f4f4;
+								border: 1px solid #ffe0e8;
 								box-sizing: border-box;
 								&.actived {
-									border-color: #fe560a;
-									color: #fe560a;
+									border-color: #fc7e9d;
+									color: #fc7e9d;
+									background-color: rgba(252, 126, 157, 0.1);
 								}
 
 								&.noactived {
@@ -1312,11 +1317,11 @@ export default {
 				font-size: 28rpx;
 
 				&.add-cart {
-					background: #ffbe46;
+					background:  #fc7e9d;
 				}
 
 				&.buy {
-					background: #fe560a;
+					background:  #fc7e9d;
 				}
 			}
 			.sure {
@@ -1328,10 +1333,10 @@ export default {
 				text-align: center;
 				font-weight: 500;
 				font-size: 28rpx;
-				background: #fe560a;
+				background:  #fc8fa5;
 			}
 			.sure.add-cart {
-				background: #ff9402;
+				background:  #fc7e9d;
 			}
 		}
 		.btn-wrapper.safe-area-inset-bottom{

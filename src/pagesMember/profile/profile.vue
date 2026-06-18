@@ -127,7 +127,9 @@ const onSubmit = async () => {
   <view class="viewport">
     <!-- 导航栏 -->
     <view class="navbar" :style="{ paddingTop: safeAreaInsets?.top + 'px' }">
+      <!-- #ifdef MP-WEIXIN -->
       <navigator open-type="navigateBack" class="back icon-left" hover-class="none"></navigator>
+      <!-- #endif -->
       <view class="title">个人信息</view>
     </view>
     <!-- 头像 -->
@@ -135,7 +137,13 @@ const onSubmit = async () => {
     <view class="avatar">
       <!-- 36-1.1 注册点击修改头像事件-->
       <view @tap="onAvatarChange" class="avatar-content">
-        <image class="image" :src="profile?.avatar" mode="aspectFill" />
+        <image
+          class="image"
+          src="https://tse2-mm.cn.bing.net/th/id/OIP-C.UbUeQFxPPug-0F81qpLZYgHaHa?w=186&h=186&c=7&r=0&o=7&dpr=2&pid=1.7&rm=3"
+          mode="aspectFill"
+        />
+
+        <!-- <image class="image" :src="profile?.avatar" mode="aspectFill" /> -->
         <text class="text">点击修改头像</text>
       </view>
     </view>
@@ -223,9 +231,15 @@ page {
   display: flex;
   flex-direction: column;
   height: 100%;
-  background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/order_bg.png);
-  background-size: auto 420rpx;
-  background-repeat: no-repeat;
+  // background-image: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/order_bg.png);
+  // background-size: auto 420rpx;
+  // background-repeat: no-repeat;
+  background: linear-gradient(180deg, #fb7c9c 0%, #fff5f8 100%);
+  background-size: 100% 45%;
+  background-position: top center; /* 渐变对齐顶部 */
+  background-repeat: no-repeat; /* 禁止渐变重复铺满 */
+  border-radius: 0 0 40rpx 40rpx; /* 顺序：左上、右上、右下、左下 */
+  overflow: hidden; /* 必须加，否则渐变溢出看不到圆角 */
 }
 
 // 导航栏
