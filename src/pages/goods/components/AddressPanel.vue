@@ -1,10 +1,25 @@
 <!-- 31-3.1 创建地址弹出层组件goods/componets/AddressPannel.vue -->
 <script setup lang="ts">
-//31-3.9 关闭地址弹出层
-//31-3.9.1 点击地址关闭按钮，地址弹出层向父组件goods.vue发送关闭close事件
+import type { AddressItem } from '@/types/address'
+// 43-2.4 AddressPanel接收父组件传递的地址列表及选中地址项，并渲染至页面
+const props = defineProps<{
+  list: AddressItem[]
+  selected?: AddressItem
+}>()
+
+// 31-3.9 关闭地址弹出层
+// 31-3.9.1 点击地址关闭按钮，地址弹出层向父组件goods.vue发送关闭close事件
 const emit = defineEmits<{
   (e: 'close'): void
+  // 43-2.5 切换选中地址项
+  // 43-2.5.1 注册向父组件goods.vue发送的change事件
+  (e: 'change', selectItem: AddressItem): void
 }>()
+
+// 43-2.5.3 选中地址事件，向goods.vue发送change事件，传递选中的地址项
+const onSelect = (item: AddressItem) => {
+  emit('change', item)
+}
 </script>
 
 <template>
@@ -13,27 +28,37 @@ const emit = defineEmits<{
     <text class="close icon-close" @tap="emit('close')"></text>
     <!-- 标题 -->
     <view class="title">配送至</view>
-    <!-- 内容 -->
-    <view class="content">
-      <view class="item">
-        <view class="user">李明 13824686868</view>
-        <view class="address">北京市顺义区后沙峪地区安平北街6号院</view>
-        <text class="icon icon-checked"></text>
+    <!-- 地址滚动区域 -->
+    <scroll-view class="content" scroll-y>
+      <!-- 有地址：循环后端地址 -->
+      <!-- 43-2.5.2 地址项注册点击选中事件，传递当前选中的地址项 -->
+      <view v-for="item in list" :key="item.id" class="item" @tap="onSelect(item)">
+        <view class="user">{{ item.receiver }} {{ item.contact }}</view>
+        <view class="address">{{ item.fullLocation }}{{ item.address }}</view>
+        <!-- 选中对勾判断：id相等则实心勾选 -->
+        <text
+          class="icon"
+          :class="{
+            'icon-checked': selected?.id === item.id,
+            'icon-ring': selected?.id !== item.id,
+          }"
+        ></text>
       </view>
-      <view class="item">
-        <view class="user">王东 13824686868</view>
-        <view class="address">北京市顺义区后沙峪地区安平北街6号院</view>
-        <text class="icon icon-ring"></text>
-      </view>
-      <view class="item">
-        <view class="user">张三 13824686868</view>
-        <view class="address">北京市朝阳区孙河安平北街6号院</view>
-        <text class="icon icon-ring"></text>
-      </view>
-    </view>
+      <!-- 无地址空提示 -->
+      <view v-if="list.length === 0" class="empty-tip">暂无收货地址，请前往添加</view>
+    </scroll-view>
+    <!-- 底部按钮 -->
     <view class="footer">
-      <view class="button primary"> 新建地址 </view>
-      <view v-if="false" class="button primary">确定</view>
+      <!-- 新建地址跳转地址表单页 -->
+      <navigator
+        class="button secondary"
+        hover-class="none"
+        url="/pagesMember/address-form/address-form"
+      >
+        新建地址
+      </navigator>
+      <!-- 确定关闭弹窗 -->
+      <view class="button primary" @tap="emit('close')">确定</view>
     </view>
   </view>
 </template>
@@ -44,6 +69,9 @@ const emit = defineEmits<{
   border-radius: 16rpx 16rpx 0 0;
   position: relative;
   background-color: #fff;
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
 }
 
 .title {
@@ -60,10 +88,12 @@ const emit = defineEmits<{
   position: absolute;
   right: 24rpx;
   top: 24rpx;
+  font-size: 40rpx;
 }
 
 .content {
-  min-height: 300rpx;
+  flex: 1;
+  min-height: 200rpx;
   max-height: 540rpx;
   overflow: auto;
   padding: 20rpx;
@@ -74,6 +104,7 @@ const emit = defineEmits<{
     background-position: 0 center;
     background-image: url(@/static/images/locate_1.png);
     position: relative;
+    border-bottom: 1rpx solid #f5f5f5;
   }
   .icon {
     color: #bbb;
@@ -87,7 +118,7 @@ const emit = defineEmits<{
     color: #fc7e9d;
   }
   .icon-ring {
-    color: #666;
+    color: #bbb;
   }
   .user {
     font-size: 28rpx;
@@ -95,6 +126,13 @@ const emit = defineEmits<{
     font-weight: 500;
   }
   .address {
+    font-size: 26rpx;
+    color: #999;
+    margin-top: 8rpx;
+  }
+  .empty-tip {
+    text-align: center;
+    padding: 60rpx 0;
     font-size: 26rpx;
     color: #999;
   }

@@ -219,8 +219,9 @@ page {
   padding: 30rpx 30rpx 30rpx 84rpx;
   font-size: 26rpx;
   border-radius: 10rpx;
-  background: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/locate.png)
-    20rpx center / 50rpx no-repeat #fff;
+  // background: url(https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/locate.png)
+  //   20rpx center / 50rpx no-repeat #fff;
+  background: url('/static/images/locate_1.png') 20rpx center / 50rpx no-repeat #fff;
   position: relative;
 
   .icon {

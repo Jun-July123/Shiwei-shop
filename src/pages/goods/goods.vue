@@ -14,7 +14,9 @@ import type {
   SkuPopupEvent,
 } from '@/components/vk-data-goods-sku-popup/vk-data-goods-sku-popup'
 import { postMemberCartAPI } from '@/services/cart'
-
+import { useAddressStore } from '@/stores/modules/address'
+import { getMemberAddressListAPI } from '@/services/address'
+import type { AddressItem } from '@/types/address'
 // 30-1.3 defineProps接收category传递的商品id
 const query = defineProps<{
   id: string
@@ -73,10 +75,30 @@ const popup = ref<{
 
 // 31-3.4 定义弹出层条件渲染(服务弹出层或地址弹出层)
 const popupName = ref<'address' | 'service'>()
+
+// 43-2.2 goods更新地址仓库地址列表
+// 43-2.2.1 goods.vue导入地址仓库，创建地址仓库实例
+const addressStore = useAddressStore()
+// 43-2.2.2 从仓库取出地址列表及当前选中地址
+const addressList = computed(() => addressStore.addressList)
+const selectedAddress = computed(() => addressStore.selectedAddress)
+
 // 31-3.5 定义打开弹出层事件，接收弹出层名称参数，根据名称渲染不同的弹出层
-const openPopup = (name: typeof popupName.value) => {
+const openPopup = async (name: typeof popupName.value) => {
   popupName.value = name
+  // 43-2.2.3 服务/地址弹窗，如果是地址弹窗，调用获取地址列表接口获取地址列表
+  if (name === 'address') {
+    const res = await getMemberAddressListAPI()
+    // 43-2.2.4 调用地址仓库的setAddressList传递获取到的地址列表，从而更新仓库地址列表
+    addressStore.setAddressList(res.result)
+  }
   popup.value?.open()
+}
+
+// 43-2.6.2 地址切换事件，调用地址仓库的changeSelectedAddress方法
+// 传递选中的地址项，更新仓库选中的地址
+const handleAddressChange = (item: AddressItem) => {
+  addressStore.changeSelectedAddress(item)
 }
 
 // sku列表
@@ -196,7 +218,16 @@ const onBuyNow = async (ev: SkuPopupEvent) => {
         <!-- 31-3.6 地址/服务绑定打开弹出层事件，传递弹出层名称参数 -->
         <view @tap="openPopup('address')" class="item arrow">
           <text class="label">送至</text>
-          <text class="text ellipsis"> 请选择收获地址 </text>
+          <!-- <text class="text ellipsis"> 请选择收获地址 </text> -->
+          <!-- 43-2.3.1 将地址仓库导入的选中的地址，渲染到页面 -->
+          <!-- 仓库有选中的地址时，显示选中的地址，否则显示请选择收货地址 -->
+          <text class="text ellipsis">
+            {{
+              selectedAddress
+                ? `${selectedAddress.receiver} ${selectedAddress.fullLocation}${selectedAddress.address}`
+                : '请选择收货地址'
+            }}
+          </text>
         </view>
         <view @tap="openPopup('service')" class="item arrow">
           <text class="label">服务</text>
@@ -278,8 +309,18 @@ const onBuyNow = async (ev: SkuPopupEvent) => {
     <!-- 31-3.7 v-if渲染弹出层 -->
     <!-- 31-3.8.2 父组件ServicePanel标签监听服务弹出层关闭事件，关闭弹出层 -->
     <ServicePanel v-if="popupName === 'service'" @close="popup?.close()" />
+
     <!-- 31-3.9.2 父组件AddressPanel标签监听地址弹出层关闭事件，关闭弹出层 -->
-    <AddressPanel v-if="popupName === 'address'" @close="popup?.close()" />
+    <!-- 43-2.3 goods.vue的AddressPanel组件标签，添加动态属性，传递地址列表及选中地址项 -->
+    <!-- 43-2.6 goods.vue监听AddressPanel的change事件，更新选中地址项 -->
+    <!-- 43-2.6.1 AddressPanel组件标签注册change监听事件 -->
+    <AddressPanel
+      v-if="popupName === 'address'"
+      @close="popup?.close()"
+      :list="addressList"
+      :selected="selectedAddress"
+      @change="handleAddressChange"
+    />
   </uni-popup>
 </template>
 
