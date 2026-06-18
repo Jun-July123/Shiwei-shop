@@ -32,59 +32,6 @@ const props = defineProps<{
 </template>
 
 <style lang="scss">
-/* 热门推荐 */
-.hot {
-  display: flex;
-  flex-wrap: wrap;
-  min-height: 508rpx;
-  margin: 20rpx 20rpx 0;
-  border-radius: 16rpx;
-  background-color: #fff5f8;
-
-  box-shadow: 0 2rpx 10rpx rgba(255, 122, 156, 0.08);
-
-  .title {
-    display: flex;
-    align-items: center;
-    padding: 24rpx 24rpx 0;
-    font-size: 32rpx;
-    color: #333;
-    position: relative;
-    .title-desc {
-      font-size: 24rpx;
-      color: #999;
-      margin-left: 18rpx;
-    }
-  }
-
-  .item {
-    display: flex;
-    flex-direction: column;
-    width: 50%;
-    height: 254rpx;
-    border-right: 1rpx solid #ffe0e8;
-    border-top: 1rpx solid #ffe0e8;
-    .title {
-      justify-content: start;
-    }
-    &:nth-child(2n) {
-      border-right: 0 none;
-    }
-    &:nth-child(-n + 2) {
-      border-top: 0 none;
-    }
-    .image {
-      width: 150rpx;
-      height: 150rpx;
-      border-radius: 10rpx;
-    }
-  }
-  .cards {
-    flex: 1;
-    padding: 15rpx 20rpx;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-}
+// 44-2.3.2 HotPannel.vue引入热门推荐组件样式styles/HotPannel.scss中
+@import './styles/HotPannel.scss';
 </style>

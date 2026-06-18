@@ -139,7 +139,18 @@
   </view>
 </template>
 <!-- 24-1.5 在index.skeleton.wxss拷贝保留需要生成骨架屏的内容样式 -->
-<style>
+
+<style lang="scss">
+// 44-2.4 骨架屏只在H5/App端引入轮播图,前台类目,热门推荐组件样式
+/* #ifdef H5 || APP-PLUS */
+// 44-2.1.3 骨架屏PageSkeleton.vue引入轮播图组件样式styles/XtxSwiper.scss中
+@import 'src/components/styles/XtxSwiper.scss';
+// 44-2.2.3 骨架屏引入前台类目组件样式styles/CategoryPannel.scss中
+@import './styles/CategoryPannel.scss';
+// 44-2.3.3 骨架屏引入热门推荐组件样式styles/HotPannel.scss中
+@import './styles/HotPannel.scss';
+/* #endif */
+
 .sk-transparent {
   color: transparent !important;
 }

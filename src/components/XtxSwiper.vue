@@ -43,41 +43,6 @@ const handleChange: UniHelper.SwiperOnChange = (ev) => {
 </template>
 
 <style lang="scss">
-:host {
-  display: block;
-  height: 280rpx;
-  // background-color: #fff5f8;
-}
-/* 轮播图 */
-.carousel {
-  height: 100%;
-  position: relative;
-  overflow: hidden;
-  transform: translateY(0);
-  background-color: #fff5f8;
-  border-radius: 14rpx;
-  .indicator {
-    position: absolute;
-    left: 0;
-    right: 0;
-    bottom: 16rpx;
-    display: flex;
-    justify-content: center;
-    .dot {
-      width: 30rpx;
-      height: 6rpx;
-      margin: 0 8rpx;
-      border-radius: 6rpx;
-      background-color: rgba(255, 255, 255, 0.45);
-    }
-    .active {
-      background-color: #fc7e9d;
-    }
-  }
-  .navigator,
-  .image {
-    width: 100%;
-    height: 100%;
-  }
-}
+// 44-2.1.2 XtxSwiper.vue引入轮播图组件样式styles/XtxSwiper.scss中
+@import './styles/XtxSwiper.scss';
 </style>
