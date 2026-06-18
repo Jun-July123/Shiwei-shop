@@ -288,15 +288,16 @@ const onBuyNow = async (ev: SkuPopupEvent) => {
   <view class="toolbar" :style="{ paddingBottom: safeAreaInsets?.bottom + 'px' }">
     <view class="icons">
       <button class="icons-button"><text class="icon-heart"></text>收藏</button>
+      <!-- 44-3.1 组件兼容,只在小程序端显示客服按钮 -->
       <!-- #ifdef MP-WEIXIN -->
       <button class="icons-button" open-type="contact">
         <text class="icon-handset"></text>客服
       </button>
+      <!-- #endif -->
       <!-- 39-6.6 goods.vue点击购物车，跳转到购物车普通页cart2（有返回箭头） -->
       <navigator class="icons-button" url="/pages/cart/cart2" open-type="navigate">
         <text class="icon-cart"></text>购物车
       </navigator>
-      <!-- #endif -->
     </view>
     <view class="buttons">
       <!-- 38-3.5 点击加入购物车，调用openSkuPopup传递SkuMode.Cart，显示购物车按钮 -->
@@ -328,6 +329,13 @@ const onBuyNow = async (ev: SkuPopupEvent) => {
 </template>
 
 <style lang="scss">
+// 44-3.2 H5和APP-PLUS端不显示客服按钮，购物车按钮不再居中显示
+// 给页面.navigator-wrap定义样式，实现购物车及收藏按钮平均分配宽度
+/* #ifdef H5 || APP-PLUS */
+.toolbar .icons .navigator-wrap {
+  flex: 1;
+}
+/* #endif */
 page {
   height: 100%;
   overflow: hidden;
