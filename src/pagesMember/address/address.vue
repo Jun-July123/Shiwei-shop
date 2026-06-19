@@ -72,7 +72,9 @@ const onChangeAddress = (item: AddressItem) => {
               <!-- 40-2.8 address.vue 地址项添加了点击切换选中地址，然后返回上一页功能-->
               <!-- 点击修改不再跳转到修改页面 ，添加阻止冒泡事件 -->
               <!-- 点击修改，不受父元素的点击切换选中地址事件的影响-->
+              <!-- 45-2.5 H5/APP-PLUS点击修改，阻止默认行为跳转到首页，跳转到修改页面-->
               <navigator
+                @tap.prevent="() => {}"
                 @tap.stop="() => {}"
                 class="edit"
                 hover-class="none"

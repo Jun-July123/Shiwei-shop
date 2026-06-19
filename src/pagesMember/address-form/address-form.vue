@@ -52,12 +52,19 @@ const onRegionChange = (e: any) => {
     // form.value.provinceCode = provinceCode
   }
 }
+// 45-2.3 H5/APP-PLUS选择地址事件
+// #ifdef H5 || APP-PLUS
+const onCityChange: UniHelper.UniDataPickerOnChange = (v) => {
+  // 45-2.3 收集表单地址，并赋值所选择的地区
+  const [provinceCode, cityCode, countyCode] = v.detail.value.map((v) => v.value)
+  Object.assign(form.value, { provinceCode, cityCode, countyCode })
+}
+// #endif
 
 const onSwitchChange: UniHelper.SwitchOnChange = (e: any) => {
   // 37-2.7.2 获取并赋值是否设置为默认地址的状态
   form.value.isDefault = e.detail.value ? 1 : 0
 }
-
 // 37-6.1 定义地址表单校验规则
 const rules = {
   receiver: {
@@ -69,7 +76,8 @@ const rules = {
       { pattern: /^1[3-9]\d{9}$/, errorMessage: '手机号格式不正确' },
     ],
   },
-  fullLocation: {
+  // 45-2.4 H5/APP详细地址需要及校验的是countryCode,修改fulllocation为countryCode
+  countryCode: {
     rules: [{ required: true, errorMessage: '请选择所在地区' }],
   },
   address: {
@@ -126,7 +134,7 @@ const onSubmit = async () => {
         <!-- 37-2.5.2 v-model 绑定收集收货人手机号码 -->
         <input v-model="form.contact" class="input" placeholder="请填写收货人手机号码" />
       </uni-forms-item>
-      <uni-forms-item class="form-item" name="fullLocation">
+      <uni-forms-item class="form-item" name="countryCode">
         <text class="label">所在地区</text>
         <!-- 45-1 picker 小程序选择地址 -->
         <!-- #ifdef MP-WEIXIN -->
@@ -143,9 +151,14 @@ const onSubmit = async () => {
         </picker>
         <!-- #endif -->
 
-        <!-- 45-2 uni-data-picker H5/APP选择地址 -->
+        <!-- 45-1.2 uni-data-picker H5/APP选择地址 -->
         <!-- #ifdef H5 || APP-PLUS -->
+        <!-- 45-2.2 H5/APP-PLUS选择地址注册change事件，:clear-icon="false"不显示x图标 -->
+        <!-- 45-2.6 地址选择组件v-model绑定countryCode实现，点击修改后可以正确回显地址信息 -->
         <uni-data-picker
+          v-model="form.countyCode"
+          @change="onCityChange"
+          :clear-icon="false"
           placeholder="请选择地址"
           popup-title="请选择城市"
           collection="opendb-city-china"
@@ -154,7 +167,6 @@ const onSubmit = async () => {
           :step-searh="true"
           self-field="code"
           parent-field="parent_code"
-          :clear-icon="false"
         >
         </uni-data-picker>
         <!-- #endif -->
@@ -183,6 +195,7 @@ const onSubmit = async () => {
 </template>
 
 <style lang="scss">
+// 45-2.1 H5/APP-PLUS深度地址选择表单样式（样式冲突）
 // #ifdef H5 || APP-PLUS
 :deep(.selected-area) {
   height: auto;
