@@ -335,7 +335,18 @@ const onBuyNow = async (ev: SkuPopupEvent) => {
 .toolbar .icons .navigator-wrap {
   flex: 1;
 }
+// 商品主图兼容H5和APP-PLUS端
+uni-swiper-item uni-image {
+  width: 100%;
+  height: 100%;
+}
+// 商品详情图片兼容H5和APP-PLUS端
+uni-view uni-image {
+  width: 100%;
+  height: 100%;
+}
 /* #endif */
+
 page {
   height: 100%;
   overflow: hidden;

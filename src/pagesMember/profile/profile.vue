@@ -29,6 +29,8 @@ onLoad(async () => {
 
 // 36-1.2 处理修改头像事件,uni.chooseMedia选择上传图片
 const onAvatarChange = () => {
+  // 44-3.1 uni.chooseMedia小程序选择上传图片
+  // #ifdef MP-WEIXIN
   uni.chooseMedia({
     // 36-1.2.1 选择数量count
     count: 1,
@@ -38,34 +40,50 @@ const onAvatarChange = () => {
     success: (res) => {
       // 36-1.3.1 解构获取图片路径
       const { tempFilePath } = res.tempFiles[0]
-      // 36-1.3.2 uni.uploadFile将图片上传至后端接口
-      uni.uploadFile({
-        url: '/member/profile/avatar',
-        filePath: tempFilePath,
-        name: 'file',
-        // 36-1.4 上传，根据状态码判断是否成功
-        success: (res) => {
-          // 36-1.4.1 状态码200，上传成功，将字符串data转换为js对象,
-          // 将上传后的avatar赋值给profile的avatar，显示上传成功提示
-          if (res.statusCode == 200) {
-            const avatar = JSON.parse(res.data).result.avatar
-            profile.value!.avatar = avatar
-            // 36-3.1 上传头像成功,将上传后的avatar赋值给用户仓库的profile
-            memberStore.profile!.avatar = avatar
-            uni.showToast({
-              title: '上传成功',
-              icon: 'success',
-            })
-          }
-          // 36-1.4.2 状态码非200，上传失败，显示上传失败提示
-          else {
-            uni.showToast({
-              title: '上传失败',
-              icon: 'none',
-            })
-          }
-        },
-      })
+      uploadFile(tempFilePath)
+    },
+  })
+  // #endif
+
+  // 44-3.2 uni.chooseImage网页H5/APP-PLUS选择上传图片
+  // #ifdef H5||APP-PLUS
+  uni.chooseImage({
+    count: 1,
+    success: (res) => {
+      const tempFilePaths = res.tempFilePaths
+      uploadFile(tempFilePaths[0])
+    },
+  })
+  // #endif
+}
+
+// 36-1.3.2 uni.uploadFile将图片上传至后端接口
+const uploadFile = (tempFilePath: string) => {
+  uni.uploadFile({
+    url: '/member/profile/avatar',
+    filePath: tempFilePath,
+    name: 'file',
+    // 36-1.4 上传，根据状态码判断是否成功
+    success: (res) => {
+      // 36-1.4.1 状态码200，上传成功，将字符串data转换为js对象,
+      // 将上传后的avatar赋值给profile的avatar，显示上传成功提示
+      if (res.statusCode == 200) {
+        const avatar = JSON.parse(res.data).result.avatar
+        profile.value!.avatar = avatar
+        // 36-3.1 上传头像成功,将上传后的avatar赋值给用户仓库的profile
+        memberStore.profile!.avatar = avatar
+        uni.showToast({
+          title: '上传成功',
+          icon: 'success',
+        })
+      }
+      // 36-1.4.2 状态码非200，上传失败，显示上传失败提示
+      else {
+        uni.showToast({
+          title: '上传失败',
+          icon: 'none',
+        })
+      }
     },
   })
 }

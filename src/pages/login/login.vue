@@ -57,9 +57,10 @@ const loginSuccess = (profile: LoginResult) => {
 <template>
   <view class="viewport">
     <view class="logo">
-      <image
+      <!-- <image
         src="https://pcapi-xiaotuxian-front-devtest.itheima.net/miniapp/images/logo_icon.png"
-      ></image>
+      ></image> -->
+      <image src="@/static/images/logo2.png"></image>
     </view>
     <view class="login">
       <!-- 44-1.1 条件编译，网页编译#ifdef H5 -->
@@ -115,8 +116,8 @@ page {
   flex: 1;
   text-align: center;
   image {
-    width: 220rpx;
-    height: 220rpx;
+    width: 230rpx;
+    height: 230rpx;
     margin-top: 15vh;
     border-radius: 20rpx;
   }
@@ -126,7 +127,7 @@ page {
   display: flex;
   flex-direction: column;
   height: 60vh;
-  padding: 40rpx 20rpx 20rpx;
+  padding: 30rpx 20rpx 20rpx;
 
   .input {
     width: 100%;

@@ -18,8 +18,8 @@
   >
     <!-- 24-1.6 index.vue引入使用骨架屏组件 -->
     <!-- 24-1.7 v-if及isLoading判断是否显示骨架屏或内容 -->
-    <PageSkeleton v-if="true" />
-    <!-- <PageSkeleton v-if="isLoading" /> -->
+    <!-- <PageSkeleton v-if="true" /> -->
+    <PageSkeleton v-if="isLoading" />
     <template v-else>
       <!--  13-1.3 使用XtxSwiper轮播图组件 -->
       <!-- Xtx开头的组件会自动引入，不再需要手动引入 -->
@@ -143,6 +143,7 @@ const onRefreshrefresh = async () => {
 /* #ifdef APP-PLUS */
 #app,
 /* #endif */
+
 
 
 /* 16-1.3 设置小程序页面page背景颜色 */

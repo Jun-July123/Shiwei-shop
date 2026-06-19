@@ -142,7 +142,7 @@
 
 <style lang="scss">
 // 44-2.4 骨架屏只在H5/App端引入轮播图,前台类目,热门推荐组件样式
-/* #ifdef H5 || APP-PLUS */
+/* #ifdef H5 || APP-PLUS || MP-WEIXIN */
 // 44-2.1.3 骨架屏PageSkeleton.vue引入轮播图组件样式styles/XtxSwiper.scss中
 @import 'src/components/styles/XtxSwiper.scss';
 // 44-2.2.3 骨架屏引入前台类目组件样式styles/CategoryPannel.scss中
