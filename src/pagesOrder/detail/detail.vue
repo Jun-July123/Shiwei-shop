@@ -371,7 +371,10 @@ const onOrderDelete = () => {
             再次购买
           </navigator>
           <!-- 41-8.2.7 当订单状态为待收货状态时，展示确认收货按钮 -->
-          <view class="button primary" v-if="order.orderState === OrderState.DaiShouHuo"
+          <view
+            class="button primary"
+            v-if="order.orderState === OrderState.DaiShouHuo"
+            @tap="onOrderConfirm"
             >确认收货</view
           >
           <!-- 41-8.2.8 当订单状态为待评价状态时，展示去评价 -->

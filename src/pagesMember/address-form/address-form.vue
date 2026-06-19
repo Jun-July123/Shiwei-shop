@@ -128,6 +128,8 @@ const onSubmit = async () => {
       </uni-forms-item>
       <uni-forms-item class="form-item" name="fullLocation">
         <text class="label">所在地区</text>
+        <!-- 45-1 picker 小程序选择地址 -->
+        <!-- #ifdef MP-WEIXIN -->
         <!-- 37-2.6.1 @change事件获取所选择的地区 -->
         <!-- 37-2.6.3 :value 绑定收集所选择的地区 -->
         <picker
@@ -139,6 +141,23 @@ const onSubmit = async () => {
           <view v-if="form.fullLocation">{{ form.fullLocation }}</view>
           <view v-else class="placeholder">请选择省/市/区(县)</view>
         </picker>
+        <!-- #endif -->
+
+        <!-- 45-2 uni-data-picker H5/APP选择地址 -->
+        <!-- #ifdef H5 || APP-PLUS -->
+        <uni-data-picker
+          placeholder="请选择地址"
+          popup-title="请选择城市"
+          collection="opendb-city-china"
+          field="code as value, name as text"
+          orderby="value asc"
+          :step-searh="true"
+          self-field="code"
+          parent-field="parent_code"
+          :clear-icon="false"
+        >
+        </uni-data-picker>
+        <!-- #endif -->
       </uni-forms-item>
       <uni-forms-item class="form-item">
         <text class="label">详细地址</text>
@@ -164,6 +183,12 @@ const onSubmit = async () => {
 </template>
 
 <style lang="scss">
+// #ifdef H5 || APP-PLUS
+:deep(.selected-area) {
+  height: auto;
+  flex: 0 1 auto;
+}
+// #endif
 page {
   background-color: #f4f4f4;
 }

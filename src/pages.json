@@ -167,7 +167,7 @@
 				{
 					"path": "list/list",
 					"style": {
-						"navigationBarTitleText": "订单列表页"
+						"navigationBarTitleText": "订单列表"
 					}
 				}
 			]

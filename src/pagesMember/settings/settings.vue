@@ -39,7 +39,7 @@ const onLogout = () => {
     <!-- #endif -->
     <!-- 列表3 -->
     <view class="list">
-      <navigator hover-class="none" class="item arrow" url=" ">关于小兔鲜儿</navigator>
+      <navigator hover-class="none" class="item arrow" url=" ">关于拾味生活</navigator>
     </view>
     <!-- 操作按钮 -->
     <!-- 34-2.5 登录后,存在用户信息,才显示退出登录按钮 -->

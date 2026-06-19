@@ -1,0 +1,17 @@
+# uniCloud云函数、uni官方插件（本次报错根源，优先忽略）
+src/uni_modules/
+src/uniCloud/
+
+# 依赖包、打包产物
+node_modules/
+unpackage/
+dist/
+
+# 静态资源、类型声明文件
+src/static/
+*.d.ts
+
+# 编辑器、缓存文件
+.vite/
+.hbuilderx/
+*.log
